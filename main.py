@@ -33,7 +33,7 @@ def main(NSIDE):
     sampler = Sampler(NSIDE)
     reference = sampler.sample_data()
     with open("B3DCMB/data/reference_data", "wb") as f:
-        f.dump(reference)
+        pickle.dump(reference, f)
 
     '''
     time_start = time.time()
