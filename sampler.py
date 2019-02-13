@@ -127,9 +127,3 @@ class Sampler:
         duplicated_cmb = np.array([l for l in map_CMB for _ in range(15)])
         sky_map = freq_maps + duplicated_cmb
         return {"sky_map": sky_map, "cosmo_params": cosmo_params, "betas": sampled_beta}
-
-
-sp = Sampler(1, np.random.normal(0, 0.1, size = 2*12*15))
-#sp.sample_model()
-sp.sample_data()
-#### Changer la simulation des betas !!!
