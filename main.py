@@ -12,7 +12,7 @@ from matplotlib import cm
 NSIDE = 1
 sigma_rbf = 100000
 N_PROCESS_MAX = 45
-N_sample = 100
+N_sample = 10
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
@@ -23,13 +23,13 @@ def main(NSIDE):
     with open("B3DCMB/data/reference_data", "rb") as f:
         reference_data = pickle.load(f)
 
-    sky_map = reference_data["sky_map"]
+    sky_map = np.array(reference_data["sky_map"])
     print(sky_map)
 
     sampler = Sampler(NSIDE)
     time_start = time.time()
     pool = mp.Pool(N_PROCESS_MAX)
-    all_results = pool.map(sampler.sample_model, ((sky_map,) for _ in range(N_sample)))
+    all_results = pool.map(sampler.sample_model, (sky_map for _ in range(N_sample)))
     time_elapsed = time.time() - time_start
     print(time_elapsed)
 
