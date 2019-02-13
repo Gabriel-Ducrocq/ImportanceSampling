@@ -32,7 +32,7 @@ def main(NSIDE):
     #reference_data = np.load("data/reference_values/reference_data_simplified.npy")
     sampler = Sampler(NSIDE)
     reference = sampler.sample_data()
-    with open("B3DCMB/data/reference_data", "rb") as f:
+    with open("B3DCMB/data/reference_data", "wb") as f:
         f.dump(reference)
 
     '''
