@@ -83,6 +83,7 @@ def aggregate_mixing_params(params):
     sigma_temp_dust = params["dust"]["temp"]["sigma"]
     sigma_beta_dust = params["dust"]["beta"]["sigma"]
     sigma_beta_sync = params["sync"]["beta"]["sigma"]
+    sigma_beta_sync = sigma_beta_dust
     sigma = np.hstack([sigma_beta_dust, sigma_temp_dust, np.abs(sigma_beta_sync)])
     return mean, sigma
 
