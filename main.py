@@ -24,6 +24,7 @@ def main(NSIDE):
         reference_data = pickle.load(f)
 
     sky_map = reference_data["sky_map"]
+    print(sky_map)
 
     sampler = Sampler(NSIDE)
     time_start = time.time()

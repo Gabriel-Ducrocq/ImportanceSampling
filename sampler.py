@@ -108,6 +108,8 @@ class Sampler:
         inv_sigmas= [scipy.linalg.inv(s) for s in sigmas]
         mean = np.array([i for l in means for i in l])
         duplicate_CMB = np.array([l for l in map_CMB for _ in range(15)])
+        print(observed_data.shape)
+        print(((observed_data - duplicate_CMB) - mean).shape)
         x = np.split((observed_data - duplicate_CMB) - mean, 24)
         det = np.sum([np.log(scipy.linalg.det(s)) for s in sigmas])
         denom = -(1 / 2) * det
