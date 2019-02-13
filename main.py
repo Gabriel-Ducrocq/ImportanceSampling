@@ -33,6 +33,9 @@ def main(NSIDE):
     time_elapsed = time.time() - time_start
     print(time_elapsed)
 
+    with open("B3DCMB/data/simulated_sample", "wb") as f:
+        pickle.dump(all_results, f)
+
 
 
 if __name__=='__main__':
