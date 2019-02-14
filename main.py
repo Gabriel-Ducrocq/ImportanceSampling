@@ -47,9 +47,11 @@ def main(NSIDE):
     log_weights = np.array(log_weights)
     print(log_weights)
     print("\n")
-    print(np.mean(np.exp(log_weights)))
-    print(np.median(log_weights - np.sum(log_weights)))
+    print(log_weights - np.sum(log_weights))
+    print("\n")
     w = np.exp(log_weights - np.sum(log_weights))
+    print(w)
+    print("\n")
     w = w/np.sum(w)
 
     ess = (np.sum(w)**2)/np.sum(w**2)
