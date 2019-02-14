@@ -109,8 +109,8 @@ class Sampler:
         mean = np.array([i for l in means for i in l])
         duplicate_CMB = np.array([l for l in map_CMB for _ in range(15)])
         x = np.split((observed_data - duplicate_CMB) - mean, 24)
-        det = np.sum([np.log(scipy.linalg.det(s)) for s in sigmas])
-        denom = -(1 / 2) * det
+        log_det = np.sum([np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas])
+        denom = -(1 / 2) * log_det
         lw = -(1/2)*np.sum([np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(inv_sigmas, x)]) + denom
         return {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta,"log_weight": lw}
 
