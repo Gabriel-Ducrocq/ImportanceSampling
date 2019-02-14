@@ -20,7 +20,6 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 
 def main(NSIDE):
-    '''
     with open("B3DCMB/data/reference_data_right_beta_sync", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -35,6 +34,7 @@ def main(NSIDE):
 
     with open("B3DCMB/data/simulated_sample_right_beta_sync", "wb") as f:
         pickle.dump(all_results, f)
+
     '''
     with open("B3DCMB/data/simulated_sample", "rb") as f:
         samples = pickle.load(f)
@@ -51,6 +51,7 @@ def main(NSIDE):
 
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
+    '''
 
 if __name__=='__main__':
     main(NSIDE)
