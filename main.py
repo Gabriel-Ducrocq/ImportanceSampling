@@ -36,7 +36,7 @@ def main(NSIDE):
     with open("B3DCMB/data/simulated_sample_right_beta_sync", "wb") as f:
         pickle.dump(all_results, f)
     '''
-    with open("B3DCMB/data/simulated_sample_right_beta_sync", "wb") as f:
+    with open("B3DCMB/data/simulated_sample_right_beta_sync", "rb") as f:
         samples =pickle.load(f)
 
     log_weights = []
