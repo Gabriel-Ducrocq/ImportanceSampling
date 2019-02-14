@@ -44,6 +44,7 @@ def main(NSIDE):
         log_weights.append(res["log_weight"])
 
     log_weights = np.array(log_weights)
+    print(np.mean(np.exp(log_weights)))
     print(np.median(log_weights - np.sum(log_weights)))
     w = np.exp(log_weights - np.sum(log_weights))
     w = w/np.sum(w)
