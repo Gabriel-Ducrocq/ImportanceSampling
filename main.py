@@ -63,7 +63,7 @@ def main(NSIDE):
     plt.savefig("B3DCMB/figures/log_weights_histogram.png")
     plt.close()
 
-    plt.hist(weights)
+    plt.hist(w)
     plt.title("Histogram of weights")
     plt.savefig("B3DCMB/figures/weights_histogram.png")
     plt.close()
