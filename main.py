@@ -47,7 +47,7 @@ def main(NSIDE):
     log_weights = np.array(log_weights)
     print(log_weights)
     print("\n")
-    print(log_weights - np.sum(log_weights))
+    print(log_weights - np.max(log_weights))
     print("\n")
     w = np.exp(log_weights - np.sum(log_weights))
     print(w)
