@@ -105,13 +105,12 @@ class Sampler:
             for l in zip(all_mixing_matrix, self.Qs + self.Us, self.sigma_Qs + self.sigma_Us)]
         means, sigmas = zip(*means_and_sigmas)
         sigmas = [(s+s.T)/2 for s in sigmas]
-        inv_sigmas= [scipy.linalg.inv(s) for s in sigmas]
         mean = np.array([i for l in means for i in l])
         duplicate_CMB = np.array([l for l in map_CMB for _ in range(15)])
         x = np.split((observed_data - duplicate_CMB) - mean, 24)
         log_det = np.sum([np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas])
         denom = -(1 / 2) * log_det
-        lw = -(1/2)*np.sum([np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(inv_sigmas, x)]) + denom
+        lw = -(1/2)*np.sum([np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas, x)]) + denom
         return {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta,"log_weight": lw}
 
     def sample_data(self):
