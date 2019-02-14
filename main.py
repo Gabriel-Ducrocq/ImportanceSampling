@@ -51,6 +51,7 @@ def main(NSIDE):
     print(np.max(log_weights))
     print("\n")
     w = np.exp(log_weights - np.max(log_weights))
+    print(w)
     print("\n")
     w = w/np.sum(w)
     print(w)
