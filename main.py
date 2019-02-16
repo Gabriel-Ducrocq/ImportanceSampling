@@ -12,7 +12,7 @@ from matplotlib import cm
 NSIDE = 1
 sigma_rbf = 100000
 N_PROCESS_MAX = 45
-N_sample = 100000
+N_sample = 1000
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
@@ -32,10 +32,10 @@ def main(NSIDE):
     time_elapsed = time.time() - time_start
     print(time_elapsed)
 
-    with open("B3DCMB/data/simulated_sample_big", "wb") as f:
+    with open("B3DCMB/data/simulated_sample_small", "wb") as f:
         pickle.dump(all_results, f)
 
-    with open("B3DCMB/data/simulated_sample_big", "rb") as f:
+    with open("B3DCMB/data/simulated_sample_small", "rb") as f:
         samples = pickle.load(f)
 
     log_weights = []
