@@ -92,7 +92,8 @@ class Sampler:
 
         return mat_pixels
 
-    def sample_model(self, observed_data, random_seed):
+    def sample_model(self, input_params):
+        observed_data, random_seed = input_params
         np.random.seed(random_seed)
         cosmo_params, sampled_beta = self.sample_model_parameters()
         cosmo_dict = {l[0]: l[1] for l in zip(COSMO_PARAMS_NAMES, cosmo_params.tolist())}
