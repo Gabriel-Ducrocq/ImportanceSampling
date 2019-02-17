@@ -63,6 +63,11 @@ def main(NSIDE):
     plt.savefig("B3DCMB/figures/log_weights_histogram.png")
     plt.close()
 
+    plt.boxplot(log_weights)
+    plt.title("Log weights boxplot")
+    plt.savefig("B3DCMB/figures/log_weights_boxplot.png")
+    plt.close()
+
     plt.hist(w, bins = 200)
     plt.title("Histogram of weights")
     plt.savefig("B3DCMB/figures/weights_histogram.png")
