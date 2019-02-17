@@ -50,6 +50,7 @@ def main(NSIDE):
     print(np.max(log_weights))
     print("\n")
     w = np.exp(log_weights - np.max(log_weights))
+    print(np.sort(w)[-2:])
     print(w)
     print("\n")
     w = w/np.sum(w)
@@ -72,6 +73,12 @@ def main(NSIDE):
     plt.title("Histogram of weights")
     plt.savefig("B3DCMB/figures/weights_histogram.png")
     plt.close()
+
+    e = np.sort(log_weights)
+    print(e[-1])
+    print(e[-2])
+
+
 
 
 if __name__=='__main__':
