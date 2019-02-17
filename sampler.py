@@ -92,7 +92,8 @@ class Sampler:
 
         return mat_pixels
 
-    def sample_model(self, observed_data):
+    def sample_model(self, observed_data, random_seed):
+        np.random.seed(random_seed)
         cosmo_params, sampled_beta = self.sample_model_parameters()
         cosmo_dict = {l[0]: l[1] for l in zip(COSMO_PARAMS_NAMES, cosmo_params.tolist())}
         tuple_QU = self.sample_CMB_QU(cosmo_dict)
