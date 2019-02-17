@@ -23,7 +23,7 @@ def test(n):
 
 def main(NSIDE):
     pool = mp.Pool(N_PROCESS_MAX)
-    all_results = pool.map(test, (i for i in range(5)))
+    all_results = pool.map(test, (i for i in range(20)))
     print(all_results)
     '''
     with open("B3DCMB/data/reference_data_right_beta_sync", "rb") as f:
