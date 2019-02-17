@@ -79,6 +79,11 @@ def main(NSIDE):
     print(e[-2])
     print(e[-2] - e[-1])
 
+    a = np.exp(log_weights)
+    a /= np.sum(a)
+    print(np.sum(a))
+    print(np.sort(a)[::-1])
+
 
 
 
