@@ -103,7 +103,7 @@ class Sampler:
         mixing_matrix = self.sample_mixing_matrix(sampled_beta)
 
         all_mixing_matrix = 2*mixing_matrix
-        means_and_sigmas = [[np.dot(l[0], l[1]), np.diag([1e-1 for _ in range(15)]) + np.einsum("ij,jk,lk", l[0], np.diag(l[2]), l[0])]
+        means_and_sigmas = [[np.dot(l[0], l[1]), np.diag([10 for _ in range(15)]) + np.einsum("ij,jk,lk", l[0], np.diag(l[2]), l[0])]
             for l in zip(all_mixing_matrix, self.Qs + self.Us, self.sigma_Qs + self.sigma_Us)]
         means, sigmas = zip(*means_and_sigmas)
         sigmas = [(s+s.T)/2 for s in sigmas]
