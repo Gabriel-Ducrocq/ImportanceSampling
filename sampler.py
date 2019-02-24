@@ -39,8 +39,8 @@ class Sampler:
         self.mixing_matrix = MixingMatrix(*self.components)
         self.mixing_matrix_evaluator = self.mixing_matrix.evaluator(self.instrument.Frequencies)
 
-        noise_covar_one_pix = self.noise_covariance_in_freq(self.NSIDE)
-        self.noise_covar_all = scipy.linalg.block_diag(*[np.diag(noise_covar_one_pix) for _ in range(2*self.Npix)])
+        self.noise_covar_one_pix = self.noise_covariance_in_freq(self.NSIDE)
+        self.noise_covar_all = scipy.linalg.block_diag(*[np.diag(self.noise_covar_one_pix) for _ in range(2*self.Npix)])
         print("End of initialisation")
 
     def __getstate__(self):
@@ -111,7 +111,7 @@ class Sampler:
         mixing_matrix = self.sample_mixing_matrix(sampled_beta)
 
         all_mixing_matrix = 2*mixing_matrix
-        means_and_sigmas = [[np.dot(l[0], l[1]), np.diag(self.noise_covar_all) + np.einsum("ij,jk,lk", l[0], np.diag(l[2]), l[0])]
+        means_and_sigmas = [[np.dot(l[0], l[1]), np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", l[0], np.diag(l[2]), l[0])]
             for l in zip(all_mixing_matrix, self.Qs + self.Us, self.sigma_Qs + self.sigma_Us)]
         means, sigmas = zip(*means_and_sigmas)
         sigmas = [(s+s.T)/2 for s in sigmas]
