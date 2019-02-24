@@ -134,5 +134,6 @@ class Sampler:
         mixing_matrix = self.sample_mixing_matrix(sampled_beta)
         freq_maps = np.dot(scipy.linalg.block_diag(*2*mixing_matrix), maps.T)
         duplicated_cmb = np.array([l for l in map_CMB for _ in range(15)])
-        sky_map = freq_maps + duplicated_cmb + np.random.multivariate_normal(cov = self.noise_covar_all)
+        sky_map = freq_maps + duplicated_cmb + np.random.multivariate_normal(np.zeros(2*15*self.Npix), 
+                                                                                      self.noise_covar_all)
         return {"sky_map": sky_map, "cosmo_params": cosmo_params, "betas": sampled_beta}
