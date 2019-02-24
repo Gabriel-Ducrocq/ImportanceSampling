@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
+LiteBIRD_sensitivities = np.array([36.1, 19.6, 20.2, 11.3, 10.3, 8.4, 7.0, 5.8, 4.7, 7.0, 5.8, 8.0, 9.1, 11.4, 19.6])
 L_MAX_SCALARS = 5000
 LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
@@ -37,6 +38,9 @@ class Sampler:
         self.components = [CMB(), Dust(150.), Synchrotron(150.)]
         self.mixing_matrix = MixingMatrix(*self.components)
         self.mixing_matrix_evaluator = self.mixing_matrix.evaluator(self.instrument.Frequencies)
+
+        noise_covar_one_pix = self.noise_covariance_in_freq(self.NSIDE)
+        self.noise_covar_all = scipy.linalg.block_diag(*[np.diag(noise_covar_one_pix) for _ in range(2*self.Npix)])
         print("End of initialisation")
 
     def __getstate__(self):
@@ -56,6 +60,10 @@ class Sampler:
 
     def sample_normal(self, mu, sigma, s = None):
         return np.random.multivariate_normal(mu, sigma, s)
+
+    def noise_covariance_in_freq(self, nside):
+        cov = LiteBIRD_sensitivities ** 2 / hp.nside2resol(nside, arcmin=True) ** 2
+        return cov
 
     def sample_model_parameters(self):
         sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_var)
@@ -103,7 +111,7 @@ class Sampler:
         mixing_matrix = self.sample_mixing_matrix(sampled_beta)
 
         all_mixing_matrix = 2*mixing_matrix
-        means_and_sigmas = [[np.dot(l[0], l[1]), np.diag([50000 for _ in range(15)]) + np.einsum("ij,jk,lk", l[0], np.diag(l[2]), l[0])]
+        means_and_sigmas = [[np.dot(l[0], l[1]), np.diag(self.noise_covar_all) + np.einsum("ij,jk,lk", l[0], np.diag(l[2]), l[0])]
             for l in zip(all_mixing_matrix, self.Qs + self.Us, self.sigma_Qs + self.sigma_Us)]
         means, sigmas = zip(*means_and_sigmas)
         sigmas = [(s+s.T)/2 for s in sigmas]
@@ -126,5 +134,5 @@ class Sampler:
         mixing_matrix = self.sample_mixing_matrix(sampled_beta)
         freq_maps = np.dot(scipy.linalg.block_diag(*2*mixing_matrix), maps.T)
         duplicated_cmb = np.array([l for l in map_CMB for _ in range(15)])
-        sky_map = freq_maps + duplicated_cmb
+        sky_map = freq_maps + duplicated_cmb + np.random.multivariate_normal(cov = self.noise_covar_all)
         return {"sky_map": sky_map, "cosmo_params": cosmo_params, "betas": sampled_beta}
