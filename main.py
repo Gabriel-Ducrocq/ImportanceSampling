@@ -12,19 +12,15 @@ from matplotlib import cm
 NSIDE = 1
 sigma_rbf = 100000
 N_PROCESS_MAX = 45
-N_sample = 1000
+N_sample = 100
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-    sampler = Sampler(NSIDE)
-    reference_data = sampler.sample_data()
-    with open("B3DCMB/data/reference_data", "wb") as f:
-        pickle.dump(reference_data, f)
-    '''
-    with open("B3DCMB/data/reference_data_right_beta_sync", "rb") as f:
+
+    with open("B3DCMB/data/reference_data", "rb") as f:
         reference_data = pickle.load(f)
 
     sky_map = np.array(reference_data["sky_map"])
@@ -36,10 +32,10 @@ def main(NSIDE):
     time_elapsed = time.time() - time_start
     print(time_elapsed)
 
-    with open("B3DCMB/data/simulated_sample_big_epsilon", "wb") as f:
+    with open("B3DCMB/data/simulated_sample", "wb") as f:
         pickle.dump(all_results, f)
 
-    with open("B3DCMB/data/simulated_sample_big_epsilon", "rb") as f:
+    with open("B3DCMB/data/simulated_sample", "rb") as f:
         samples = pickle.load(f)
 
     log_weights = []
@@ -61,7 +57,6 @@ def main(NSIDE):
 
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
-    '''
     '''
     plt.hist(log_weights, bins = 200)
     plt.title("Log weights histogram")
