@@ -58,6 +58,7 @@ def main(NSIDE):
 
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
+    print(time_elapsed)
     '''
     plt.hist(log_weights, bins = 200)
     plt.title("Log weights histogram")
