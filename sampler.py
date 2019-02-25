@@ -115,7 +115,7 @@ class Sampler:
         return {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta}
 
     def compute_weight(self, input):
-        data, noise_level, random_seed = input
+        data, observed_data, noise_level, random_seed = input
         np.random.seed(random_seed)
         map_CMB = data["map_CMB"]
         sampled_beta = data["betas"]

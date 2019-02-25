@@ -30,7 +30,7 @@ def main(NSIDE):
     pool2 = mp.Pool(N_PROCESS_MAX)
     noise_level = 1000
     all_sample = pool1.map(sampler.sample_model, ((sky_map,i,) for i in range(N_sample)))
-    all_results = pool2.map(sampler.compute_weight, ((data, noise_level, i,) for i,data in enumerate(all_sample)))
+    all_results = pool2.map(sampler.compute_weight, ((data, sky_map, noise_level, i,) for i,data in enumerate(all_sample)))
     time_elapsed = time.time() - time_start
     print(time_elapsed)
 
