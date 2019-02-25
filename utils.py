@@ -38,7 +38,7 @@ def get_mixing_matrix_params(NSIDE):
         'B3DCMB/COM_CompMap_dust-commander_0256_R2.00.fits', NSIDE, fields =(3,5,6,8))
     beta_sync = hp.read_map('B3DCMB/sync_beta.fits', field=(0))
     beta_sync = hp.ud_grade(beta_sync, nside_out=NSIDE)
-    sigma_beta_sync = np.load("B3DCMB/sigma_beta_sync.npy")
+    sigma_beta_sync = sigma_beta_dust / (10 * np.std(sigma_beta_dust))
     params = {"dust":{"temp":{"mean": temp_dust.tolist(), "sigma":(sigma_temp_dust**2).tolist()},
                       "beta":{"mean":beta_dust.tolist(), "sigma": (sigma_beta_dust**2).tolist()}},
             "sync":{"beta":{"mean":beta_sync.tolist(), "sigma": (sigma_beta_sync**2).tolist()}}}
@@ -83,7 +83,6 @@ def aggregate_mixing_params(params):
     sigma_temp_dust = params["dust"]["temp"]["sigma"]
     sigma_beta_dust = params["dust"]["beta"]["sigma"]
     sigma_beta_sync = params["sync"]["beta"]["sigma"]
-    sigma_beta_sync = sigma_beta_dust/(10*np.std(sigma_beta_dust))
     sigma = np.hstack([sigma_beta_dust, sigma_temp_dust, np.abs(sigma_beta_sync)])
     return mean, sigma
 

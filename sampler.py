@@ -11,9 +11,12 @@ from fgbuster.component_model import CMB, Dust, Synchrotron
 import matplotlib.pyplot as plt
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
+MEAN_AS = 3.047
+SIGMA_AS = 0.014
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 LiteBIRD_sensitivities = np.array([36.1, 19.6, 20.2, 11.3, 10.3, 8.4, 7.0, 5.8, 4.7, 7.0, 5.8, 8.0, 9.1, 11.4, 19.6])
+Nfreq = 15
 L_MAX_SCALARS = 5000
 LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
@@ -66,8 +69,10 @@ class Sampler:
         return cov
 
     def sample_model_parameters(self):
-        sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_var)
-        sampled_beta = self.sample_normal(self.matrix_mean, np.diag(self.matrix_var)).reshape((self.Npix, -1), order = "F")
+        #sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_var)
+        sampled_cosmo = [0.9665, 0.02242, 0.11933, 1.04101, np.random.normal(MEAN_AS, SIGMA_AS), 0.0561]
+        #sampled_beta = self.sample_normal(self.matrix_mean, np.diag(self.matrix_var)).reshape((self.Npix, -1), order = "F")
+        sampled_beta = self.matrix_mean.reshape((self.Npix, -1), order = "F")
         return sampled_cosmo, sampled_beta
 
     def sample_CMB_QU(self, cosmo_params):
@@ -106,12 +111,19 @@ class Sampler:
         cosmo_params, sampled_beta = self.sample_model_parameters()
         cosmo_dict = {l[0]: l[1] for l in zip(COSMO_PARAMS_NAMES, cosmo_params.tolist())}
         tuple_QU = self.sample_CMB_QU(cosmo_dict)
-
         map_CMB = np.concatenate(tuple_QU)
-        mixing_matrix = self.sample_mixing_matrix(sampled_beta)
+        return {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta}
 
+    def compute_weight(self, input):
+        data, noise_level, random_seed = input
+        np.random.seed(random_seed)
+        map_CMB = data["map_CMB"]
+        sampled_beta = data["betas"]
+        mixing_matrix = self.sample_mixing_matrix(sampled_beta)
         all_mixing_matrix = 2*mixing_matrix
-        means_and_sigmas = [[np.dot(l[0], l[1]), np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", l[0], np.diag(l[2]), l[0])]
+        noise_addition = np.diag(noise_level*np.ones(Nfreq))
+        means_and_sigmas = [[np.dot(l[0], l[1]), noise_addition + np.diag(
+            self.noise_covar_one_pix) + np.einsum("ij,jk,lk", l[0], np.diag(l[2]), l[0])]
             for l in zip(all_mixing_matrix, self.Qs + self.Us, self.sigma_Qs + self.sigma_Us)]
         means, sigmas = zip(*means_and_sigmas)
         sigmas = [(s+s.T)/2 for s in sigmas]
@@ -121,7 +133,7 @@ class Sampler:
         log_det = np.sum([np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas])
         denom = -(1 / 2) * log_det
         lw = -(1/2)*np.sum([np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas, x)]) + denom
-        return {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta,"log_weight": lw}
+        return lw
 
     def sample_data(self):
         cosmo_params, sampled_beta = self.sample_model_parameters()
