@@ -63,7 +63,7 @@ def main(NSIDE):
     print(ess)
     #print(time_elapsed)
 
-    histogram_posterior(w, all_results["all_sample"]["cosmo_params"], reference_data["cosmo_params"])
+    histogram_posterior(w, all_results["simulated_points"]["cosmo_params"], reference_data["cosmo_params"])
     '''
     plt.hist(log_weights, bins = 200)
     plt.title("Log weights histogram")
