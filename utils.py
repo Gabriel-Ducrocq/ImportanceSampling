@@ -114,7 +114,7 @@ def histogram_posterior(weights, cosmo_sample, reference_cosmo):
         print(i)
         e = []
         for set_cosmos in cosmo_sample:
-            e.append(set_cosmos[i])
+            e.append(set_cosmos["cosmo_params"][i])
 
         print("Length of e:" + str(len(e)))
         prior = np.random.normal(COSMO_PARAMS_MEANS[i], COSMO_PARAMS_SIGMA[i], 10000)
