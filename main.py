@@ -19,6 +19,7 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
+    '''
     with open("B3DCMB/data/reference_data_As", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -37,6 +38,15 @@ def main(NSIDE):
     with open("B3DCMB/data/simulated_AS", "wb") as f:
         pickle.dump({"simuated_points":all_sample, "log_weights":log_weights},f)
 
+    '''
+    with open("B3DCMB/data/reference_data_As", "rb") as f:
+        reference_data = pickle.load(f)
+
+    with open("B3DCMB/data/simulated_AS", "rb") as f:
+        all_results = pickle.load(f)
+
+    log_weights = all_results["log_weights"]
+
     log_weights = np.array(log_weights)
     print(log_weights)
     print("\n")
@@ -52,6 +62,8 @@ def main(NSIDE):
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
     print(time_elapsed)
+
+    histogram_posterior(w, all_results["all_sample"]["cosmo_params"], reference_data["cosmo_params"])
     '''
     plt.hist(log_weights, bins = 200)
     plt.title("Log weights histogram")

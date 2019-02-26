@@ -109,29 +109,21 @@ def compute_acceptance_rates(discrepencies, epsilons, title, path):
     plt.close()
 
 
-def histogram_posterior(epsilon, discrepencies, cosmo_sample, reference_cosmo, distance):
-    probas = RBF_kernel(np.array(discrepencies), epsilon)
-    accepted = np.random.binomial(1, probas)
-    print("Acceptance ratio:" + str(np.mean(accepted)))
-    accepted_cosmo = [l[1] for l in list(zip(accepted, cosmo_sample)) if l[0] == 1]
-    print("Number of accepted samples: " + str(len(accepted_cosmo)))
-
+def histogram_posterior(weights, cosmo_sample, reference_cosmo):
     for i, name in enumerate(COSMO_PARAMS_NAMES):
         print(i)
         e = []
-        for set_cosmos in accepted_cosmo:
+        for set_cosmos in cosmo_sample:
             e.append(set_cosmos[i])
 
-        print(np.mean(e))
-        print(np.median(e))
         print("Length of e:" + str(len(e)))
         prior = np.random.normal(COSMO_PARAMS_MEANS[i], COSMO_PARAMS_SIGMA[i], 10000)
         plt.hist(prior, density=True, alpha=0.5, label="Prior")
-        plt.hist(e, density = True, alpha = 0.5, label = "ABC posterior")
+        plt.hist(e, density = True, alpha = 0.5, label = "Posterior", weights = weights)
         plt.legend(loc='upper right')
         plt.title('Histogram parameter: '+name)
         plt.axvline(reference_cosmo[i], color='k', linestyle='dashed', linewidth=1)
-        plt.savefig("B3DCMB/histogram_" + name + "_" + distance + ".png")
+        plt.savefig("B3DCMB/figures/histogram_" + name + ".png")
         plt.close()
 
 
