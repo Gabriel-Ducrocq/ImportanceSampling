@@ -20,19 +20,26 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
     sampler = Sampler(NSIDE)
+    start = time.time()
     data = sampler.sample_data()
+    print("Sampling true data in:")
+    print(time.time() - start)
 
     with open("B3DCMB/data/reference_data_As_NSIDE_8", "wb") as f:
         pickle.dump(data, f)
 
+    print("Data saved")
     with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
         reference_data = pickle.load(f)
 
+    print("Data opened")
     sky_map = np.array(reference_data["sky_map"])
 
     sampler = Sampler(NSIDE)
     time_start = time.time()
+    print("Starting sampling")
     pool1 = mp.Pool(N_PROCESS_MAX)
+    print("starting weight computing")
     pool2 = mp.Pool(N_PROCESS_MAX)
     noise_level = 0
     all_sample = pool1.map(sampler.sample_model, ((sky_map,i,) for i in range(N_sample)))
