@@ -136,16 +136,25 @@ class Sampler:
         return lw
 
     def sample_data(self):
+        print("Sampling parameters")
         cosmo_params, sampled_beta = self.sample_model_parameters()
+        print("Computing mean and cov of map")
         mean_map = [i for l in self.Qs + self.Us for i in l]
         covar_map =[i for l in self.sigma_Qs + self.sigma_Us for i in l]
+        print("Sampling maps Dust and Sync")
         maps = self.sample_normal(mean_map, np.diag(covar_map))
+        print("Computing cosmo params")
         cosmo_dict = {l[0]: l[1] for l in zip(COSMO_PARAMS_NAMES, cosmo_params.tolist())}
+        print("Sampling CMB signal")
         tuple_QU = self.sample_CMB_QU(cosmo_dict)
         map_CMB = np.concatenate(tuple_QU)
+        print("Creating mixing matrix")
         mixing_matrix = self.sample_mixing_matrix(sampled_beta)
+        print("Scaling to frequency maps")
         freq_maps = np.dot(scipy.linalg.block_diag(*2*mixing_matrix), maps.T)
+        print("Adding CMB to frequency maps")
         duplicated_cmb = np.array([l for l in map_CMB for _ in range(15)])
+        print("Adding noise to the maps")
         sky_map = freq_maps + duplicated_cmb + np.random.multivariate_normal(np.zeros(2*15*self.Npix),
                                                                                       self.noise_covar_all)
         return {"sky_map": sky_map, "cosmo_params": cosmo_params, "betas": sampled_beta}
