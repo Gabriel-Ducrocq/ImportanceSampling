@@ -123,7 +123,7 @@ def histogram_posterior(weights, cosmo_sample, reference_cosmo):
         plt.legend(loc='upper right')
         plt.title('Histogram parameter: '+name)
         plt.axvline(reference_cosmo[i], color='k', linestyle='dashed', linewidth=1)
-        plt.savefig("B3DCMB/figures/histogram_" + name + ".png")
+        plt.savefig("B3DCMB/figures/histogram_less_info_prior_" + name + ".png")
         plt.close()
 
 
