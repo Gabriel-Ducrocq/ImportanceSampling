@@ -154,7 +154,12 @@ class Sampler:
         freq_maps = np.dot(scipy.linalg.block_diag(*2*mixing_matrix), maps.T)
         print("Adding CMB to frequency maps")
         duplicated_cmb = np.array([l for l in map_CMB for _ in range(15)])
+        print("Shape of nise covar:")
+        print(self.Npix)
+        print(self.noise_covar_all)
+        print("Creating noise")
+        noise = np.random.multivariate_normal(np.zeros(2 * 15 * self.Npix),
+                                      self.noise_covar_all)
         print("Adding noise to the maps")
-        sky_map = freq_maps + duplicated_cmb + np.random.multivariate_normal(np.zeros(2*15*self.Npix),
-                                                                                      self.noise_covar_all)
+        sky_map = freq_maps + duplicated_cmb + noise
         return {"sky_map": sky_map, "cosmo_params": cosmo_params, "betas": sampled_beta}
