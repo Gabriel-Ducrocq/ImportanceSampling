@@ -12,7 +12,7 @@ from matplotlib import cm
 NSIDE = 8
 sigma_rbf = 100000
 N_PROCESS_MAX = 45
-N_sample = 10000
+N_sample = 1000
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
@@ -24,8 +24,8 @@ def main(NSIDE):
 
     with open("B3DCMB/data/reference_data_As_NSIDE_8", "wb") as f:
         pickle.dump(data, f)
-    '''
-    with open("B3DCMB/data/reference_data_As", "rb") as f:
+
+    with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
         reference_data = pickle.load(f)
 
     sky_map = np.array(reference_data["sky_map"])
@@ -38,16 +38,14 @@ def main(NSIDE):
     all_sample = pool1.map(sampler.sample_model, ((sky_map,i,) for i in range(N_sample)))
     log_weights = pool2.map(sampler.compute_weight, ((data, sky_map, noise_level, i,) for i,data in enumerate(all_sample)))
     time_elapsed = time.time() - time_start
-    print(time_elapsed)
 
-    with open("B3DCMB/data/simulated_AS_less_info_prior", "wb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_8", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
-
-    with open("B3DCMB/data/reference_data_As", "rb") as f:
+    with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
         reference_data = pickle.load(f)
 
-    with open("B3DCMB/data/simulated_AS_less_info_prior", "rb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_8", "rb") as f:
         all_results = pickle.load(f)
 
     log_weights = all_results["log_weights"]
@@ -66,10 +64,9 @@ def main(NSIDE):
 
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
-    #print(time_elapsed)
+    print(time_elapsed)
 
     histogram_posterior(w, all_results["simulated_points"], reference_data["cosmo_params"])
-    '''
     '''
     plt.hist(log_weights, bins = 200)
     plt.title("Log weights histogram")
