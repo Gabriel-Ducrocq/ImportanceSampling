@@ -156,7 +156,7 @@ class Sampler:
         duplicated_cmb = np.array([l for l in map_CMB for _ in range(15)])
         print("Shape of nise covar:")
         print(self.Npix)
-        print(self.noise_covar_all)
+        print(self.noise_covar_all.shape)
         print("Creating noise")
         noise = np.random.multivariate_normal(np.zeros(2 * 15 * self.Npix),
                                       self.noise_covar_all)
