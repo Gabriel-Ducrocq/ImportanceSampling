@@ -45,7 +45,7 @@ def main(NSIDE):
     print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, (i  for i in range(N_sample)))
     print("starting weight computing")
-    #log_weights = pool2.map(sampler.compute_weight, ((data, sky_map, noise_level, i,) for i,data in enumerate(all_sample)))
+    log_weights = pool2.map(sampler.compute_weight, ((data, noise_level, i,) for i,data in enumerate(all_sample)))
     time_elapsed = time.time() - time_start
 
     with open("B3DCMB/data/simulated_AS_NSIDE_8", "wb") as f:

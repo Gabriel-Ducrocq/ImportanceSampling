@@ -110,28 +110,16 @@ class Sampler:
         return mat_pixels
 
     def sample_model(self, input_params):
-        #with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
-        #    reference_data = pickle.load(f)
-
-        #sky_map = np.array(reference_data["sky_map"])
-
-        print("Getting input")
-        print(config.sky_map.shape)
         random_seed = input_params
-        print("Setting random seed")
         np.random.seed(random_seed)
-        print("Sampling parameters")
         cosmo_params, sampled_beta = self.sample_model_parameters()
-        print("Creating parameters dict")
         cosmo_dict = {l[0]: l[1] for l in zip(COSMO_PARAMS_NAMES, cosmo_params.tolist())}
-        print("Sampling CMB map")
         tuple_QU = self.sample_CMB_QU(cosmo_dict)
-        print("Concatenate")
         map_CMB = np.concatenate(tuple_QU)
         return {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta}
 
     def compute_weight(self, input):
-        observed_data = sky_map
+        observed_data = config.sky_map
         data, noise_level, random_seed = input
         np.random.seed(random_seed)
         map_CMB = data["map_CMB"]
