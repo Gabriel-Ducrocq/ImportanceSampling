@@ -35,7 +35,6 @@ def main(NSIDE):
     print("Data opened")
     sky_map = np.array(reference_data["sky_map"])
 
-    sampler = Sampler(NSIDE)
     time_start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
     pool2 = mp.Pool(N_PROCESS_MAX)
