@@ -130,7 +130,7 @@ class Sampler:
         all_mixing_matrix = 2*mixing_matrix
         noise_addition = np.diag(noise_level*np.ones(Nfreq))
         means_and_sigmas = [[np.dot(l[0], l[1]), noise_addition + np.diag(
-            self.noise_covar_one_pix) + np.einsum("ij,jk,lk", l[0], np.diag(l[2]), l[0])]
+            self.noise_covar_one_pix) + np.einsum("ij,jk,lk", l[0], (np.diag(l[2])**2), l[0])]
             for l in zip(all_mixing_matrix, self.Qs + self.Us, self.sigma_Qs + self.sigma_Us)]
         means, sigmas = zip(*means_and_sigmas)
         sigmas = [(s+s.T)/2 for s in sigmas]
