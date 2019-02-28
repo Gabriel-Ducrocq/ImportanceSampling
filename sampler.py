@@ -9,6 +9,7 @@ import pysm
 from utils import get_pixels_params, get_mixing_matrix_params, aggregate_pixels_params, aggregate_mixing_params, aggregate_by_pixels_params
 from fgbuster.component_model import CMB, Dust, Synchrotron
 import matplotlib.pyplot as plt
+import config
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 MEAN_AS = 3.047
