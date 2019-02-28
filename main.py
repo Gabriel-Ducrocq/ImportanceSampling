@@ -18,7 +18,6 @@ COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
-sky_map = None
 
 def main(NSIDE):
     sampler = Sampler(NSIDE)
@@ -34,11 +33,8 @@ def main(NSIDE):
     with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
         reference_data = pickle.load(f)
 
-    print("Data opened")
-    map = np.array(reference_data["sky_map"])
-
-    global sky_map
-    sky_map = map
+    #print("Data opened")
+    #sky_map = np.array(reference_data["sky_map"])
 
     time_start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)

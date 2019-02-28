@@ -109,8 +109,13 @@ class Sampler:
         return mat_pixels
 
     def sample_model(self, input_params):
+        with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
+            reference_data = pickle.load(f)
+
+        sky_map = np.array(reference_data["sky_map"])
+
         print("Getting input")
-        print(sky_map)
+        print(sky_map.shape)
         random_seed = input_params
         print("Setting random seed")
         np.random.seed(random_seed)
