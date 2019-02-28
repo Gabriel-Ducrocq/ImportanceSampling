@@ -44,6 +44,7 @@ def main(NSIDE):
     noise_level = 0
     print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, (i  for i in range(N_sample)))
+    all_sample.join()
     print("starting weight computing")
     log_weights = pool2.map(sampler.compute_weight, ((data, noise_level, i,) for i,data in enumerate(all_sample)))
     time_elapsed = time.time() - time_start
