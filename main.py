@@ -21,6 +21,7 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
     sampler1 = Sampler(NSIDE)
+    '''
     sampler2 = Sampler(NSIDE)
     start = time.time()
     data = sampler1.sample_data()
@@ -31,7 +32,7 @@ def main(NSIDE):
         pickle.dump(data, f)
 
     print("Data saved")
-
+    '''
     with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
         reference_data = pickle.load(f)
 
