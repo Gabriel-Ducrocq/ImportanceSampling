@@ -121,8 +121,8 @@ class Sampler:
 
     def compute_weight(self, input):
         observed_data = config.sky_map
-        print(data.shape)
         data, noise_level, random_seed = input
+        print(data.shape)
         np.random.seed(random_seed)
         map_CMB = data["map_CMB"]
         sampled_beta = data["betas"]
