@@ -115,7 +115,7 @@ class Sampler:
         #sky_map = np.array(reference_data["sky_map"])
 
         print("Getting input")
-        #print(sky_map.shape)
+        print(sky_map.shape)
         random_seed = input_params
         print("Setting random seed")
         np.random.seed(random_seed)
