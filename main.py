@@ -20,7 +20,7 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-    sampler1 = Sampler(NSIDE)
+    sampler2 = Sampler(NSIDE)
     '''
     sampler2 = Sampler(NSIDE)
     start = time.time()
