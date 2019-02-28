@@ -82,7 +82,7 @@ def main(NSIDE):
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
     avPosterior = np.average(AS, weights= w)
-    varPosterior = np.average((np.array(AS) - avPosterior)**2, weights=w)
+    varPosterior = np.sqrt(np.average((np.array(AS) - avPosterior)**2, weights=w))
     prior_sample = np.random.normal(3.047, 0.014*10, 1000)
     prior_mean = np.mean(prior_sample)
     prior_std = np.sqrt(np.mean((prior_sample - prior_mean)**2))
