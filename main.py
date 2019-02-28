@@ -20,9 +20,8 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-    '''
     sampler = Sampler(NSIDE)
-
+    '''
     start = time.time()
     data = sampler.sample_data()
     print("Sampling true data in:")
@@ -32,7 +31,7 @@ def main(NSIDE):
         pickle.dump(data, f)
 
     '''
-    '''
+
     print("Data saved")
     with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
         reference_data = pickle.load(f)
@@ -51,15 +50,15 @@ def main(NSIDE):
     log_weights = pool2.map(sampler.compute_weight, ((data, noise_level, i,) for i,data in enumerate(all_sample)))
     time_elapsed = time.time() - time_start
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_8", "wb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_8_large_sigma", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
-    '''
+
     with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
         reference_data = pickle.load(f)
 
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_8", "rb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_8_large_sigma", "rb") as f:
         all_results = pickle.load(f)
 
     log_weights = all_results["log_weights"]
@@ -78,7 +77,7 @@ def main(NSIDE):
 
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
-    #print(time_elapsed)
+    print(time_elapsed)
 
     histogram_posterior(w, all_results["simulated_points"], reference_data["cosmo_params"])
     '''
