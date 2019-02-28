@@ -109,11 +109,17 @@ class Sampler:
         return mat_pixels
 
     def sample_model(self, input_params):
+        print("Getting input")
         observed_data, random_seed = input_params
+        print("Setting random seed")
         np.random.seed(random_seed)
+        print("Sampling parameters")
         cosmo_params, sampled_beta = self.sample_model_parameters()
+        print("Creating parameters dict")
         cosmo_dict = {l[0]: l[1] for l in zip(COSMO_PARAMS_NAMES, cosmo_params.tolist())}
+        print("Sampling CMB map")
         tuple_QU = self.sample_CMB_QU(cosmo_dict)
+        print("Concatenate")
         map_CMB = np.concatenate(tuple_QU)
         return {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta}
 

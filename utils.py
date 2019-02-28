@@ -19,7 +19,7 @@ def create_mean_var(path, NSIDE):
     map_ = read_template(path, NSIDE)
     Q, U = map_[0], map_[1]
     sigma_Q, sigma_U = compute_Sigma_Q_U(map_[4], map_[2], map_[3], map_[5])
-    return Q.tolist(), U.tolist(), (sigma_Q**2).tolist(), (sigma_U**2).tolist()
+    return Q.tolist(), U.tolist(), sigma_Q.tolist(), sigma_U.tolist()
 
 def get_pixels_params(NSIDE):
     Q_sync, U_sync, sigma_Q_sync, sigma_U_sync = create_mean_var(
@@ -39,9 +39,9 @@ def get_mixing_matrix_params(NSIDE):
     beta_sync = hp.read_map('B3DCMB/sync_beta.fits', field=(0))
     beta_sync = hp.ud_grade(beta_sync, nside_out=NSIDE)
     sigma_beta_sync = sigma_beta_dust / (10 * np.std(sigma_beta_dust))
-    params = {"dust":{"temp":{"mean": temp_dust.tolist(), "sigma":(sigma_temp_dust**2).tolist()},
-                      "beta":{"mean":beta_dust.tolist(), "sigma": (sigma_beta_dust**2).tolist()}},
-            "sync":{"beta":{"mean":beta_sync.tolist(), "sigma": (sigma_beta_sync**2).tolist()}}}
+    params = {"dust":{"temp":{"mean": temp_dust.tolist(), "sigma":(sigma_temp_dust).tolist()},
+                      "beta":{"mean":beta_dust.tolist(), "sigma": (sigma_beta_dust).tolist()}},
+            "sync":{"beta":{"mean":beta_sync.tolist(), "sigma": (sigma_beta_sync).tolist()}}}
 
     return params
 

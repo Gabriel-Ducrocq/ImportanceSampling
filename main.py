@@ -12,7 +12,7 @@ from matplotlib import cm
 NSIDE = 8
 sigma_rbf = 100000
 N_PROCESS_MAX = 45
-N_sample = 1000
+N_sample = 10
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
@@ -37,12 +37,12 @@ def main(NSIDE):
 
     sampler = Sampler(NSIDE)
     time_start = time.time()
-    print("Starting sampling")
     pool1 = mp.Pool(N_PROCESS_MAX)
-    print("starting weight computing")
     pool2 = mp.Pool(N_PROCESS_MAX)
     noise_level = 0
+    print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, ((sky_map,i,) for i in range(N_sample)))
+    print("starting weight computing")
     log_weights = pool2.map(sampler.compute_weight, ((data, sky_map, noise_level, i,) for i,data in enumerate(all_sample)))
     time_elapsed = time.time() - time_start
 
