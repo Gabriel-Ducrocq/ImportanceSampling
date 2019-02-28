@@ -10,7 +10,7 @@ from scipy import stats
 from matplotlib import cm
 import config
 
-NSIDE = 2
+NSIDE = 1
 sigma_rbf = 100000
 N_PROCESS_MAX = 45
 N_sample = 10
