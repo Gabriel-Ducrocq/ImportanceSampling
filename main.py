@@ -31,7 +31,7 @@ def main(NSIDE):
         pickle.dump(data, f)
 
     '''
-
+    '''
     print("Data saved")
     with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
         reference_data = pickle.load(f)
@@ -52,7 +52,7 @@ def main(NSIDE):
 
     with open("B3DCMB/data/simulated_AS_NSIDE_8_large_sigma", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
-
+    '''
 
     with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
         reference_data = pickle.load(f)

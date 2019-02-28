@@ -117,7 +117,7 @@ def histogram_posterior(weights, cosmo_sample, reference_cosmo):
             e.append(set_cosmos["cosmo_params"][i])
 
         print("Length of e:" + str(len(e)))
-        prior = np.random.normal(COSMO_PARAMS_MEANS[i], COSMO_PARAMS_SIGMA[i], 10000)
+        prior = np.random.normal(COSMO_PARAMS_MEANS[i], COSMO_PARAMS_SIGMA[i]*10, 10000)
         plt.hist(prior, density=True, alpha=0.5, label="Prior", bins = 100)
         plt.hist(e, density = True, alpha = 0.5, label = "Posterior", weights = weights, bins = 100)
         plt.legend(loc='upper right')
