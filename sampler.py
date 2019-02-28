@@ -8,6 +8,7 @@ from classy import Class
 import pysm
 from utils import get_pixels_params, get_mixing_matrix_params, aggregate_pixels_params, aggregate_mixing_params, aggregate_by_pixels_params
 from fgbuster.component_model import CMB, Dust, Synchrotron
+import config
 import matplotlib.pyplot as plt
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
@@ -115,7 +116,7 @@ class Sampler:
         #sky_map = np.array(reference_data["sky_map"])
 
         print("Getting input")
-        print(sky_map.shape)
+        print(config.sky_map.shape)
         random_seed = input_params
         print("Setting random seed")
         np.random.seed(random_seed)
