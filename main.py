@@ -21,7 +21,7 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
     sampler = Sampler(NSIDE)
-
+    '''
     start = time.time()
     data = sampler.sample_data()
     print("Sampling true data in:")
@@ -77,7 +77,7 @@ def main(NSIDE):
     print(time_elapsed)
 
     histogram_posterior(w, all_results["simulated_points"], reference_data["cosmo_params"])
-    '''
+
     '''
     plt.hist(log_weights, bins = 200)
     plt.title("Log weights histogram")
