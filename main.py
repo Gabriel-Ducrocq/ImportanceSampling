@@ -21,6 +21,7 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
     sampler = Sampler(NSIDE)
+    '''
     start = time.time()
     data = sampler.sample_data()
     print("Sampling true data in:")
@@ -43,10 +44,9 @@ def main(NSIDE):
     pool2 = mp.Pool(N_PROCESS_MAX)
     noise_level = 0
     print("Starting sampling")
-    all_sample = pool1.map(sampler2.sample_model, (i  for i in range(N_sample)))
-    print(all_sample)
+    all_sample = pool1.map(sampler.sample_model, (i  for i in range(N_sample)))
     print("starting weight computing")
-    log_weights = pool2.map(sampler2.compute_weight, ((data, noise_level, i,) for i,data in enumerate(all_sample)))
+    log_weights = pool2.map(sampler.compute_weight, ((data, noise_level, i,) for i,data in enumerate(all_sample)))
     time_elapsed = time.time() - time_start
 
     with open("B3DCMB/data/simulated_AS_NSIDE_8", "wb") as f:
@@ -77,7 +77,6 @@ def main(NSIDE):
     print(time_elapsed)
 
     histogram_posterior(w, all_results["simulated_points"], reference_data["cosmo_params"])
-    '''
     '''
     plt.hist(log_weights, bins = 200)
     plt.title("Log weights histogram")
