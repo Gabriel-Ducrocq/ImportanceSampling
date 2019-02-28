@@ -80,16 +80,25 @@ class Sampler:
         return sampled_cosmo, sampled_beta
 
     def sample_CMB_QU(self, cosmo_params):
+        print("Setting default params")
         params = {'output': OUTPUT_CLASS,
                   'l_max_scalars': L_MAX_SCALARS,
                   'lensing': LENSING}
+        print("Setting all cosmo_params")
         params.update(cosmo_params)
+        print("Set params")
         self.cosmo.set(params)
+        print("Compute")
         self.cosmo.compute()
+        print("Getting results")
         cls = self.cosmo.lensed_cl(L_MAX_SCALARS)
+        print("Setting eb tb to 0")
         eb_tb = np.zeros(shape=cls["tt"].shape)
+        print("Getting I, Q, U")
         _, Q, U = hp.synfast((cls['tt'], cls['ee'], cls['bb'], cls['te'], eb_tb, eb_tb), nside=self.NSIDE, new=True)
+        print("Cleaning")
         self.cosmo.struct_cleanup()
+        print("Emptying")
         self.cosmo.empty()
         return Q, U
 
@@ -110,17 +119,12 @@ class Sampler:
         return mat_pixels
 
     def sample_model(self, input_params):
-        print("Getting input param")
         random_seed = input_params
-        print("Setting random seed")
         np.random.seed(random_seed)
-        print("creating params")
         cosmo_params, sampled_beta = self.sample_model_parameters()
-        print("Setting cosmo dict")
         cosmo_dict = {l[0]: l[1] for l in zip(COSMO_PARAMS_NAMES, cosmo_params.tolist())}
         print("Sampling cmb")
         tuple_QU = self.sample_CMB_QU(cosmo_dict)
-        print("Concatenating")
         map_CMB = np.concatenate(tuple_QU)
         return {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta}
 
