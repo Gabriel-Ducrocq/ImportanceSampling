@@ -35,7 +35,7 @@ class Sampler:
         self.matrix_mean, self.matrix_var = aggregate_mixing_params(get_mixing_matrix_params(self.NSIDE))
         print("Cosmo params")
         self.cosmo_means = np.array(COSMO_PARAMS_MEANS)
-        self.cosmo_var = (np.diag(COSMO_PARAMS_SIGMA)/2)**2
+        self.cosmo_stdd = np.diag(COSMO_PARAMS_SIGMA)
 
         self.instrument = pysm.Instrument(get_instrument('litebird', self.NSIDE))
         self.components = [CMB(), Dust(150.), Synchrotron(150.)]
@@ -61,15 +61,18 @@ class Sampler:
         self.mixing_matrix = MixingMatrix(*self.components)
         self.mixing_matrix_evaluator = self.mixing_matrix.evaluator(self.instrument.Frequencies)
 
-    def sample_normal(self, mu, sigma, s = None):
-        return np.random.multivariate_normal(mu, sigma, s)
+    def sample_normal(self, mu, stdd):
+        standard_normal = np.random.normal(0, 1, size = mu.shape[0])
+        standard_normal += mu
+        normal = np.dot(stdd, standard_normal)
+        return normal
 
     def noise_covariance_in_freq(self, nside):
         cov = LiteBIRD_sensitivities ** 2 / hp.nside2resol(nside, arcmin=True) ** 2
         return cov
 
     def sample_model_parameters(self):
-        #sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_var)
+        #sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_stdd)
         sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, np.random.normal(MEAN_AS, SIGMA_AS), 0.0561])
         #sampled_beta = self.sample_normal(self.matrix_mean, np.diag(self.matrix_var)).reshape((self.Npix, -1), order = "F")
         sampled_beta = self.matrix_mean.reshape((self.Npix, -1), order = "F")
@@ -158,8 +161,7 @@ class Sampler:
         print(self.Npix)
         print(self.noise_covar_all.shape)
         print("Creating noise")
-        noise = np.random.multivariate_normal(np.zeros(2 * 15 * self.Npix),
-                                      self.noise_covar_all)
+        noise = self.sample_normal(np.zeros(2 * 15 * self.Npix),self.noise_covar_all)
         print("Adding noise to the maps")
         sky_map = freq_maps + duplicated_cmb + noise
         return {"sky_map": sky_map, "cosmo_params": cosmo_params, "betas": sampled_beta}
