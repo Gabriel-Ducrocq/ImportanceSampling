@@ -123,7 +123,6 @@ class Sampler:
         data, noise_level, random_seed = input
         np.random.seed(random_seed)
         map_CMB = data["map_CMB"]
-        print(map_CMB.shape)
         sampled_beta = data["betas"]
         mixing_matrix = self.sample_mixing_matrix(sampled_beta)
         all_mixing_matrix = 2*mixing_matrix
@@ -135,8 +134,7 @@ class Sampler:
         sigmas = [(s+s.T)/2 for s in sigmas]
         mean = np.array([i for l in means for i in l])
         duplicate_CMB = np.array([l for l in map_CMB for _ in range(15)])
-        x = np.split((observed_data - duplicate_CMB) - mean, 24)
-        print([scipy.linalg.det(2*np.pi*s) for s in sigmas])
+        x = np.split((observed_data - duplicate_CMB) - mean, self.Npix*2)
         log_det = np.sum([np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas])
         denom = -(1 / 2) * log_det
         lw = -(1/2)*np.sum([np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas, x)]) + denom
