@@ -82,7 +82,7 @@ def main(NSIDE):
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
     avPosterior = np.average(AS, weights= w)
-    varPosterior = numpy.average((np.array(AS) - avPosterior)** 2, weights=weights)
+    varPosterior = np.average((np.array(AS) - avPosterior)** 2, weights=weights)
 
     print("Posterior mean:")
     print(avPosterior)
