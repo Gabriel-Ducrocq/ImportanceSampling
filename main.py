@@ -83,11 +83,20 @@ def main(NSIDE):
     print(ess)
     avPosterior = np.average(AS, weights= w)
     varPosterior = np.average((np.array(AS) - avPosterior)** 2, weights=w)
+    prior_sample = np.random.normal(3.047, 0.014*10, 1000)
+    prior_mean = np.mean(prior_sample)
+    prior_std = np.mean((prior_sample - prior_mean)**2)
+
+
 
     print("Posterior mean:")
     print(avPosterior)
-    print("Posterior variance:")
+    print("Prior mean:")
+    print(prior_mean)
+    print("Posterior std:")
     print(varPosterior)
+    print("Prior std:")
+    print(prior_std)
     #print(time_elapsed)
 
     histogram_posterior(w, all_results["simulated_points"], reference_data["cosmo_params"])
