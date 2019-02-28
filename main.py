@@ -62,6 +62,10 @@ def main(NSIDE):
         all_results = pickle.load(f)
 
     log_weights = all_results["log_weights"]
+    AS = []
+    for params in all_results["simulated_points"]:
+        AS.append(params["cosmo_params"][4])
+
 
     log_weights = np.array(log_weights)
     print(log_weights)
@@ -77,6 +81,13 @@ def main(NSIDE):
 
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
+    avPosterior = np.average(AS, weights= w)
+    varPosterior = numpy.average((np.array(AS) - avPosterior)** 2, weights=weights)
+
+    print("Posterior mean:")
+    print(avPosterior)
+    print("Posterior variance:")
+    print(varPosterior)
     #print(time_elapsed)
 
     histogram_posterior(w, all_results["simulated_points"], reference_data["cosmo_params"])
