@@ -142,7 +142,7 @@ class Sampler:
         print("Sampling parameters")
         cosmo_params, sampled_beta = self.sample_model_parameters()
         print("Computing mean and cov of map")
-        mean_map = [i for l in self.Qs + self.Us for i in l]
+        mean_map = np.array([i for l in self.Qs + self.Us for i in l])
         covar_map =[i for l in self.sigma_Qs + self.sigma_Us for i in l]
         print("Sampling maps Dust and Sync")
         maps = self.sample_normal(mean_map, np.diag(covar_map))
