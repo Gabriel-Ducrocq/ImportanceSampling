@@ -64,8 +64,8 @@ class Sampler:
 
     def sample_normal(self, mu, stdd):
         standard_normal = np.random.normal(0, 1, size = mu.shape[0])
-        standard_normal += mu
         normal = np.dot(stdd, standard_normal)
+        normal += mu
         return normal
 
     def noise_covariance_in_freq(self, nside):
