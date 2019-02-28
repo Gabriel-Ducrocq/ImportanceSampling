@@ -20,19 +20,17 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-    sampler2 = Sampler(NSIDE)
-    '''
-    sampler2 = Sampler(NSIDE)
+    sampler = Sampler(NSIDE)
     start = time.time()
-    data = sampler1.sample_data()
+    data = sampler.sample_data()
     print("Sampling true data in:")
     print(time.time() - start)
 
     with open("B3DCMB/data/reference_data_As_NSIDE_8", "wb") as f:
         pickle.dump(data, f)
 
-    print("Data saved")
     '''
+    print("Data saved")
     with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -79,6 +77,7 @@ def main(NSIDE):
     print(time_elapsed)
 
     histogram_posterior(w, all_results["simulated_points"], reference_data["cosmo_params"])
+    '''
     '''
     plt.hist(log_weights, bins = 200)
     plt.title("Log weights histogram")
