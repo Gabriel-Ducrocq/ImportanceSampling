@@ -43,7 +43,7 @@ class Sampler:
         self.mixing_matrix_evaluator = self.mixing_matrix.evaluator(self.instrument.Frequencies)
 
         self.noise_covar_one_pix = self.noise_covariance_in_freq(self.NSIDE)
-        #self.noise_covar_all = scipy.linalg.block_diag(*[np.diag(self.noise_covar_one_pix) for _ in range(2*self.Npix)])
+        self.noise_stdd_all = np.concatenate([np.diag(np.sqrt(self.noise_covar_one_pix)) for _ in range(2*self.Npix)])
         print("End of initialisation")
 
     def __getstate__(self):
@@ -170,11 +170,8 @@ class Sampler:
         freq_maps = np.dot(scipy.linalg.block_diag(*2*mixing_matrix), maps.T)
         print("Adding CMB to frequency maps")
         duplicated_cmb = np.array([l for l in map_CMB for _ in range(15)])
-        print("Shape of nise covar:")
-        print(self.Npix)
-        print(self.noise_covar_all.shape)
         print("Creating noise")
-        noise = self.sample_normal(np.zeros(2 * 15 * self.Npix),self.noise_covar_all)
+        noise = self.sample_normal(np.zeros(2 * 15 * self.Npix),np.diag(self.noise_stdd_all))
         print("Adding noise to the maps")
         sky_map = freq_maps + duplicated_cmb + noise
         return {"sky_map": sky_map, "cosmo_params": cosmo_params, "betas": sampled_beta}
