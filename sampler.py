@@ -110,7 +110,8 @@ class Sampler:
 
     def sample_model(self, input_params):
         print("Getting input")
-        observed_data, random_seed = input_params
+        print(sky_map)
+        random_seed = input_params
         print("Setting random seed")
         np.random.seed(random_seed)
         print("Sampling parameters")
@@ -124,7 +125,8 @@ class Sampler:
         return {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta}
 
     def compute_weight(self, input):
-        data, observed_data, noise_level, random_seed = input
+        observed_data = sky_map
+        data, noise_level, random_seed = input
         np.random.seed(random_seed)
         map_CMB = data["map_CMB"]
         sampled_beta = data["betas"]
