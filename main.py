@@ -9,7 +9,7 @@ import time
 from scipy import stats
 from matplotlib import cm
 
-NSIDE = 8
+NSIDE = 4
 sigma_rbf = 100000
 N_PROCESS_MAX = 45
 N_sample = 10
