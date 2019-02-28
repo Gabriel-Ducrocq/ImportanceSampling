@@ -43,7 +43,7 @@ class Sampler:
         self.mixing_matrix_evaluator = self.mixing_matrix.evaluator(self.instrument.Frequencies)
 
         self.noise_covar_one_pix = self.noise_covariance_in_freq(self.NSIDE)
-        self.noise_covar_all = scipy.linalg.block_diag(*[np.diag(self.noise_covar_one_pix) for _ in range(2*self.Npix)])
+        #self.noise_covar_all = scipy.linalg.block_diag(*[np.diag(self.noise_covar_one_pix) for _ in range(2*self.Npix)])
         print("End of initialisation")
 
     def __getstate__(self):
