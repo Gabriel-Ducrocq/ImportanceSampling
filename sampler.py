@@ -80,7 +80,6 @@ class Sampler:
         return sampled_cosmo, sampled_beta
 
     def sample_CMB_QU(self, cosmo_params):
-        print("Setting default params")
         params = {'output': OUTPUT_CLASS,
                   'l_max_scalars': L_MAX_SCALARS,
                   'lensing': LENSING}
