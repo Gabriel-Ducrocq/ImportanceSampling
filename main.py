@@ -34,12 +34,12 @@ def main(NSIDE):
     with open("B3DCMB/data/all_sigmas", "wb") as f:
         pickle.dump(all_sigmas_squared, f)
 
-    plt.hist(all_sigmas_square*((3.04e-9)**2), density=True, bins=10)
+    plt.hist(np.sqrt(all_sigmas_square*((3.04e-9)**2)), density=True, bins=10)
     plt.title('Histogram sigma')
     plt.savefig("B3DCMB/figures/histogram_sigmas.png")
     plt.close()
     print("Empirical means of sigmas:")
-    print(np.mean(all_sigmas)*(3.04e-9))
+    print(np.mean(np.sqrt(all_sigmas))*(3.04e-9))
 
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
