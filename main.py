@@ -21,13 +21,28 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
     sampler = Sampler(NSIDE)
+    #start = time.time()
+    #data = sampler.sample_data()
+    #print("Sampling true data in:")
+    #print(time.time() - start)
+
     start = time.time()
-    data = sampler.sample_data()
-    print("Sampling true data in:")
+    pool1 = mp.Pool(N_PROCESS_MAX)
+    all_sigmas = pool1.map(sampler.sample_data, (i for i in range(N_sample)))
     print(time.time() - start)
 
-    with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
-        pickle.dump(data, f)
+    with open("B3DCMB/data/all_sigmas", "wb") as f:
+        pickle.dump(all_sigmas, f)
+
+    plt.hist(all_sigmas, density=True, bins=10)
+    plt.title('Histogram sigma: ' + name)
+    plt.savefig("B3DCMB/figures/histogram_sigmas.png")
+    plt.close()
+    print("Empirical means of sigmas:")
+    print(np.mean(all_sigmas))
+
+    #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
+    #    pickle.dump(data, f)
 
     '''
     print("Data saved")
