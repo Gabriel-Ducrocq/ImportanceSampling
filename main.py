@@ -28,18 +28,18 @@ def main(NSIDE):
 
     start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
-    all_sigmas = pool1.map(sampler.sample_data, (i for i in range(N_sample)))
+    all_sigmas_squared = pool1.map(sampler.sample_data, (i for i in range(N_sample)))
     print(time.time() - start)
 
     with open("B3DCMB/data/all_sigmas", "wb") as f:
-        pickle.dump(all_sigmas, f)
+        pickle.dump(all_sigmas_squared, f)
 
-    plt.hist(all_sigmas, density=True, bins=10)
+    plt.hist(all_sigmas_square*((3.04e-9)**2), density=True, bins=10)
     plt.title('Histogram sigma')
     plt.savefig("B3DCMB/figures/histogram_sigmas.png")
     plt.close()
     print("Empirical means of sigmas:")
-    print(np.mean(all_sigmas))
+    print(np.mean(all_sigmas)*(3.04e-9))
 
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
