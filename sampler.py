@@ -69,7 +69,7 @@ class Sampler:
         else:
             normal = np.dot(stdd, standard_normal)
 
-        normal += mu
+        normal += np.add(mu, normal)
         return normal
 
     def noise_covariance_in_freq(self, nside):
@@ -170,12 +170,12 @@ class Sampler:
 
         freq_maps = np.concatenate(freq_pixels)
         print("Adding CMB to frequency maps")
-        duplicated_cmb = np.array([l for l in map_CMB for _ in range(15)])
+        duplicated_cmb = np.repeat(map_CMB, 15)
         print("Creating noise")
         noise = self.sample_normal(np.zeros(2 * 15 * self.Npix), self.noise_stdd_all, diag = True)
         print("Adding noise to the maps")
         #sky_map_no_noise = freq_maps + duplicated_cmb
-        sky_map = freq_maps + duplicated_cmb + noise
+        sky_map = np.add(np.add(freq_maps, duplicated_cmb), noise)
 
         #sig = 1/(np.dot(np.dot(np.transpose(sky_map_no_noise), np.diag(1/(self.noise_stdd_all**2))), sky_map_no_noise))
         #return sig
