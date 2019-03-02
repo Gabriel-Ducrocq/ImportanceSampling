@@ -139,7 +139,7 @@ class Sampler:
         means, sigmas = zip(*means_and_sigmas)
         sigmas = [(s+s.T)/2 for s in sigmas]
         mean = np.array([i for l in means for i in l])
-        duplicate_CMB = np.array([l for l in map_CMB for _ in range(15)])
+        duplicate_CMB = np.repeat(map_CMB, 15)
         x = np.split((observed_data - duplicate_CMB) - mean, self.Npix*2)
         log_det = np.sum([np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas])
         denom = -(1 / 2) * log_det
