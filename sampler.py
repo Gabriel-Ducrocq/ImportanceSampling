@@ -170,7 +170,7 @@ class Sampler:
         print("Adding CMB to frequency maps")
         duplicated_cmb = np.array([l for l in map_CMB for _ in range(15)])
         print("Creating noise")
-        noise = self.sample_normal(np.zeros(2 * 15 * self.Npix),np.diag(self.noise_stdd_all))
+        noise = self.sample_normal(np.zeros(2 * 15 * self.Npix), self.noise_stdd_all, diag = True)
         print("Adding noise to the maps")
         #sky_map_no_noise = freq_maps + duplicated_cmb
         sky_map = freq_maps + duplicated_cmb + noise
