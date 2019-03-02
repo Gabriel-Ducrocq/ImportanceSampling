@@ -62,9 +62,13 @@ class Sampler:
         self.mixing_matrix = MixingMatrix(*self.components)
         self.mixing_matrix_evaluator = self.mixing_matrix.evaluator(self.instrument.Frequencies)
 
-    def sample_normal(self, mu, stdd):
+    def sample_normal(self, mu, stdd, diag = False):
         standard_normal = np.random.normal(0, 1, size = mu.shape[0])
-        normal = np.dot(stdd, standard_normal)
+        if diag:
+            normal = np.multiply(stdd, standard_normal)
+        else:
+            normal = np.dot(stdd, standard_normal)
+
         normal += mu
         return normal
 
@@ -145,9 +149,9 @@ class Sampler:
         cosmo_params, sampled_beta = self.sample_model_parameters()
         print("Computing mean and cov of map")
         mean_map = np.array([i for l in self.Qs + self.Us for i in l])
-        covar_map =[i for l in self.sigma_Qs + self.sigma_Us for i in l]
+        stdd_map =[i for l in self.sigma_Qs + self.sigma_Us for i in l]
         print("Sampling maps Dust and Sync")
-        maps = self.sample_normal(mean_map, np.diag(covar_map))
+        maps = self.sample_normal(mean_map, stdd_map, diag = True)
         print("Computing cosmo params")
         cosmo_dict = {l[0]: l[1] for l in zip(COSMO_PARAMS_NAMES, cosmo_params.tolist())}
         print("Sampling CMB signal")
