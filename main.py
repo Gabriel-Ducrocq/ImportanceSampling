@@ -10,7 +10,7 @@ from scipy import stats
 from matplotlib import cm
 import config
 
-NSIDE = 64
+NSIDE = 512
 sigma_rbf = 100000
 N_PROCESS_MAX = 45
 N_sample = 1000
@@ -22,7 +22,7 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 def main(NSIDE):
     sampler = Sampler(NSIDE)
     ref = sampler.sample_data()
-    with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
+    with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
         pickle.dump(ref, f)
 
     #start = time.time()
