@@ -61,7 +61,7 @@ def main(NSIDE):
 
     time_start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
-    pool2 = mp.Pool(N_PROCESS_MAX)
+    pool2 = mp.Pool(N_PROCESS_MAX, maxtasksperchild= 5)
     noise_level = 0
     print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, (i  for i in range(N_sample)))
