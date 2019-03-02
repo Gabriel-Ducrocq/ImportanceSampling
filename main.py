@@ -10,7 +10,7 @@ from scipy import stats
 from matplotlib import cm
 import config
 
-NSIDE = 8
+NSIDE = 64
 sigma_rbf = 100000
 N_PROCESS_MAX = 45
 N_sample = 1000
@@ -21,11 +21,15 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
     sampler = Sampler(NSIDE)
+    ref = sampler.sample_model()
+    with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
+        pickle.dump(ref, f)
+
     #start = time.time()
     #data = sampler.sample_data()
     #print("Sampling true data in:")
     #print(time.time() - start)
-
+    '''
     start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
     all_sigmas_squared = pool1.map(sampler.sample_data, (i for i in range(N_sample)))
@@ -44,6 +48,7 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
 
+    '''
     '''
     print("Data saved")
     with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
