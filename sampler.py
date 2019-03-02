@@ -160,7 +160,13 @@ class Sampler:
         print("Creating mixing matrix")
         mixing_matrix = self.sample_mixing_matrix(sampled_beta)
         print("Scaling to frequency maps")
-        freq_maps = np.dot(scipy.linalg.block_diag(*2*mixing_matrix), maps.T)
+        #freq_maps = np.dot(scipy.linalg.block_diag(*2*mixing_matrix), maps.T)
+        freq_pixels = []
+        for i, mat in enumerate(2*mixing_matrix):
+            freq_pix = np.dot(mat, maps[2*i:(2*i+2)].T)
+            freq_pixels.append(freq_pix)
+
+        freq_maps = np.concatenate(freq_pixels)
         print("Adding CMB to frequency maps")
         duplicated_cmb = np.array([l for l in map_CMB for _ in range(15)])
         print("Creating noise")
