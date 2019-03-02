@@ -98,12 +98,12 @@ class Sampler:
         return Q, U
 
     def sample_mixing_matrix(self, betas):
-        #mat_pixels = []
-        #for i in range(self.Npix):
-        #    m = self.mixing_matrix_evaluator(betas[i,:])[:, 1:]
-        #    mat_pixels.append(m)
+        mat_pixels = []
+        for i in range(self.Npix):
+            m = self.mixing_matrix_evaluator(betas[i,:])[:, 1:]
+            mat_pixels.append(m)
 
-        mat_pixels = [self.mixing_matrix_evaluator(beta)[:, 1:] for beta in betas]
+        #mat_pixels = [self.mixing_matrix_evaluator(beta)[:, 1:] for beta in betas]
         return mat_pixels
 
     def sample_mixing_matrix_full(self, betas):
