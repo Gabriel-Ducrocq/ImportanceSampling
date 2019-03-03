@@ -134,7 +134,7 @@ class Sampler:
         observed_data = config.sky_map
         noise_level, random_seed = input
         np.random.seed(random_seed)
-        with open("B3DCMB/data/temp" + str(i), "rb"):
+        with open("B3DCMB/data/temp" + str(random_seed), "rb"):
             data = pickle.load(f)
 
         map_CMB = data["map_CMB"]
