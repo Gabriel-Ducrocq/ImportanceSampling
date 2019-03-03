@@ -140,20 +140,25 @@ class Sampler:
             for l in zip(all_mixing_matrix, self.Qs + self.Us, self.sigma_Qs + self.sigma_Us)]
         print("Unzipping means and sigmas")
         means, sigmas = zip(*means_and_sigmas)
+        del mixing_matrix
+        del all_mixing_matrix
+        del means_and_sigmas
         print("Forcing sigmas to be symmetrical")
-        sigmas = [(s+s.T)/2 for s in sigmas]
+        sigmas_symm = [(s+s.T)/2 for s in sigmas]
+        del sigmas
         print("Flattening")
-        mean = np.array([i for l in means for i in l])
+        mean_flat = np.array([i for l in means for i in l])
         print("Duplicating CMB")
         duplicate_CMB = np.repeat(map_CMB, 15)
+        del map_CMB
         print("Splitting for computation")
-        x = np.split((observed_data - duplicate_CMB) - mean, self.Npix*2)
+        x = np.split((observed_data - duplicate_CMB) - mean_flat, self.Npix*2)
         print("Computing determinant")
-        log_det = np.sum([np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas])
+        log_det = np.sum([np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas_symm])
         print("Computing log denom")
         denom = -(1 / 2) * log_det
         print("Computing log weights")
-        lw = -(1/2)*np.sum([np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas, x)]) + denom
+        lw = -(1/2)*np.sum([np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas_symm, x)]) + denom
         return lw
 
     def sample_data(self):
