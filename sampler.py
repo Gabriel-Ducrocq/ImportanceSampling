@@ -10,7 +10,7 @@ from utils import get_pixels_params, get_mixing_matrix_params, aggregate_pixels_
 from fgbuster.component_model import CMB, Dust, Synchrotron
 import matplotlib.pyplot as plt
 import config
-import gc
+from itertools import chain
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 MEAN_AS = 3.047
@@ -104,7 +104,7 @@ class Sampler:
         #    m = self.mixing_matrix_evaluator(betas[i,:])[:, 1:]
         #    mat_pixels.append(m)
 
-        mat_pixels = [self.mixing_matrix_evaluator(beta)[:, 1:] for beta in betas]
+        mat_pixels = (self.mixing_matrix_evaluator(beta)[:, 1:] for beta in betas)
         return mat_pixels
 
     def sample_mixing_matrix_full(self, betas):
@@ -113,7 +113,7 @@ class Sampler:
         #    m = self.mixing_matrix_evaluator(betas[i,:])
         #    mat_pixels.append(m)
 
-        mat_pixels = [self.mixing_matrix_evaluator(beta) for beta in betas]
+        mat_pixels = (self.mixing_matrix_evaluator(beta) for beta in betas)
         return mat_pixels
 
     def sample_model(self, input_params):
@@ -133,7 +133,7 @@ class Sampler:
         sampled_beta = data["betas"]
         print("Sampling mixing matrix")
         mixing_matrix = self.sample_mixing_matrix(sampled_beta)
-        all_mixing_matrix = 2*mixing_matrix
+        all_mixing_matrix = chain(mixing_matrix, mixing_matrix)
         noise_addition = np.diag(noise_level*np.ones(Nfreq))
         print("Computing means and sigmas")
         means_and_sigmas = ([np.dot(l[0], l[1]), noise_addition + np.diag(
