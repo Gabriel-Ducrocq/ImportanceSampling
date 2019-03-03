@@ -132,8 +132,11 @@ class Sampler:
 
     def compute_weight(self, input):
         observed_data = config.sky_map
-        data, noise_level, random_seed = input
+        noise_level, random_seed = input
         np.random.seed(random_seed)
+        with open("B3DCMB/data/temp" + str(i), "rb"):
+            data = pickle.load(f)
+
         map_CMB = data["map_CMB"]
         sampled_beta = data["betas"]
         print("Sampling mixing matrix")
