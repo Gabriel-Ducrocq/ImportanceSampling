@@ -20,8 +20,8 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-    sampler = Sampler(NSIDE)
     '''
+    sampler = Sampler(NSIDE)
     start_time = time.time()
     ref = sampler.sample_data()
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
@@ -103,27 +103,9 @@ def main(NSIDE):
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
 
-    '''
-    avPosterior = np.average(AS, weights= w)
-    varPosterior = np.sqrt(np.average((np.array(AS) - avPosterior)**2, weights=w))
-    prior_sample = np.random.normal(3.047, 0.014*10, 1000)
-    prior_mean = np.mean(prior_sample)
-    prior_std = np.sqrt(np.mean((prior_sample - prior_mean)**2))
-
-
-
-    print("Posterior mean:")
-    print(avPosterior)
-    print("Prior mean:")
-    print(prior_mean)
-    print("Posterior std:")
-    print(varPosterior)
-    print("Prior std:")
-    print(prior_std)
-    #print(time_elapsed)
 
     histogram_posterior(w, all_results["simulated_points"], reference_data["cosmo_params"])
-    '''
+
     '''
     plt.hist(log_weights, bins = 200)
     plt.title("Log weights histogram")
