@@ -10,7 +10,7 @@ from utils import get_pixels_params, get_mixing_matrix_params, aggregate_pixels_
 from fgbuster.component_model import CMB, Dust, Synchrotron
 import matplotlib.pyplot as plt
 import config
-from itertools import chain
+from itertools import chain, tee
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 MEAN_AS = 3.047
@@ -133,7 +133,7 @@ class Sampler:
         sampled_beta = data["betas"]
         print("Sampling mixing matrix")
         mixing_matrix = self.sample_mixing_matrix(sampled_beta)
-        all_mixing_matrix = chain(mixing_matrix, mixing_matrix)
+        all_mixing_matrix = chain(tee(mixing_matrix))
         noise_addition = np.diag(noise_level*np.ones(Nfreq))
         print("Computing means and sigmas")
         means_and_sigmas = ([np.dot(l[0], l[1]), noise_addition + np.diag(
@@ -143,7 +143,6 @@ class Sampler:
         means, sigmas = zip(*means_and_sigmas)
         print("Forcing sigmas to be symmetrical")
         sigmas_symm = ((s+s.T)/2 for s in sigmas)
-        del sigmas
         print("Flattening")
         mean_flat = np.array([i for l in means for i in l])
         print("Duplicating CMB")
