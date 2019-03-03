@@ -52,6 +52,7 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
     '''
+    '''
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -74,11 +75,11 @@ def main(NSIDE):
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
     '''
-    with open("B3DCMB/data/reference_data_As_NSIDE_8", "rb") as f:
+    with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_8_large_sigma", "rb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_512", "rb") as f:
         all_results = pickle.load(f)
 
     log_weights = all_results["log_weights"]
@@ -101,6 +102,8 @@ def main(NSIDE):
 
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
+
+    '''
     avPosterior = np.average(AS, weights= w)
     varPosterior = np.sqrt(np.average((np.array(AS) - avPosterior)**2, weights=w))
     prior_sample = np.random.normal(3.047, 0.014*10, 1000)
