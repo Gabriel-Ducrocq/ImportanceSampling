@@ -11,6 +11,7 @@ from fgbuster.component_model import CMB, Dust, Synchrotron
 import matplotlib.pyplot as plt
 import config
 from itertools import chain, tee
+import pickle
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 MEAN_AS = 3.047
@@ -123,7 +124,11 @@ class Sampler:
         cosmo_dict = {l[0]: l[1] for l in zip(COSMO_PARAMS_NAMES, cosmo_params.tolist())}
         tuple_QU = self.sample_CMB_QU(cosmo_dict)
         map_CMB = np.concatenate(tuple_QU)
-        return {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta}
+        result = {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta}
+        with open("B3DCMB/data/temp" + str(random_seed), "wb") as f:
+            pickle.dump(result, f)
+
+        return None
 
     def compute_weight(self, input):
         observed_data = config.sky_map
@@ -140,11 +145,6 @@ class Sampler:
         means = (np.dot(l[0], l[1]) for l in zip(all_mixing_matrix, self.Qs + self.Us))
         sigmas = (noise_addition + np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", l[0], (np.diag(l[1])**2), l[0])
                     for l in zip(all_mixing_matrix, self.sigma_Qs + self.sigma_Us))
-        #means_and_sigmas = ([np.dot(l[0], l[1]), noise_addition + np.diag(
-        #   self.noise_covar_one_pix) + np.einsum("ij,jk,lk", l[0], (np.diag(l[2])**2), l[0])]
-        #     for l in zip(all_mixing_matrix, self.Qs + self.Us, self.sigma_Qs + self.sigma_Us))
-        #print("Unzipping means and sigmas")
-        #means, sigmas = zip(*means_and_sigmas)
         print("Forcing sigmas to be symmetrical")
         sigmas_symm = ((s+s.T)/2 for s in sigmas)
         print("Flattening")
