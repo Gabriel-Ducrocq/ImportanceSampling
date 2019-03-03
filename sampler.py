@@ -133,7 +133,8 @@ class Sampler:
         sampled_beta = data["betas"]
         print("Sampling mixing matrix")
         mixing_matrix = self.sample_mixing_matrix(sampled_beta)
-        all_mixing_matrix = chain(tee(mixing_matrix))
+        mix_mat1, mix_mat2 = tee(mixing_matrix, 2)
+        all_mixing_matrix = chain(mix_mat1, mix_mat2)
         noise_addition = np.diag(noise_level*np.ones(Nfreq))
         print("Computing means and sigmas")
         means_and_sigmas = ([np.dot(l[0], l[1]), noise_addition + np.diag(
