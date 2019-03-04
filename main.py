@@ -36,7 +36,7 @@ def main(NSIDE):
         for map in CMB_maps:
             pixels.append(map[i])
 
-        plt.histogram(pixels)
+        plt.hist(pixels)
         plt.savefig("B3DCMB/histo_pixels/histo_pixels_"+str(i)+".png")
         plt.close()
 
