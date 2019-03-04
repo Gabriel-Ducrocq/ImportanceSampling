@@ -42,7 +42,7 @@ def main(NSIDE):
             pixels_inf.append(map_i[i])
 
         plt.hist(pixels_sup, density=True, alpha=0.5, label="Sup", bins = 10)
-        plt.hist(pixels_inf, density = True, alpha = 0.5, label = "Inf", weights = weights, bins = 10)
+        plt.hist(pixels_inf, density = True, alpha = 0.5, label = "Inf", bins = 10)
         plt.legend(loc='upper right')
         plt.title('Histogram pixel: '+str(i))
         plt.savefig("B3DCMB/histo_sup_inf/histo_sup_inf_pixel_" + str(i) + ".png")
