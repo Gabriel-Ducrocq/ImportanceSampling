@@ -29,14 +29,14 @@ def main(NSIDE):
             CMB_maps.append(res["map_CMB"])
             A_ss.append(res["cosmo_params"][4])
 
-    l = np.random.choice(range(NSIDE*NSIDE*12*2), size = 10, replace=False)
+    l = np.random.choice(range(NSIDE*NSIDE*12*2), size = 100, replace=False)
     for i in l:
         pixels = []
         for map in CMB_maps:
             pixels.append(map[i])
 
         plt.plot(A_ss, pixels, "o")
-        plt.savefig("B3DCMB/pixels_"+str(i) +"_vs_As.png")
+        plt.savefig("B3DCMB/linear_dep/pixels_"+str(i) +"_vs_As.png")
         plt.close()
 
 
