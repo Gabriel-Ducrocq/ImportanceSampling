@@ -21,7 +21,7 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
 
-
+    '''
     for i in range(1):
         with open("B3DCMB/data/sup/temp" + str(i), "rb") as f:
             res = pickle.load(f)
@@ -36,12 +36,10 @@ def main(NSIDE):
     print(asinf)
     print("A_s sup:")
     print(assup)
-
-
-
     '''
-    sampler = Sampler(NSIDE)
 
+    sampler = Sampler(NSIDE)
+    '''
     start_time = time.time()
     ref = sampler.sample_data()
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
@@ -78,14 +76,12 @@ def main(NSIDE):
     config.sky_map = map
 
     '''
-    '''
     time_start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
     pool2 = mp.Pool(N_PROCESS_MAX)
     noise_level = 0
     print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
-    '''
     '''
     print("starting weight computing")
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,) for i,data in enumerate(all_sample)))

@@ -94,11 +94,12 @@ class Sampler:
         self.cosmo.set(params)
         self.cosmo.compute()
         cls = self.cosmo.lensed_cl(L_MAX_SCALARS)
-        eb_tb = np.zeros(shape=cls["tt"].shape)
-        _, Q, U = hp.synfast((cls['tt'], cls['ee'], cls['bb'], cls['te'], eb_tb, eb_tb), nside=self.NSIDE, new=True)
-        self.cosmo.struct_cleanup()
-        self.cosmo.empty()
-        return Q, U
+        #eb_tb = np.zeros(shape=cls["tt"].shape)
+        #_, Q, U = hp.synfast((cls['tt'], cls['ee'], cls['bb'], cls['te'], eb_tb, eb_tb), nside=self.NSIDE, new=True)
+        #self.cosmo.struct_cleanup()
+        #self.cosmo.empty()
+        #return Q, U
+        return cls
 
     def sample_mixing_matrix(self, betas):
         #mat_pixels = []
@@ -123,10 +124,13 @@ class Sampler:
         np.random.seed(random_seed)
         cosmo_params, sampled_beta = self.sample_model_parameters()
         cosmo_dict = {l[0]: l[1] for l in zip(COSMO_PARAMS_NAMES, cosmo_params.tolist())}
-        tuple_QU = self.sample_CMB_QU(cosmo_dict)
-        map_CMB = np.concatenate(tuple_QU)
-        result = {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta}
-        with open("B3DCMB/data/sup/temp" + str(random_seed), "wb") as f:
+        #tuple_QU = self.sample_CMB_QU(cosmo_dict)
+        cls = self.sample_CMB_QU(cosmo_dict)
+        print(cls["tt"].shape)
+        #map_CMB = np.concatenate(tuple_QU)
+        #result = {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta}
+        result = {"cls":cls, "A_s":cosmo_params[4]}
+        with open("B3DCMB/data/cls_sup/temp" + str(random_seed), "wb") as f:
             pickle.dump(result, f)
 
         return None
