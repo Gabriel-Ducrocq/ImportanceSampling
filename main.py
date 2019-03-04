@@ -21,30 +21,37 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
 
-    '''
-    CMB_maps = []
-    A_ss = []
+    CMB_maps_sup = []
+    CMB_maps_inf = []
     for i in range(N_sample):
-        with open("B3DCMB/data/temp" + str(i), "rb") as f:
+        with open("B3DCMB/data/sup/temp" + str(i), "rb") as f:
             res = pickle.load(f)
-            CMB_maps.append(res["map_CMB"])
-            A_ss.append(res["cosmo_params"][4])
+            CMB_maps_sup.append(res["map_CMB"])
+
+        with open("B3DCMB/data/inf/temp" + str(i), "rb") as f:
+            res = pickle.load(f)
+            CMB_maps_inf.append(res["map_CMB"])
+
 
     l = np.random.choice(range(NSIDE*NSIDE*12*2), size = 100, replace=False)
     for i in l:
-        pixels = []
-        for map in CMB_maps:
-            pixels.append(map[i])
+        pixels_sup = []
+        pixels_inf = []
+        for map_s, map_i in zip(CMB_maps_sup, CMB_maps_inf):
+            pixels_sup.append(map_s[i])
+            pixels_inf.append(map_i[i])
 
-        plt.hist(pixels)
-        plt.savefig("B3DCMB/histo_pixels/histo_pixels_"+str(i)+".png")
+        plt.hist(pixels_sup, density=True, alpha=0.5, label="Sup", bins = 10)
+        plt.hist(pixels_inf, density = True, alpha = 0.5, label = "Inf", weights = weights, bins = 10)
+        plt.legend(loc='upper right')
+        plt.title('Histogram pixel: '+str(i))
+        plt.savefig("B3DCMB/histo_sup_inf/histo_sup_inf_pixel_" + str(i) + ".png")
         plt.close()
 
 
     '''
-
     sampler = Sampler(NSIDE)
-    '''
+
     start_time = time.time()
     ref = sampler.sample_data()
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
@@ -81,12 +88,14 @@ def main(NSIDE):
     config.sky_map = map
 
     '''
+    '''
     time_start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
     pool2 = mp.Pool(N_PROCESS_MAX)
     noise_level = 0
     print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
+    '''
     '''
     print("starting weight computing")
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,) for i,data in enumerate(all_sample)))
