@@ -20,8 +20,30 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-    sampler = Sampler(NSIDE)
+
+    CMB_maps = []
+    A_ss = []
+    for i in range(N_sample):
+        with open("B3DCMB/data/temp" + str(i), "rb") as f:
+            res = pickle.load(f)
+            CMB_maps.append(res["map_CMB"])
+            A_ss.append(res["cosmo_params"][4])
+
+    l = np.random.choice(range(NSIDE*NSIDE*12*15*2), size = 10, replace=False)
+    for i in l:
+        pixels = []
+        for map in CMB_maps:
+            pixels.append(map[i])
+
+        plt.plot(A_ss, pixels, "o")
+        plt.savefig("B3DCMB/pixels_"+str(i) +"_vs_As.png")
+        plt.close()
+
+
+
+
     '''
+    sampler = Sampler(NSIDE)
     start_time = time.time()
     ref = sampler.sample_data()
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
@@ -58,12 +80,14 @@ def main(NSIDE):
     config.sky_map = map
 
     '''
+    '''
     time_start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
     pool2 = mp.Pool(N_PROCESS_MAX)
     noise_level = 0
     print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
+    '''
     '''
     print("starting weight computing")
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,) for i,data in enumerate(all_sample)))
