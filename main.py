@@ -29,7 +29,7 @@ def main(NSIDE):
             CMB_maps.append(res["map_CMB"])
             A_ss.append(res["cosmo_params"][4])
 
-    l = np.random.choice(range(NSIDE*NSIDE*12*15*2), size = 10, replace=False)
+    l = np.random.choice(range(NSIDE*NSIDE*12*2), size = 10, replace=False)
     for i in l:
         pixels = []
         for map in CMB_maps:
