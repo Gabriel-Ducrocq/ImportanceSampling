@@ -80,7 +80,8 @@ class Sampler:
 
     def sample_model_parameters(self):
         #sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_stdd)
-        sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, np.random.normal(MEAN_AS, SIGMA_AS), 0.0561])
+        #sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, np.random.normal(MEAN_AS, SIGMA_AS), 0.0561])
+        sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, 3.047 - 2*0.014, 0.0561])
         #sampled_beta = self.sample_normal(self.matrix_mean, np.diag(self.matrix_var)).reshape((self.Npix, -1), order = "F")
         sampled_beta = self.matrix_mean.reshape((self.Npix, -1), order = "F")
         return sampled_cosmo, sampled_beta
@@ -125,7 +126,7 @@ class Sampler:
         tuple_QU = self.sample_CMB_QU(cosmo_dict)
         map_CMB = np.concatenate(tuple_QU)
         result = {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta}
-        with open("B3DCMB/data/temp" + str(random_seed), "wb") as f:
+        with open("B3DCMB/data/inf/temp" + str(random_seed), "wb") as f:
             pickle.dump(result, f)
 
         return None
