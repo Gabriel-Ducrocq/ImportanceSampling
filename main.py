@@ -21,32 +21,22 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
 
-    CMB_maps_sup = []
-    CMB_maps_inf = []
-    for i in range(N_sample):
+
+    for i in range(1):
         with open("B3DCMB/data/sup/temp" + str(i), "rb") as f:
             res = pickle.load(f)
-            CMB_maps_sup.append(res["map_CMB"])
+            asinf = res["cosmo_params"][4]
 
         with open("B3DCMB/data/inf/temp" + str(i), "rb") as f:
             res = pickle.load(f)
-            CMB_maps_inf.append(res["map_CMB"])
+            assup = res["cosmo_params"][4]
 
 
-    l = np.random.choice(range(NSIDE*NSIDE*12*2), size = 100, replace=False)
-    for i in l:
-        pixels_sup = []
-        pixels_inf = []
-        for map_s, map_i in zip(CMB_maps_sup, CMB_maps_inf):
-            pixels_sup.append(map_s[i])
-            pixels_inf.append(map_i[i])
+    print("A_s inf:")
+    print(asinf)
+    print("A_s sup:")
+    print(assup)
 
-        plt.hist(pixels_sup, density=True, alpha=0.5, label="Sup", bins = 10)
-        plt.hist(pixels_inf, density = True, alpha = 0.5, label = "Inf", bins = 10)
-        plt.legend(loc='upper right')
-        plt.title('Histogram pixel: '+str(i))
-        plt.savefig("B3DCMB/histo_sup_inf/histo_sup_inf_pixel_" + str(i) + ".png")
-        plt.close()
 
 
     '''
