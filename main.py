@@ -21,6 +21,7 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
 
+
     CMB_maps = []
     A_ss = []
     for i in range(N_sample):
@@ -35,8 +36,8 @@ def main(NSIDE):
         for map in CMB_maps:
             pixels.append(map[i])
 
-        plt.plot(A_ss, pixels, "o")
-        plt.savefig("B3DCMB/linear_dep/pixels_"+str(i) +"_vs_As.png")
+        plt.histogram(pixels)
+        plt.savefig("B3DCMB/histo_pixels/histo_pixels_"+str(i)+".png")
         plt.close()
 
 
