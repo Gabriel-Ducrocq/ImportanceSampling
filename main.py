@@ -21,6 +21,7 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
 
+    '''
     asinf = []
     assup = []
     alms_inf = []
@@ -58,14 +59,13 @@ def main(NSIDE):
     '''
 
     sampler = Sampler(NSIDE)
-    '''
-    '''
-    start_time = time.time()
-    ref = sampler.sample_data()
-    with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
-        pickle.dump(ref, f)
 
-    print(time.time() - start_time)
+    #start_time = time.time()
+    #ref = sampler.sample_data()
+    #with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
+    #    pickle.dump(ref, f)
+
+    #print(time.time() - start_time)
 
     #start = time.time()
     #data = sampler.sample_data()
@@ -76,6 +76,7 @@ def main(NSIDE):
     pool1 = mp.Pool(N_PROCESS_MAX)
     all_sigmas_squared = pool1.map(sampler.sample_data, (i for i in range(N_sample)))
     print(time.time() - start)
+    '''
     with open("B3DCMB/data/all_sigmas", "wb") as f:
         pickle.dump(all_sigmas_squared, f)
 
