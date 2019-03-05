@@ -72,10 +72,10 @@ def main(NSIDE):
     #print("Sampling true data in:")
     #print(time.time() - start)
 
-    start = time.time()
-    pool1 = mp.Pool(N_PROCESS_MAX)
-    all_sigmas_squared = pool1.map(sampler.sample_data, (i for i in range(N_sample)))
-    print(time.time() - start)
+    #start = time.time()
+    #pool1 = mp.Pool(N_PROCESS_MAX)
+    #all_sigmas_squared = pool1.map(sampler.sample_data, (i for i in range(N_sample)))
+    #print(time.time() - start)
     '''
     with open("B3DCMB/data/all_sigmas", "wb") as f:
         pickle.dump(all_sigmas_squared, f)
@@ -97,14 +97,12 @@ def main(NSIDE):
     config.sky_map = map
 
     '''
-    '''
     time_start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
     pool2 = mp.Pool(N_PROCESS_MAX)
     noise_level = 0
     print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
-    '''
     '''
     print("starting weight computing")
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,) for i,data in enumerate(all_sample)))
