@@ -33,8 +33,8 @@ def main(NSIDE):
     for k in alms[0].keys():
         print(k)
         alm_index = np.random.choice(range(5000), size = 100, replace = False)
-        alms_values = []
         for a in alm_index:
+            alms_values = []
             for r in alms:
                 alms_values.append(r[k][a])
 
