@@ -37,6 +37,7 @@ def main(NSIDE):
             alms_inf.append(res["cls"])
 
     for k in alms_sup[0].keys():
+        print(k)
         alm_index = np.random.choice(range(5000), size = 25, replace = False)
         alms_values_inf = []
         alms_values_sup = []
