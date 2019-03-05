@@ -38,7 +38,8 @@ def main(NSIDE):
 
     for k in alms_sup[0].keys():
         alm_index = np.random.choice(range(5000), size = 25, replace = False)
-        alms_values = []
+        alms_values_inf = []
+        alms_values_sup = []
         for a in alm_index:
             for r in alms_inf:
                 alms_values_inf.append(r[k][a])
