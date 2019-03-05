@@ -48,10 +48,10 @@ def main(NSIDE):
             for r in alms_sup:
                 alms_values_sup.append(r[k][a])
 
-        plt.hist(alms_values_inf, density=True, alpha=0.5, label="Inf", bins = 10)
-        plt.hist(alms_values_sup, density = True, alpha = 0.5, label = "Sup", bins = 10)
-        plt.savefig("B3DCMB/histo_cls/cls_"+k + "_n_" + str(alm_index) + ".png")
-        plt.close()
+            plt.hist(alms_values_inf, density=True, alpha=0.5, label="Inf", bins = 10)
+            plt.hist(alms_values_sup, density = True, alpha = 0.5, label = "Sup", bins = 10)
+            plt.savefig("B3DCMB/histo_cls/cls_"+k + "_n_" + str(a) + ".png")
+            plt.close()
 
 
 
