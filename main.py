@@ -28,12 +28,12 @@ def main(NSIDE):
     for i in range(100):
         with open("B3DCMB/data/cls_sup/temp" + str(i), "rb") as f:
             res = pickle.load(f)
-            assup.append(res["A_s"][4])
+            assup.append(res["A_s"])
             alms_sup.append(res["cls"])
 
         with open("B3DCMB/data/cls_inf/temp" + str(i), "rb") as f:
             res = pickle.load(f)
-            asinf.append(res["A_s"][4])
+            asinf.append(res["A_s"])
             alms_inf.append(res["cls"])
 
     for k in alms_sup[0].keys():
