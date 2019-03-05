@@ -39,7 +39,7 @@ def main(NSIDE):
                 alms_values.append(r[k][a])
 
             plt.plot(As, alms_values, "o")
-            plt.title(k + " cl number " + str(alm_index) + " vs A_s")
+            plt.title(k + " cl number " + str(a) + " vs A_s")
             plt.savefig("B3DCMB/scatter_cls/cls_"+k + "_n_" + str(a) + ".png")
             plt.close()
 
