@@ -30,7 +30,7 @@ def main(NSIDE):
             alms.append(res["cls"])
 
 
-    for k in alms_sup[0].keys():
+    for k in alms[0].keys():
         print(k)
         alm_index = np.random.choice(range(5000), size = 100, replace = False)
         alms_values = []
