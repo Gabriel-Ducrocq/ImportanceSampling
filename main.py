@@ -21,44 +21,31 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
 
-    '''
-    asinf = []
-    assup = []
-    alms_inf = []
-    alms_sup = []
+    As = []
+    alms = []
     for i in range(100):
-        with open("B3DCMB/data/cls_sup/temp" + str(i), "rb") as f:
+        with open("B3DCMB/data/cls/temp" + str(i), "rb") as f:
             res = pickle.load(f)
-            assup.append(res["A_s"])
-            alms_sup.append(res["cls"])
+            As.append(res["A_s"])
+            alms.append(res["cls"])
 
-        with open("B3DCMB/data/cls_inf/temp" + str(i), "rb") as f:
-            res = pickle.load(f)
-            asinf.append(res["A_s"])
-            alms_inf.append(res["cls"])
 
     for k in alms_sup[0].keys():
         print(k)
-        alm_index = np.random.choice(range(5000), size = 25, replace = False)
-        alms_values_inf = []
-        alms_values_sup = []
+        alm_index = np.random.choice(range(5000), size = 100, replace = False)
+        alms_values = []
         for a in alm_index:
-            for r in alms_inf:
-                alms_values_inf.append(r[k][a])
+            for r in alms:
+                alms_values.append(r[k][a])
 
-            for r in alms_sup:
-                alms_values_sup.append(r[k][a])
-
-            plt.hist(alms_values_inf, density=True, alpha=0.5, label="Inf", bins = 10)
-            plt.hist(alms_values_sup, density = True, alpha = 0.5, label = "Sup", bins = 10)
-            plt.savefig("B3DCMB/histo_cls/cls_"+k + "_n_" + str(a) + ".png")
+            plt.plot(As, alms_values, "o")
+            plt.savefig("B3DCMB/scatter_cls/cls_"+k + "_n_" + str(a) + ".png")
             plt.close()
 
 
 
-    '''
 
-    sampler = Sampler(NSIDE)
+    #sampler = Sampler(NSIDE)
 
     #start_time = time.time()
     #ref = sampler.sample_data()
