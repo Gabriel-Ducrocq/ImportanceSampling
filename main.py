@@ -32,13 +32,14 @@ def main(NSIDE):
 
     for k in alms[0].keys():
         print(k)
-        alm_index = np.random.choice(range(5000), size = 100, replace = False)
+        alm_index = np.random.choice(range(5000), size = 10, replace = False)
         for a in alm_index:
             alms_values = []
             for r in alms:
                 alms_values.append(r[k][a])
 
             plt.plot(As, alms_values, "o")
+            plt.title(k + " cl number " + str(alm_index) + " vs A_s")
             plt.savefig("B3DCMB/scatter_cls/cls_"+k + "_n_" + str(a) + ".png")
             plt.close()
 
@@ -84,12 +85,14 @@ def main(NSIDE):
     config.sky_map = map
 
     '''
+    '''
     time_start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
     pool2 = mp.Pool(N_PROCESS_MAX)
     noise_level = 0
     print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
+    '''
     '''
     print("starting weight computing")
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,) for i,data in enumerate(all_sample)))
