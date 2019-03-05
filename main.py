@@ -21,24 +21,42 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
 
-    '''
-    for i in range(1):
-        with open("B3DCMB/data/sup/temp" + str(i), "rb") as f:
+    asinf = []
+    assup = []
+    alms_inf = []
+    alms_sup = []
+    for i in range(100):
+        with open("B3DCMB/data/cls_sup/temp" + str(i), "rb") as f:
             res = pickle.load(f)
-            asinf = res["cosmo_params"][4]
+            assup.append(res["A_s"][4])
+            alms_sup.append(res["cls"])
 
-        with open("B3DCMB/data/inf/temp" + str(i), "rb") as f:
+        with open("B3DCMB/data/cls_inf/temp" + str(i), "rb") as f:
             res = pickle.load(f)
-            assup = res["cosmo_params"][4]
+            asinf.append(res["A_s"][4])
+            alms_inf.append(res["cls"])
+
+    for k in alms_sup[0].keys():
+        alm_index = np.random.choice(range(5000), size = 25, replace = False)
+        alms_values = []
+        for a in alm_index:
+            for r in alms_inf:
+                alms_values_inf.append(r[k][a])
+
+            for r in alms_sup:
+                alms_values_sup.append(r[k][a])
+
+        plt.hist(alms_values_inf, density=True, alpha=0.5, label="Inf", bins = 10)
+        plt.hist(alms_values_sup, density = True, alpha = 0.5, label = "Sup", bins = 10)
+        plt.savefig("B3DCMB/histo_cls/cls_"+k + "_n_" + str(alm_index) + ".png")
+        plt.close()
 
 
-    print("A_s inf:")
-    print(asinf)
-    print("A_s sup:")
-    print(assup)
+
     '''
 
     sampler = Sampler(NSIDE)
+    '''
     '''
     start_time = time.time()
     ref = sampler.sample_data()
@@ -76,12 +94,14 @@ def main(NSIDE):
     config.sky_map = map
 
     '''
+    '''
     time_start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
     pool2 = mp.Pool(N_PROCESS_MAX)
     noise_level = 0
     print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
+    '''
     '''
     print("starting weight computing")
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,) for i,data in enumerate(all_sample)))
