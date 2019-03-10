@@ -13,40 +13,14 @@ import config
 NSIDE = 512
 sigma_rbf = 100000
 N_PROCESS_MAX = 45
-N_sample = 100
+N_sample = 1
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-
-    As = []
-    alms = []
-    for i in range(100):
-        with open("B3DCMB/data/cls/temp" + str(i), "rb") as f:
-            res = pickle.load(f)
-            As.append(res["A_s"])
-            alms.append(res["cls"])
-
-
-    for k in alms[0].keys():
-        print(k)
-        alm_index = np.random.choice(range(5000), size = 10, replace = False)
-        for a in alm_index:
-            alms_values = []
-            for r in alms:
-                alms_values.append(r[k][a])
-
-            plt.plot(As, alms_values, "o")
-            plt.title(k + " cl number " + str(a) + " vs A_s")
-            plt.savefig("B3DCMB/scatter_cls/cls_"+k + "_n_" + str(a) + ".png")
-            plt.close()
-
-
-
-
-    #sampler = Sampler(NSIDE)
+    sampler = Sampler(NSIDE)
 
     #start_time = time.time()
     #ref = sampler.sample_data()
@@ -60,10 +34,10 @@ def main(NSIDE):
     #print("Sampling true data in:")
     #print(time.time() - start)
 
-    #start = time.time()
-    #pool1 = mp.Pool(N_PROCESS_MAX)
-    #all_sigmas_squared = pool1.map(sampler.sample_data, (i for i in range(N_sample)))
-    #print(time.time() - start)
+    start = time.time()
+    pool1 = mp.Pool(N_PROCESS_MAX)
+    all_sigmas_squared = pool1.map(sampler.sample_data, (i for i in range(N_sample)))
+    print(time.time() - start)
     '''
     with open("B3DCMB/data/all_sigmas", "wb") as f:
         pickle.dump(all_sigmas_squared, f)

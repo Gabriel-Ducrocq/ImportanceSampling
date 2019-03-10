@@ -80,7 +80,7 @@ class Sampler:
 
     def sample_model_parameters(self):
         #sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_stdd)
-        sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, np.random.normal(MEAN_AS, SIGMA_AS*10), 0.0561])
+        sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, MEAN_AS - 2*SIGMA_AS, 0.0561])
         #sampled_beta = self.sample_normal(self.matrix_mean, np.diag(self.matrix_var)).reshape((self.Npix, -1), order = "F")
         sampled_beta = self.matrix_mean.reshape((self.Npix, -1), order = "F")
         return sampled_cosmo, sampled_beta
@@ -90,6 +90,7 @@ class Sampler:
                   'l_max_scalars': L_MAX_SCALARS,
                   'lensing': LENSING}
         params.update(cosmo_params)
+        print(params)
         self.cosmo.set(params)
         self.cosmo.compute()
         cls = self.cosmo.lensed_cl(L_MAX_SCALARS)
