@@ -35,8 +35,9 @@ def main(NSIDE):
     #print(time.time() - start)
 
     start = time.time()
-    pool1 = mp.Pool(N_PROCESS_MAX)
-    all_sigmas_squared = pool1.map(sampler.sample_data, (i for i in range(N_sample)))
+    sampler.sample_model(1)
+    #pool1 = mp.Pool(N_PROCESS_MAX)
+    #all_sigmas_squared = pool1.map(sampler.sample_data, (i for i in range(N_sample)))
     print(time.time() - start)
     '''
     with open("B3DCMB/data/all_sigmas", "wb") as f:
