@@ -48,6 +48,7 @@ def main(NSIDE):
         plt.legend(loc='upper right')
         plt.title('Histogram CMB map')
         plt.savefig("B3DCMB/percentHisto/histo_pixel_" + str(pix) + ".png")
+        plt.close()
 
     #sampler = Sampler(NSIDE)
 
@@ -66,7 +67,7 @@ def main(NSIDE):
     #start = time.time()
     #sampler.sample_model(1)
     #pool1 = mp.Pool(N_PROCESS_MAX)
-    all_sigmas_squared = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
+    #all_sigmas_squared = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
     #print(time.time() - start)
     '''
     with open("B3DCMB/data/all_sigmas", "wb") as f:
