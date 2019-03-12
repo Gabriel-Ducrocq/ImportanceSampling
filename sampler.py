@@ -25,6 +25,9 @@ LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
 
 
+FACTOR = 1
+
+
 
 class Sampler:
     def __init__(self, NSIDE):
@@ -80,7 +83,7 @@ class Sampler:
 
     def sample_model_parameters(self):
         #sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_stdd)
-        sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, MEAN_AS + 2*SIGMA_AS, 0.0561])
+        sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
         #sampled_beta = self.sample_normal(self.matrix_mean, np.diag(self.matrix_var)).reshape((self.Npix, -1), order = "F")
         sampled_beta = self.matrix_mean.reshape((self.Npix, -1), order = "F")
         return sampled_cosmo, sampled_beta
@@ -94,12 +97,11 @@ class Sampler:
         self.cosmo.set(params)
         self.cosmo.compute()
         cls = self.cosmo.lensed_cl(L_MAX_SCALARS)
-        #eb_tb = np.zeros(shape=cls["tt"].shape)
-        #_, Q, U = hp.synfast((cls['tt'], cls['ee'], cls['bb'], cls['te'], eb_tb, eb_tb), nside=self.NSIDE, new=True)
-        #self.cosmo.struct_cleanup()
-        #self.cosmo.empty()
-        #return Q, U
-        return cls
+        eb_tb = np.zeros(shape=cls["tt"].shape)
+        _, Q, U = hp.synfast((FACTOR*cls['tt'], FACTOR*cls['ee'], FACTOR*cls['bb'], FACTOR*cls['te'], eb_tb, eb_tb), nside=self.NSIDE, new=True)
+        self.cosmo.struct_cleanup()
+        self.cosmo.empty()
+        return Q, U, cls
 
     def sample_mixing_matrix(self, betas):
         #mat_pixels = []
@@ -125,12 +127,12 @@ class Sampler:
         cosmo_params, sampled_beta = self.sample_model_parameters()
         cosmo_dict = {l[0]: l[1] for l in zip(COSMO_PARAMS_NAMES, cosmo_params.tolist())}
         #tuple_QU = self.sample_CMB_QU(cosmo_dict)
-        cls = self.sample_CMB_QU(cosmo_dict)
-        print(cls["tt"].shape)
+        Q, U, cls = self.sample_CMB_QU(cosmo_dict)
         #map_CMB = np.concatenate(tuple_QU)
+        map_CMB = np.concatenate((Q, U))
         #result = {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta}
-        result = {"cls":cls, "A_s":cosmo_params[4]}
-        with open("B3DCMB/data/cls/temp" + str(random_seed), "wb") as f:
+        result = {"map_CMB": map_CMB, "cls":cls, "factor":FACTOR}
+        with open("B3DCMB/percentageCheck/inf/temp" + str(random_seed), "wb") as f:
             pickle.dump(result, f)
 
         return None

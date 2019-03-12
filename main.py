@@ -13,7 +13,7 @@ import config
 NSIDE = 512
 sigma_rbf = 100000
 N_PROCESS_MAX = 45
-N_sample = 1
+N_sample = 100
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
@@ -35,9 +35,9 @@ def main(NSIDE):
     #print(time.time() - start)
 
     start = time.time()
-    sampler.sample_model(1)
-    #pool1 = mp.Pool(N_PROCESS_MAX)
-    #all_sigmas_squared = pool1.map(sampler.sample_data, (i for i in range(N_sample)))
+    #sampler.sample_model(1)
+    pool1 = mp.Pool(N_PROCESS_MAX)
+    all_sigmas_squared = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
     print(time.time() - start)
     '''
     with open("B3DCMB/data/all_sigmas", "wb") as f:
