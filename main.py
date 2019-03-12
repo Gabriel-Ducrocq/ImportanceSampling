@@ -20,7 +20,36 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-    sampler = Sampler(NSIDE)
+    sup = []
+    inf= []
+    for i in range(N_sample):
+        with open("B3DCMB/percentageCheck/sup/temp" + str(i), "rb") as f:
+            r_sup = pickle.load(f)
+            sup.append(r_sup["map_CMB"])
+
+        with open("B3DCMB/percentageCheck/inf/temp" + str(i), "rb") as f:
+            r_inf = pickle.load(f)
+            inf.append(r_inf["map_CMB"])
+
+
+    random_pix = np.random.choice(range(12*NSIDE*2), size= 25, replace = False)
+
+    for pix in random_pix:
+        distrib_sup = []
+        distrib_inf = []
+        for map in sup:
+            distrib_sup.append(map[pix])
+
+        for map in inf:
+            distrib_inf.append(map[pix])
+
+        plt.hist(distrib_sup, density=True, alpha=0.5, label="4*A", bins = 10)
+        plt.hist(distrib_inf, density = True, alpha = 0.5, label = "A=1", bins = 10)
+        plt.legend(loc='upper right')
+        plt.title('Histogram CMB map')
+        plt.savefig("B3DCMB/percentHisto/histo_pixel_" + str(pix) + ".png")
+
+    #sampler = Sampler(NSIDE)
 
     #start_time = time.time()
     #ref = sampler.sample_data()
@@ -34,11 +63,11 @@ def main(NSIDE):
     #print("Sampling true data in:")
     #print(time.time() - start)
 
-    start = time.time()
+    #start = time.time()
     #sampler.sample_model(1)
-    pool1 = mp.Pool(N_PROCESS_MAX)
+    #pool1 = mp.Pool(N_PROCESS_MAX)
     all_sigmas_squared = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
-    print(time.time() - start)
+    #print(time.time() - start)
     '''
     with open("B3DCMB/data/all_sigmas", "wb") as f:
         pickle.dump(all_sigmas_squared, f)
