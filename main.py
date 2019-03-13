@@ -106,7 +106,7 @@ def main(NSIDE):
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
 
-    print(reference_data)
+    print([k for k in reference_data.keys()])
     histogram_posterior(w, all_results["simulated_points"], reference_data["cosmo_params"])
 
     '''
