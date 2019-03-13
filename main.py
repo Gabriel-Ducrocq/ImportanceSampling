@@ -88,6 +88,7 @@ def main(NSIDE):
     log_weights = all_results["log_weights"]
     AS = []
     for params in all_results["simulated_points"]:
+        print(params)
         AS.append(params["cosmo_params"][4])
 
 
