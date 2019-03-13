@@ -78,11 +78,11 @@ def main(NSIDE):
 
     '''
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512_bigbig_prior", "rb") as f:
+    with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512", "rb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_512_bigbig_prior", "rb") as f:
         all_results = pickle.load(f)
 
     log_weights = all_results["log_weights"]
