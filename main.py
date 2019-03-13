@@ -20,37 +20,7 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-    sup = []
-    inf= []
-    for i in range(N_sample):
-        with open("B3DCMB/percentageCheck/sup/temp" + str(i), "rb") as f:
-            r_sup = pickle.load(f)
-            sup.append(r_sup["map_CMB"])
-
-        with open("B3DCMB/percentageCheck/inf/temp" + str(i), "rb") as f:
-            r_inf = pickle.load(f)
-            inf.append(r_inf["map_CMB"])
-
-
-    random_pix = np.random.choice(range(12*NSIDE*2), size= 25, replace = False)
-
-    for pix in random_pix:
-        distrib_sup = []
-        distrib_inf = []
-        for map in sup:
-            distrib_sup.append(map[pix])
-
-        for map in inf:
-            distrib_inf.append(map[pix])
-
-        plt.hist(distrib_sup, density=True, alpha=0.5, label="4*A", bins = 10)
-        plt.hist(distrib_inf, density = True, alpha = 0.5, label = "A=1", bins = 10)
-        plt.legend(loc='upper right')
-        plt.title('Histogram CMB map')
-        plt.savefig("B3DCMB/percentHisto/histo_pixel_" + str(pix) + ".png")
-        plt.close()
-
-    #sampler = Sampler(NSIDE)
+    sampler = Sampler(NSIDE)
 
     #start_time = time.time()
     #ref = sampler.sample_data()
@@ -82,6 +52,7 @@ def main(NSIDE):
 
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
+    '''
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -89,25 +60,22 @@ def main(NSIDE):
     map = np.array(reference_data["sky_map"])
     config.sky_map = map
 
-    '''
-    '''
     time_start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
     pool2 = mp.Pool(N_PROCESS_MAX)
     noise_level = 0
     print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
-    '''
-    '''
+
     print("starting weight computing")
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,) for i,data in enumerate(all_sample)))
     time_elapsed = time.time() - time_start
     print(time_elapsed)
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512_thousand", "wb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_512_bigbig_prior", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
-    '''
+
     '''
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
