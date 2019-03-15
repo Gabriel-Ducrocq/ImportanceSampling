@@ -20,7 +20,7 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-    sampler = Sampler(NSIDE)
+    #sampler = Sampler(NSIDE)
 
     #start_time = time.time()
     #ref = sampler.sample_data()
@@ -53,6 +53,7 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
     '''
+    '''
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -73,10 +74,10 @@ def main(NSIDE):
     time_elapsed = time.time() - time_start
     print(time_elapsed)
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "wb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_512_sup", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
-    '''
+
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -84,8 +85,29 @@ def main(NSIDE):
     with open("B3DCMB/data/simulated_AS_NSIDE_512_bigbig_prior", "rb") as f:
         all_results = pickle.load(f)
 
-    log_weights = all_results["log_weights"]
+    '''
 
+    with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
+        ref = pickle.load(f)
+
+    with open("B3DCMB/data/simulated_AS_NSIDE_512_sup", "rb") as f:
+        sup = pickle.load(f)
+
+
+    #log_weights = all_results["log_weights"]
+
+    ref_log_weights = ref["log_weights"]
+    sup_log_weights = sup["log_weights"]
+
+    plt.hist(ref_log_weights, density=True, alpha=0.5, label="reference A_s", bins=10)
+    plt.hist(sup_log_weights, density=True, alpha=0.5, label="A_s = 15", bins=10)
+    plt.legend(loc='upper right')
+    plt.title('Histogram log weights')
+    #plt.axvline(reference_cosmo[i], color='k', linestyle='dashed', linewidth=1)
+    plt.savefig("B3DCMB/figures/log_weights_histo.png")
+    plt.close()
+
+    '''
     log_weights = np.array(log_weights)
     print(log_weights)
     print("\n")
@@ -130,6 +152,8 @@ def main(NSIDE):
     print(np.sum(a))
     print(np.sort(a)[::-1])
     '''
+
+
 
 if __name__=='__main__':
     main(NSIDE)
