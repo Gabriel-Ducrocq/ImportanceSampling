@@ -25,10 +25,6 @@ LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
 
 
-FACTOR = 4
-
-
-
 class Sampler:
     def __init__(self, NSIDE):
         self.NSIDE = NSIDE
