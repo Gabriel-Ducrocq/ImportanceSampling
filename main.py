@@ -56,9 +56,6 @@ def main(NSIDE):
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
-    print(reference_data["cosmo_params"])
-
-    """
     print("Data opened")
     print([k for k in reference_data.keys()])
     map = np.array(reference_data["sky_map"])
@@ -76,10 +73,9 @@ def main(NSIDE):
     time_elapsed = time.time() - time_start
     print(time_elapsed)
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512_sup", "wb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
-    """
     '''
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
@@ -134,8 +130,6 @@ def main(NSIDE):
     print(np.sum(a))
     print(np.sort(a)[::-1])
     '''
-
-
 
 if __name__=='__main__':
     main(NSIDE)
