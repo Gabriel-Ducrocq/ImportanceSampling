@@ -77,7 +77,7 @@ def main(NSIDE):
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
     with open("B3DCMB/data/simulated_AS_NSIDE_512_test", "rb") as f:
-        d = pickle.dump(f)
+        d = pickle.load(f)
 
     lw = d["log_weights"]
     print(lw)
