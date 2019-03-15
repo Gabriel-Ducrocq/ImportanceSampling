@@ -159,7 +159,7 @@ class Sampler:
         print("Computing determinant")
         e = (scipy.linalg.det(2 * np.pi * s) for s in sigmas_symm)
         print("AAAAAAA")
-        print(next(e))
+        print(list(e))
         print("BBBBBBB")
         log_det = np.sum((np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas_symm))
         print("Computing log denom")
