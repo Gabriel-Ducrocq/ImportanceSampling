@@ -157,7 +157,8 @@ class Sampler:
         print("Splitting for computation")
         x = np.split((observed_data - np.array(list(duplicate_CMB))) - np.array(list(mean_flat)), self.Npix*2)
         print("Computing determinant")
-        print(next((scipy.linalg.det(2 * np.pi * s) for s in sigmas_symm)))
+        e = (scipy.linalg.det(2 * np.pi * s) for s in sigmas_symm)
+        print(next(e))
         log_det = np.sum((np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas_symm))
         print("Computing log denom")
         denom = -(1 / 2) * log_det
