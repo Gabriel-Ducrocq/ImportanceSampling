@@ -148,7 +148,7 @@ class Sampler:
         means = (np.dot(l[0], l[1]) for l in zip(all_mixing_matrix, self.Qs + self.Us))
         sigmas = (noise_addition + np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", l[0], (np.diag(l[1])**2), l[0])
                     for l in zip(all_mixing_matrix, self.sigma_Qs + self.sigma_Us))
-        print(list(sigmas))
+        print(next(sigmas))
         print("Forcing sigmas to be symmetrical")
         sigmas_symm = ((s+s.T)/2 for s in sigmas)
         print("Flattening")
