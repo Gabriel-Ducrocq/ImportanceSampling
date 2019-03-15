@@ -160,15 +160,14 @@ class Sampler:
         duplicate_CMB = (l for l in map_CMB for _ in range(15))
         print("Splitting for computation")
         x = np.split((observed_data - np.array(list(duplicate_CMB))) - np.array(list(mean_flat)), self.Npix*2)
+        print("Je printe X:\n")
+        print(x)
         print("Computing determinant")
         log_det = np.sum((np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas_symm))
         print("Computing log denom")
         denom = -(1 / 2) * log_det
         print("Computing log weights")
         r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas_symm, x)))
-        print(r)
-        print(denom)
-        print("\n")
         lw = r + denom
         return lw
 
