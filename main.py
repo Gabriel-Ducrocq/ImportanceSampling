@@ -53,11 +53,11 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
     '''
-    '''
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
     print("Data opened")
+    print([k for k in reference_data.keys()])
     map = np.array(reference_data["sky_map"])
     config.sky_map = map
 
@@ -73,7 +73,7 @@ def main(NSIDE):
     time_elapsed = time.time() - time_start
     print(time_elapsed)
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512_bigbig_prior", "wb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_512_sup", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
     '''
@@ -103,6 +103,7 @@ def main(NSIDE):
 
     print([k for k in reference_data.keys()])
     histogram_posterior(w, all_results["simulated_points"], reference_data["cosmo_params"])
+    '''
     '''
     plt.hist(log_weights, bins = 200)
     plt.title("Log weights histogram")
