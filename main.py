@@ -13,7 +13,7 @@ import config
 NSIDE = 512
 sigma_rbf = 100000
 N_PROCESS_MAX = 45
-N_sample = 1
+N_sample = 3
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
@@ -72,7 +72,7 @@ def main(NSIDE):
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,) for i,data in enumerate(all_sample)))
     time_elapsed = time.time() - time_start
     print(time_elapsed)
-
+    '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_test", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
@@ -100,7 +100,7 @@ def main(NSIDE):
     #    reference_data = pickle.load(f)
 
 
-
+    '''
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
         ref = pickle.load(f)
