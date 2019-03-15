@@ -83,6 +83,18 @@ def main(NSIDE):
     print(lw)
     print("\n")
     print(log_weights)
+    print("\n")
+    print(log_weights - np.max(log_weights))
+    print("\n")
+    w = np.exp(log_weights - np.max(log_weights))
+    print(np.sort(log_weights - np.max(log_weights))[-2:])
+    print(w)
+    print("\n")
+    w = w/np.sum(w)
+    print(w)
+
+    ess = (np.sum(w)**2)/np.sum(w**2)
+    print(ess)
 
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     #    reference_data = pickle.load(f)

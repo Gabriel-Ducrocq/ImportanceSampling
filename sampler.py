@@ -15,7 +15,7 @@ import pickle
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 MEAN_AS = 3.047
-SIGMA_AS = 0.014*1000
+SIGMA_AS = 0.014
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 LiteBIRD_sensitivities = np.array([36.1, 19.6, 20.2, 11.3, 10.3, 8.4, 7.0, 5.8, 4.7, 7.0, 5.8, 8.0, 9.1, 11.4, 19.6])
@@ -23,6 +23,10 @@ Nfreq = 15
 L_MAX_SCALARS = 5000
 LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
+
+
+FACTOR = 4
+
 
 
 class Sampler:
@@ -79,7 +83,7 @@ class Sampler:
 
     def sample_model_parameters(self):
         #sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_stdd)
-        sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, 3.03414197, 0.0561])
+        sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, np.random.normal(MEAN_AS, SIGMA_AS), 0.0561])
         #sampled_beta = self.sample_normal(self.matrix_mean, np.diag(self.matrix_var)).reshape((self.Npix, -1), order = "F")
         sampled_beta = self.matrix_mean.reshape((self.Npix, -1), order = "F")
         return sampled_cosmo, sampled_beta
@@ -162,7 +166,6 @@ class Sampler:
         denom = -(1 / 2) * log_det
         print("Computing log weights")
         lw = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas_symm, x))) + denom
-        print(lw)
         return lw
 
     def sample_data(self):
