@@ -99,6 +99,9 @@ def main(NSIDE):
     ref_log_weights = ref["log_weights"]
     sup_log_weights = sup["log_weights"]
 
+    print(ref_log_weights)
+    print(sup_log_weights)
+
     plt.hist(ref_log_weights, density=True, alpha=0.5, label="reference A_s", bins=10)
     plt.hist(sup_log_weights, density=True, alpha=0.5, label="A_s = 15", bins=10)
     plt.legend(loc='upper right')
