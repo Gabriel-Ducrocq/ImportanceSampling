@@ -150,7 +150,6 @@ class Sampler:
                     for l in zip(all_mixing_matrix2, self.sigma_Qs + self.sigma_Us))
         print("Forcing sigmas to be symmetrical")
         sigmas_symm = ((s+s.T)/2 for s in sigmas)
-        print("first of sigma symm")
         print("Flattening")
         mean_flat = (i for l in means for i in l)
         print("Duplicating CMB")
