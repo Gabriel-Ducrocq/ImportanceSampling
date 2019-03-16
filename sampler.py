@@ -150,6 +150,8 @@ class Sampler:
                     for l in zip(all_mixing_matrix, self.sigma_Qs + self.sigma_Us))
         print("Forcing sigmas to be symmetrical")
         sigmas_symm = ((s+s.T)/2 for s in sigmas)
+        print("first of sigma symm")
+        print(next(sigmas_symm))
         print("Flattening")
         mean_flat = (i for l in means for i in l)
         print("Duplicating CMB")
@@ -158,9 +160,6 @@ class Sampler:
         x = np.split((observed_data - np.array(list(duplicate_CMB))) - np.array(list(mean_flat)), self.Npix*2)
         print("Computing determinant")
         e = (scipy.linalg.det(2 * np.pi * s) for s in sigmas_symm)
-        print("AAAAAAA")
-        print(list(e))
-        print("BBBBBBB")
         log_det = np.sum((np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas_symm))
         print("Computing log denom")
         denom = -(1 / 2) * log_det
