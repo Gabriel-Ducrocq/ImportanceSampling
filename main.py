@@ -13,14 +13,14 @@ import config
 NSIDE = 512
 sigma_rbf = 100000
 N_PROCESS_MAX = 45
-N_sample = 50
+N_sample = 10
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-    sampler = Sampler(NSIDE)
+    #sampler = Sampler(NSIDE)
 
     #start_time = time.time()
     #ref = sampler.sample_data()
@@ -56,6 +56,8 @@ def main(NSIDE):
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
+    print(reference_data["cosmo_params"])
+    '''
     print("Data opened")
     print([k for k in reference_data.keys()])
     map = np.array(reference_data["sky_map"])
@@ -97,7 +99,7 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     #    reference_data = pickle.load(f)
 
-
+    '''
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
         ref = pickle.load(f)
