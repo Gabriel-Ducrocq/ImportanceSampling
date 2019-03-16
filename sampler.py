@@ -142,12 +142,12 @@ class Sampler:
         print("Sampling mixing matrix")
         mixing_matrix = self.sample_mixing_matrix(sampled_beta)
         mix_mat1, mix_mat2 = tee(mixing_matrix, 2)
-        all_mixing_matrix = chain(mix_mat1, mix_mat2)
+        all_mixing_matrix1, all_mixing_matrix2 = tee(chain(mix_mat1, mix_mat2), 2)
         noise_addition = np.diag(noise_level*np.ones(Nfreq))
         print("Computing means and sigmas")
-        means = (np.dot(l[0], l[1]) for l in zip(all_mixing_matrix, self.Qs + self.Us))
+        means = (np.dot(l[0], l[1]) for l in zip(all_mixing_matrix1, self.Qs + self.Us))
         sigmas = (noise_addition + np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", l[0], (np.diag(l[1])**2), l[0])
-                    for l in zip(all_mixing_matrix, self.sigma_Qs + self.sigma_Us))
+                    for l in zip(all_mixing_matrix2, self.sigma_Qs + self.sigma_Us))
         print("Forcing sigmas to be symmetrical")
         sigmas_symm = ((s+s.T)/2 for s in sigmas)
         print("first of sigma symm")
@@ -158,16 +158,13 @@ class Sampler:
         print("Splitting for computation")
         x = np.split((observed_data - np.array(list(duplicate_CMB))) - np.array(list(mean_flat)), self.Npix*2)
         print("Computing determinant")
-        check = list(sigmas_symm)
-        print(check)
-        print(scipy.linalg.det(2 * np.pi * check))
-        e = (scipy.linalg.det(2 * np.pi * s) for s in sigmas_symm)
         log_det = np.sum((np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas_symm))
         print("Computing log denom")
         denom = -(1 / 2) * log_det
         print("Computing log weights")
         r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas_symm, x)))
         lw = r + denom
+        print(lw)
         return lw
 
     def sample_data(self):
