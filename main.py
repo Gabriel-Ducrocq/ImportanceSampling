@@ -39,8 +39,8 @@ def main(NSIDE):
     print(np.min(data))
     unique, counts = np.unique(data, return_counts=True)
     d = pd.DataFrame.from_dict(dict({"value":unique, "count":counts/np.sum(counts)}))
-    d = d.sort_values("count", ascending = False)
-    print(d.head(10))
+    d = d.sort_values("value", ascending = True)
+    print(d.head(100))
 
     #start = time.time()
     #sampler.sample_model(1)
