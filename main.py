@@ -42,9 +42,9 @@ def main(NSIDE):
     d = d.sort_values("value", ascending = True)
     print(d.head(100))
 
-    plt.boxplot(data, whis = 1, showfliers= False)
-    plt.title("Distribution of Dust + Sync map's pixels")
-    plt.savefig("B3DCMB/figures/boxplot_syncdust.png")
+    plt.boxplot(data, whis = 1.5, showfliers= False)
+    plt.title("Distribution of CMB map")
+    plt.savefig("B3DCMB/figures/boxplot_cmb.png")
 
     #start = time.time()
     #sampler.sample_model(1)
