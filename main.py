@@ -34,7 +34,8 @@ def main(NSIDE):
     print("Sampling true data in:")
     print(time.time() - start)
 
-    print(data)
+    print(np.max(data))
+    print(np.min(data))
     plt.hist(data)
     plt.title("Histogram of frequency maps pixel values without CMB added")
     plt.savefig("B3DCMB/figures/freqs_maps_histo.png")
