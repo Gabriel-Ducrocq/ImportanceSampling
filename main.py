@@ -38,7 +38,7 @@ def main(NSIDE):
     print(np.max(data))
     print(np.min(data))
     unique, counts = np.unique(data, return_counts=True)
-    d = pd.DataFrame.from_dict(dict({"value":unique, "count":counts/np.sum(counts)}))
+    d = pd.DataFrame.from_dict(dict({"value":np.abs(unique), "count":counts/np.sum(counts)}))
     d = d.sort_values("value", ascending = True)
     print(d.head(100))
 
