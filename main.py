@@ -42,7 +42,7 @@ def main(NSIDE):
     d = d.sort_values("value", ascending = True)
     print(d.head(100))
 
-    plt.boxplot(data, whis = 0.0001)
+    plt.boxplot(data, whis = 1, showfliers= False)
     plt.savefig("B3DCMB/figures/boxplot_data.png")
 
     #start = time.time()
