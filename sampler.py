@@ -183,7 +183,8 @@ class Sampler:
         print("Scaling to frequency maps")
         #freq_maps = np.dot(scipy.linalg.block_diag(*2*mixing_matrix), maps.T)
         freq_pixels = []
-        for i, mat in enumerate(2*mixing_matrix):
+        mix1, mix2 = tee(mixing_matrix)
+        for i, mat in enumerate(chain(mix1, mix2)):
             freq_pix = np.dot(mat, maps[2*i:(2*i+2)].T)
             freq_pixels.append(freq_pix)
 
