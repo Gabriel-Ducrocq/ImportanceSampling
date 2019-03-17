@@ -43,7 +43,8 @@ def main(NSIDE):
     print(d.head(100))
 
     plt.boxplot(data, whis = 1, showfliers= False)
-    plt.savefig("B3DCMB/figures/boxplot_data.png")
+    plt.title("Distribution of Dust + Sync map's pixels")
+    plt.savefig("B3DCMB/figures/boxplot_syncdust.png")
 
     #start = time.time()
     #sampler.sample_model(1)
