@@ -9,6 +9,7 @@ import time
 from scipy import stats
 from matplotlib import cm
 import config
+import pandas as pd
 
 NSIDE = 512
 sigma_rbf = 100000
@@ -36,9 +37,10 @@ def main(NSIDE):
 
     print(np.max(data))
     print(np.min(data))
-    plt.boxplot(data, whis= 0.01)
-    plt.title("Histogram of frequency maps pixel values without CMB added")
-    plt.savefig("B3DCMB/figures/freqs_maps_histo.png")
+    unique, counts = numpy.unique(data, return_counts=True)
+    d = pd.DataFrame.from_dict(dict({"value":unique, "count":counts/np.sum(count)}))
+    d = d.sort_values("count", ascending = False)
+    print(d.head(10))
 
     #start = time.time()
     #sampler.sample_model(1)
