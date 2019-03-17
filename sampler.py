@@ -163,6 +163,7 @@ class Sampler:
         print("Computing log weights")
         r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas_symm, x)))
         lw = r + denom
+        print(r, denom)
         return lw
 
     def sample_data(self):

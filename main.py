@@ -30,6 +30,7 @@ def main(NSIDE):
 
     #print(time.time() - start_time)
 
+    '''
     start = time.time()
     data = sampler.sample_data()
     print("Sampling true data in:")
@@ -52,6 +53,7 @@ def main(NSIDE):
     #all_sigmas_squared = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
     #print(time.time() - start)
     '''
+    '''
     with open("B3DCMB/data/all_sigmas", "wb") as f:
         pickle.dump(all_sigmas_squared, f)
 
@@ -64,7 +66,6 @@ def main(NSIDE):
 
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
-    '''
     '''
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
@@ -110,7 +111,6 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     #    reference_data = pickle.load(f)
 
-    '''
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
         ref = pickle.load(f)
