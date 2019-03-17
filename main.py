@@ -36,7 +36,7 @@ def main(NSIDE):
 
     print(np.max(data))
     print(np.min(data))
-    plt.boxplot(data)
+    plt.boxplot(data, whis= 0.5)
     plt.title("Histogram of frequency maps pixel values without CMB added")
     plt.savefig("B3DCMB/figures/freqs_maps_histo.png")
 
