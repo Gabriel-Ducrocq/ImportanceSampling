@@ -149,7 +149,7 @@ class Sampler:
         sigmas = (noise_addition + np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", l[0], (np.diag(l[1])**2), l[0])
                     for l in zip(all_mixing_matrix2, self.sigma_Qs + self.sigma_Us))
         print("Forcing sigmas to be symmetrical")
-        sigmas_symm1, sigma_symm2 = tee(((s+s.T)/2 for s in sigmas), 2)
+        sigmas_symm1, sigmas_symm2 = tee(((s+s.T)/2 for s in sigmas), 2)
         print("Flattening")
         mean_flat = (i for l in means for i in l)
         print("Duplicating CMB")
