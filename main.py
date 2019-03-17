@@ -40,7 +40,7 @@ def main(NSIDE):
     unique, counts = np.unique(data, return_counts=True)
     d = pd.DataFrame.from_dict(dict({"value":unique, "count":counts/np.sum(counts)}))
     d = d.sort_values("count", ascending = False)
-    print(d.tail(10))
+    print(d.head(10))
 
     #start = time.time()
     #sampler.sample_model(1)
