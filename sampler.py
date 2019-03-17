@@ -149,7 +149,7 @@ class Sampler:
         sigmas = (noise_addition + np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", l[0], (np.diag(l[1])**2), l[0])
                     for l in zip(all_mixing_matrix2, self.sigma_Qs + self.sigma_Us))
         print("Forcing sigmas to be symmetrical")
-        sigmas_symm = ((s+s.T)/2 for s in sigmas)
+        sigmas_symm1, sigma_symm2 = tee(((s+s.T)/2 for s in sigmas), 2)
         print("Flattening")
         mean_flat = (i for l in means for i in l)
         print("Duplicating CMB")
@@ -157,11 +157,11 @@ class Sampler:
         print("Splitting for computation")
         x = np.split((observed_data - np.array(list(duplicate_CMB))) - np.array(list(mean_flat)), self.Npix*2)
         print("Computing determinant")
-        log_det = np.sum((np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas_symm))
+        log_det = np.sum((np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas_symm1))
         print("Computing log denom")
         denom = -(1 / 2) * log_det
         print("Computing log weights")
-        r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas_symm, x)))
+        r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas_symm2, x)))
         lw = r + denom
         print(r, denom)
         return lw
