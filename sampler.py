@@ -197,5 +197,5 @@ class Sampler:
         sky_map = np.add(np.add(freq_maps, duplicated_cmb), noise)
 
         #sig = 1/(np.dot(np.dot(np.transpose(sky_map_no_noise), np.diag(1/(self.noise_stdd_all**2))), sky_map_no_noise))
-        #return sig
-        return {"sky_map": sky_map, "cosmo_params": cosmo_params, "betas": sampled_beta}
+        return freq_maps
+        #return {"sky_map": sky_map, "cosmo_params": cosmo_params, "betas": sampled_beta}

@@ -29,10 +29,14 @@ def main(NSIDE):
 
     #print(time.time() - start_time)
 
-    #start = time.time()
-    #data = sampler.sample_data()
-    #print("Sampling true data in:")
-    #print(time.time() - start)
+    start = time.time()
+    data = sampler.sample_data()
+    print("Sampling true data in:")
+    print(time.time() - start)
+
+    plt.hist(data)
+    plt.title("Histogram of frequency maps pixel values without CMB added")
+    plt.savefig("B3DCMB/figures/freqs_maps_histo.png")
 
     #start = time.time()
     #sampler.sample_model(1)
@@ -52,6 +56,7 @@ def main(NSIDE):
 
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
+    '''
     '''
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
@@ -97,6 +102,7 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     #    reference_data = pickle.load(f)
 
+    '''
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
         ref = pickle.load(f)
