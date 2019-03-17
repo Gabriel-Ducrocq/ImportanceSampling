@@ -42,6 +42,9 @@ def main(NSIDE):
     d = d.sort_values("value", ascending = True)
     print(d.head(100))
 
+    plt.boxplot(data, whis = 0.0001)
+    plt.savefig("B3DCMB/figures/boxplot_data.png")
+
     #start = time.time()
     #sampler.sample_model(1)
     #pool1 = mp.Pool(N_PROCESS_MAX)
