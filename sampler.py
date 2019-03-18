@@ -51,7 +51,7 @@ class Sampler:
 
         print("Creating mixing matrix")
         _, sampled_beta = self.sample_model_parameters()
-        sampled_beta = np.tile(sample_beta, (2,1))
+        sampled_beta = np.tile(sampled_beta, (2,1))
         all_sample = pool1.map(self.prepare_sigma, ((sampled_beta[i,:], (self.Qs + self.Us)[i]
                                                      , (self.sigma_Qs+self.sigma_Us)[i],) for i in range(N_sample)))
 
