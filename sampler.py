@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import config
 from itertools import chain, tee
 import pickle
+import multiprocessing as mp
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 MEAN_AS = 3.047
@@ -46,6 +47,18 @@ class Sampler:
 
         self.noise_covar_one_pix = self.noise_covariance_in_freq(self.NSIDE)
         self.noise_stdd_all = np.concatenate([np.sqrt(self.noise_covar_one_pix) for _ in range(2*self.Npix)])
+
+
+        print("Creating mixing matrix")
+        _, sampled_beta = self.sample_model_parameters()
+        sampled_beta = np.tile(sample_beta, (2,1))
+        all_sample = pool1.map(self.prepare_sigma, ((sampled_beta[i,:], (self.Qs + self.Us)[i]
+                                                     , (self.sigma_Qs+self.sigma_Us)[i],), for i in range(N_sample)))
+
+        print("Unzipping result")
+        means, self.sigmas_symm, log_det = zip(*all_sample)
+        self.means = (i for l in means for i in l)
+        self.denom = -(1/2)*np.sum(log_det)
         print("End of initialisation")
 
     def __getstate__(self):
@@ -62,6 +75,27 @@ class Sampler:
         self.components = [CMB(), Dust(150.), Synchrotron(150.)]
         self.mixing_matrix = MixingMatrix(*self.components)
         self.mixing_matrix_evaluator = self.mixing_matrix.evaluator(self.instrument.Frequencies)
+
+
+    def prepare_sigma(self, sampled_beta, Q_or_U, sigma_Q_or_U):
+        print("Creating mixing mat")
+        mixing_mat = list(self.sample_mixing_matrix_parallel(sampled_beta))
+        print("Computing mean")
+        mean = np.dot(mixing_mat, Q_or_U)
+        print("Computing sigma")
+        sigma = np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", mixing_mat,
+                                                            (np.diag(sigma_Q_or_U)**2), mixing_mat)
+
+        print("Symmetrizing")
+        sigma_symm = (sigma + sigma.T) / 2
+        print("Computing log det of sigma")
+        log_det = np.log(scipy.linalg.det(2 * np.pi * sigma_symm))
+        return mean, sigma_symm, log_det
+
+    def sample_mixing_matrix_parallel(self, betas):
+        return self.mixing_matrix_evaluator(beta)[:, 1:]
+
+
 
     def sample_normal(self, mu, stdd, diag = False):
         standard_normal = np.random.normal(0, 1, size = mu.shape[0])
@@ -138,32 +172,13 @@ class Sampler:
             data = pickle.load(f)
 
         map_CMB = data["map_CMB"]
-        sampled_beta = data["betas"]
-        print("Sampling mixing matrix")
-        mixing_matrix = self.sample_mixing_matrix(sampled_beta)
-        mix_mat1, mix_mat2 = tee(mixing_matrix, 2)
-        all_mixing_matrix1, all_mixing_matrix2 = tee(chain(mix_mat1, mix_mat2), 2)
-        noise_addition = np.diag(noise_level*np.ones(Nfreq))
-        print("Computing means and sigmas")
-        means = (np.dot(l[0], l[1]) for l in zip(all_mixing_matrix1, self.Qs + self.Us))
-        sigmas = (noise_addition + np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", l[0], (np.diag(l[1])**2), l[0])
-                    for l in zip(all_mixing_matrix2, self.sigma_Qs + self.sigma_Us))
-        print("Forcing sigmas to be symmetrical")
-        sigmas_symm1, sigmas_symm2 = tee(((s+s.T)/2 for s in sigmas), 2)
-        print("Flattening")
-        mean_flat = (i for l in means for i in l)
         print("Duplicating CMB")
         duplicate_CMB = (l for l in map_CMB for _ in range(15))
         print("Splitting for computation")
-        x = np.split((observed_data - np.array(list(duplicate_CMB))) - np.array(list(mean_flat)), self.Npix*2)
-        print("Computing determinant")
-        log_det = np.sum((np.log(scipy.linalg.det(2*np.pi*s)) for s in sigmas_symm1))
-        print("Computing log denom")
-        denom = -(1 / 2) * log_det
+        x = np.split((observed_data - np.array(list(duplicate_CMB))) - np.array(list(self.means)), self.Npix*2)
         print("Computing log weights")
-        r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas_symm2, x)))
-        lw = r + denom
-        print(r, denom)
+        r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(self.sigmas_symm, x)))
+        lw = r + self.denom
         return lw
 
     def sample_data(self):
