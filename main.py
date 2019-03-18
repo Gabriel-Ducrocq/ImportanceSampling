@@ -101,7 +101,7 @@ def main(NSIDE):
     lw_ref = ref["log_weights"]
     lw_sup = sup["log_weights"]
 
-    plt.hist(lw_ref, density=True, alpha=0.5, label="Ref", bins=5)
+    plt.hist(lw_ref, density=True, alpha=0.5, label="Ref A_s = 3.034", bins=5)
     plt.hist(lw_sup, density=True, alpha=0.5, label="A_s = 10", bins=5)
     plt.legend(loc='upper right')
     plt.title('Histogram log weights')
