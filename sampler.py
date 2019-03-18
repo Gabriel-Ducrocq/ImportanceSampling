@@ -84,7 +84,7 @@ class Sampler:
         return mean, sigma_symm, log_det
 
     def sample_mixing_matrix_parallel(self, betas):
-        return self.mixing_matrix_evaluator(beta)[:, 1:]
+        return self.mixing_matrix_evaluator(betas)[:, 1:]
 
 
 
