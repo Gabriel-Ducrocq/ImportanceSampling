@@ -87,7 +87,7 @@ def main(NSIDE):
     time_elapsed = time.time() - time_start
     print(time_elapsed)
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512_sup", "wb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
 
