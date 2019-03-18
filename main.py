@@ -29,6 +29,7 @@ def main(NSIDE):
     pool1 = mp.Pool(N_PROCESS_MAX)
     time_start = time.time()
     print("starting sampling")
+    print(sampled_beta[0,:])
     all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :],i,) for i in
                                                 range(len(sampled_beta[:50]))))
 
