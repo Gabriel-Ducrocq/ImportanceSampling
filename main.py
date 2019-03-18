@@ -21,7 +21,7 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-    sampler = Sampler(NSIDE)
+    #sampler = Sampler(NSIDE)
 
     #start_time = time.time()
     #ref = sampler.sample_data()
@@ -102,7 +102,7 @@ def main(NSIDE):
     lw_sup = sup["log_weights"]
 
     plt.hist(lw_ref, density=True, alpha=0.5, label="Ref", bins=5)
-    plt.hist(lw_sup, density=True, alpha=0.5, label="A_s = 10", weights=weights, bins=5)
+    plt.hist(lw_sup, density=True, alpha=0.5, label="A_s = 10", bins=5)
     plt.legend(loc='upper right')
     plt.title('Histogram log weights')
     plt.savefig("B3DCMB/figures/hist_log_weights.png")
