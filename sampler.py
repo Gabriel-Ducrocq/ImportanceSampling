@@ -26,8 +26,6 @@ L_MAX_SCALARS = 5000
 LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
 
-N_PROCESS_MAX = 50
-
 
 class Sampler:
     def __init__(self, NSIDE):
