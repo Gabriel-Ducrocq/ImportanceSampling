@@ -13,7 +13,7 @@ import pandas as pd
 
 NSIDE = 512
 sigma_rbf = 100000
-N_PROCESS_MAX = 25
+N_PROCESS_MAX = 40
 N_sample = 50
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
@@ -31,10 +31,10 @@ def main(NSIDE):
     print("starting sampling")
     print(sampled_beta[0,:])
     all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :],i,) for i in
-                                                range(len(sampled_beta[:5]))))
+                                                range(len(sampled_beta))))
 
     print("Unzipping result")
-    means, self.sigmas_symm, log_det = zip(*all_sample)
+    means, sigmas_symm, log_det = zip(*all_sample)
     means = (i for l in means for i in l)
     denom = -(1 / 2) * np.sum(log_det)
     print(time.time() - start_time)
