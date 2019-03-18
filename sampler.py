@@ -76,7 +76,7 @@ class Sampler:
         print("mean shape", mean.shape)
         print("Computing sigma")
         sigma = np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", mixing_mat,
-                                                            (np.diag((self.sigma_Qs +self.sigma_Us[i]))**2), mixing_mat)
+                                                            (np.diag((self.sigma_Qs +self.sigma_Us)[i])**2), mixing_mat)
 
         print("Symmetrizing")
         sigma_symm = (sigma + sigma.T) / 2
