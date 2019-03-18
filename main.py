@@ -23,51 +23,28 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 def main(NSIDE):
     sampler = Sampler(NSIDE)
 
+    print("Creating mixing matrix")
+    _, sampled_beta = sampler.sample_model_parameters()
+    sampled_beta = np.tile(sampled_beta, (2, 1))
+    pool1 = mp.Pool(N_PROCESS_MAX)
+    time_start = time.time()
+    print("starting sampling")
+    all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :], (sampler.Qs + sampler.Us)[i]
+                                                 , (sampler.sigma_Qs + sampler.sigma_Us)[i],) for i in
+                                                range(len(sampled_beta))))
+
+    print("Unzipping result")
+    means, self.sigmas_symm, log_det = zip(*all_sample)
+    means = (i for l in means for i in l)
+    denom = -(1 / 2) * np.sum(log_det)
+    print(time.time() - start_time)
     #start_time = time.time()
     #ref = sampler.sample_data()
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
     #    pickle.dump(ref, f)
 
     #print(time.time() - start_time)
-
     '''
-    start = time.time()
-    data = sampler.sample_data()
-    print("Sampling true data in:")
-    print(time.time() - start)
-
-    print(np.max(data))
-    print(np.min(data))
-    unique, counts = np.unique(data, return_counts=True)
-    d = pd.DataFrame.from_dict(dict({"value":np.abs(unique), "count":counts/np.sum(counts)}))
-    d = d.sort_values("value", ascending = True)
-    print(d.head(100))
-
-    plt.boxplot(data, whis = 1.5, showfliers= False)
-    plt.title("Distribution of CMB map")
-    plt.savefig("B3DCMB/figures/boxplot_cmb.png")
-
-    #start = time.time()
-    #sampler.sample_model(1)
-    #pool1 = mp.Pool(N_PROCESS_MAX)
-    #all_sigmas_squared = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
-    #print(time.time() - start)
-    '''
-    '''
-    with open("B3DCMB/data/all_sigmas", "wb") as f:
-        pickle.dump(all_sigmas_squared, f)
-
-    plt.hist(np.sqrt(np.array(all_sigmas_squared)), density=True, bins=50)
-    plt.title('Histogram sigma')
-    plt.savefig("B3DCMB/figures/histogram_sigmas.png")
-    plt.close()
-    print("Empirical means of sigmas:")
-    print(np.mean(np.sqrt(np.array(all_sigmas_squared))))
-
-    #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
-    #    pickle.dump(data, f)
-    '''
-
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -109,6 +86,7 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     #    reference_data = pickle.load(f)
 
+    '''
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
         ref = pickle.load(f)

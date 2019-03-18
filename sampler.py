@@ -51,20 +51,6 @@ class Sampler:
         self.noise_covar_one_pix = self.noise_covariance_in_freq(self.NSIDE)
         self.noise_stdd_all = np.concatenate([np.sqrt(self.noise_covar_one_pix) for _ in range(2*self.Npix)])
 
-
-        print("Creating mixing matrix")
-        _, sampled_beta = self.sample_model_parameters()
-        sampled_beta = np.tile(sampled_beta, (2,1))
-        pool1 = mp.Pool(N_PROCESS_MAX)
-        time_start = time.time()
-        all_sample = pool1.map(self.prepare_sigma, ((sampled_beta[i,:], (self.Qs + self.Us)[i]
-                                                    ,(self.sigma_Qs+self.sigma_Us)[i],) for i in range(len(sampled_beta))))
-
-        print("Unzipping result")
-        means, self.sigmas_symm, log_det = zip(*all_sample)
-        self.means = (i for l in means for i in l)
-        self.denom = -(1/2)*np.sum(log_det)
-        print(time.time() - start_time)
         print("End of initialisation")
 
     def __getstate__(self):
