@@ -13,7 +13,7 @@ import pandas as pd
 
 NSIDE = 512
 sigma_rbf = 100000
-N_PROCESS_MAX = 10
+N_PROCESS_MAX = 25
 N_sample = 50
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
@@ -21,7 +21,7 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-    #sampler = Sampler(NSIDE)
+    sampler = Sampler(NSIDE)
 
     #start_time = time.time()
     #ref = sampler.sample_data()
@@ -67,7 +67,7 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
     '''
-    '''
+
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -86,29 +86,11 @@ def main(NSIDE):
     print("starting weight computing")
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,) for i,data in enumerate(all_sample)))
     time_elapsed = time.time() - time_start
-    print(time_elapsed)
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "wb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_512", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
-    '''
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
-        ref = pickle.load(f)
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512_sup", "rb") as f:
-        sup = pickle.load(f)
-
-    lw_ref = ref["log_weights"]
-    lw_sup = sup["log_weights"]
-
-    plt.hist(lw_ref, density=True, alpha=0.5, label="Ref A_s = 3.034", bins=5)
-    plt.hist(lw_sup, density=True, alpha=0.5, label="A_s = 10", bins=5)
-    plt.legend(loc='upper right')
-    plt.title('Histogram log weights')
-    plt.savefig("B3DCMB/figures/hist_log_weights.png")
-    plt.close()
-
-    '''
     print("\n")
     print(log_weights)
     print("\n")
@@ -122,11 +104,11 @@ def main(NSIDE):
 
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
+    print(time_elapsed)
 
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     #    reference_data = pickle.load(f)
 
-    '''
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
         ref = pickle.load(f)
