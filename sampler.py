@@ -70,7 +70,7 @@ class Sampler:
     def prepare_sigma(self, input):
         sampled_beta, i = input
         print("Creating mixing mat")
-        mixing_mat = list(self.sample_mixing_matrix_parallel(sampled_beta))
+        mixing_mat = self.sample_mixing_matrix_parallel(sampled_beta)
         print("Computing mean")
         mean = np.dot(mixing_mat, (self.Qs + self.Us)[i])
         print("Computing sigma")
