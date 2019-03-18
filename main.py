@@ -37,6 +37,13 @@ def main(NSIDE):
     means, sigmas_symm, log_det = zip(*all_sample)
     means = (i for l in means for i in l)
     denom = -(1 / 2) * np.sum(log_det)
+
+    print(time.time() - start_time)
+
+    with open("B3DCMB/data/preliminaries_512", "wb") as f:
+        pickle.dump({"means":means, "sigmas_symm":sigmas_symm, "denom":denom}, f)
+
+    '''
     print(time.time() - start_time)
     #start_time = time.time()
     #ref = sampler.sample_data()
@@ -86,6 +93,7 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     #    reference_data = pickle.load(f)
 
+    '''
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
         ref = pickle.load(f)
