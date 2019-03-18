@@ -29,8 +29,7 @@ def main(NSIDE):
     pool1 = mp.Pool(N_PROCESS_MAX)
     time_start = time.time()
     print("starting sampling")
-    all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :], (sampler.Qs[:3] + sampler.Us[:3])[i]
-                                                 , (sampler.sigma_Qs[:3] + sampler.sigma_Us[:3])[i],) for i in
+    all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :],i,) for i in
                                                 range(len(sampled_beta))))
 
     print("Unzipping result")
