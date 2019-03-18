@@ -29,8 +29,8 @@ def main(NSIDE):
     pool1 = mp.Pool(N_PROCESS_MAX)
     time_start = time.time()
     print("starting sampling")
-    all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :], (sampler.Qs + sampler.Us)[i]
-                                                 , (sampler.sigma_Qs + sampler.sigma_Us)[i],) for i in
+    all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :], (sampler.Qs[:3] + sampler.Us[:3])[i]
+                                                 , (sampler.sigma_Qs[:3] + sampler.sigma_Us[:3])[i],) for i in
                                                 range(len(sampled_beta))))
 
     print("Unzipping result")
@@ -44,7 +44,7 @@ def main(NSIDE):
     #    pickle.dump(ref, f)
 
     #print(time.time() - start_time)
-    '''
+
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -86,7 +86,6 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     #    reference_data = pickle.load(f)
 
-    '''
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
         ref = pickle.load(f)
