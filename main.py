@@ -67,7 +67,7 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
     '''
-    '''
+
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -88,27 +88,10 @@ def main(NSIDE):
     time_elapsed = time.time() - time_start
     print(time_elapsed)
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "wb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_512", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
-    '''
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
-        ref = pickle.load(f)
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512_sup", "rb") as f:
-        sup = pickle.load(f)
-
-    lw_ref = ref["log_weights"]
-    lw_sup = sup["log_weights"]
-
-    plt.hist(lw_ref, density=True, alpha=0.5, label="Ref", bins=5)
-    plt.hist(lw_sup, density=True, alpha=0.5, label="A_s = 10", weights=weights, bins=5)
-    plt.legend(loc='upper right')
-    plt.title('Histogram log weights')
-    plt.savefig("B3DCMB/figures/hist_log_weights.png")
-    plt.close()
-
-    '''
     print("\n")
     print(log_weights)
     print("\n")
@@ -126,7 +109,6 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     #    reference_data = pickle.load(f)
 
-    '''
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
         ref = pickle.load(f)
