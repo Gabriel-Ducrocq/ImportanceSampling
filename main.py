@@ -26,7 +26,6 @@ def main(NSIDE):
     print("Creating mixing matrix")
     _, sampled_beta = sampler.sample_model_parameters()
     sampled_beta = np.tile(sampled_beta, (2, 1))
-    pool1 = mp.Pool(N_PROCESS_MAX)
     time_start = time.time()
     print("starting sampling")
     print(sampled_beta.shape)
@@ -35,17 +34,14 @@ def main(NSIDE):
         if i%10000 == 0:
             all_sample.append(sampler.prepare_sigma((sampled_beta[i,:],i)))
 
-    #all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :],i,) for i in
-    #                                            range(len(sampled_beta))), chunksize= 10000)
-
     print("Unzipping result")
     means, sigmas_symm, log_det = zip(*all_sample)
-    means = (i for l in means for i in l)
+    means = [i for l in means for i in l]
     denom = -(1 / 2) * np.sum(log_det)
     print(time.time() - time_start)
 
     with open("B3DCMB/data/preliminaries_512", "wb") as f:
-        pickle.dump({"means":list(means), "sigmas_symm":list(sigmas_symm), "denom":list(denom)}, f)
+        pickle.dump({"means":means, "sigmas_symm":sigmas_symm, "denom":denom}, f)
 
     '''
     print(time.time() - start_time)
