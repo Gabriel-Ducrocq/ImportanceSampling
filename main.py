@@ -34,6 +34,8 @@ def main(NSIDE):
         if i%10000 == 0:
             all_sample.append(sampler.prepare_sigma((sampled_beta[i,:],i)))
 
+    print(len(all_sample))
+    print(len(all_sample[0][0]))
     print("Unzipping result")
     means, sigmas_symm, log_det = zip(*all_sample)
     means = [i for l in means for i in l]
