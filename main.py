@@ -14,7 +14,7 @@ import pandas as pd
 NSIDE = 512
 sigma_rbf = 100000
 N_PROCESS_MAX = 40
-N_sample = 50
+N_sample = 2
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
@@ -22,7 +22,7 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
     sampler = Sampler(NSIDE)
-
+    '''
     print("Creating mixing matrix")
     _, sampled_beta = sampler.sample_model_parameters()
     sampled_beta = np.tile(sampled_beta, (2, 1))
@@ -44,6 +44,14 @@ def main(NSIDE):
         pickle.dump({"means":means, "sigmas_symm":sigmas_symm, "denom":denom}, f)
 
     '''
+
+    with open("B3DCMB/data/preliminaries_512", "rb") as f:
+        prel = pickle.load(f)
+
+    means = prel["means"]
+    sigmas_symm = prel["sigmas_symm"]
+    denom = ["denom"]
+
     print(time.time() - start_time)
     #start_time = time.time()
     #ref = sampler.sample_data()
@@ -68,7 +76,8 @@ def main(NSIDE):
     all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
 
     print("starting weight computing")
-    log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,) for i,data in enumerate(all_sample)))
+    log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,means, sigmas_symm, denom)
+                                                     for i,data in enumerate(all_sample)))
     time_elapsed = time.time() - time_start
 
     with open("B3DCMB/data/simulated_AS_NSIDE_512", "wb") as f:
