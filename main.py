@@ -31,7 +31,7 @@ def main(NSIDE):
     print("starting sampling")
     print(sampled_beta[0,:])
     all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :],i,) for i in
-                                                range(len(sampled_beta))))
+                                                range(len(sampled_beta))), chunksize= 10000)
 
     print("Unzipping result")
     means, sigmas_symm, log_det = zip(*all_sample)
