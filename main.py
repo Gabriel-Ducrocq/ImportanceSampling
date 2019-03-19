@@ -51,9 +51,7 @@ def main(NSIDE):
     means = prel["means"]
     sigmas_symm = prel["sigmas_symm"]
     denom = ["denom"]
-
-    print(time.time() - start_time)
-    #start_time = time.time()
+    
     #ref = sampler.sample_data()
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
     #    pickle.dump(ref, f)
