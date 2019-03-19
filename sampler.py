@@ -26,6 +26,8 @@ L_MAX_SCALARS = 5000
 LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
 
+N_PROCESS_MAX = 50
+
 
 class Sampler:
     def __init__(self, NSIDE):
@@ -49,6 +51,20 @@ class Sampler:
         self.noise_covar_one_pix = self.noise_covariance_in_freq(self.NSIDE)
         self.noise_stdd_all = np.concatenate([np.sqrt(self.noise_covar_one_pix) for _ in range(2*self.Npix)])
 
+
+        print("Creating mixing matrix")
+        _, sampled_beta = self.sample_model_parameters()
+        sampled_beta = np.tile(sampled_beta, (2,1))
+        pool1 = mp.Pool(N_PROCESS_MAX)
+        time_start = time.time()
+        all_sample = pool1.map(self.prepare_sigma, ((sampled_beta[i,:], (self.Qs + self.Us)[i]
+                                                     , (self.sigma_Qs+self.sigma_Us)[i],) for i in range(N_samp)))
+
+        print("Unzipping result")
+        means, self.sigmas_symm, log_det = zip(*all_sample)
+        self.means = (i for l in means for i in l)
+        self.denom = -(1/2)*np.sum(log_det)
+        print(time.time() - start_time)
         print("End of initialisation")
 
     def __getstate__(self):
@@ -67,19 +83,23 @@ class Sampler:
         self.mixing_matrix_evaluator = self.mixing_matrix.evaluator(self.instrument.Frequencies)
 
 
-    def prepare_sigma(self, input):
-        sampled_beta, i = input
-        mixing_mat = self.sample_mixing_matrix_parallel(sampled_beta)
-        mean = np.dot(mixing_mat, (self.Qs + self.Us)[i])
+    def prepare_sigma(self, sampled_beta, Q_or_U, sigma_Q_or_U):
+        print("Creating mixing mat")
+        mixing_mat = list(self.sample_mixing_matrix_parallel(sampled_beta))
+        print("Computing mean")
+        mean = np.dot(mixing_mat, Q_or_U)
+        print("Computing sigma")
         sigma = np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", mixing_mat,
-                                                            (np.diag((self.sigma_Qs +self.sigma_Us)[i])**2), mixing_mat)
+                                                            (np.diag(sigma_Q_or_U)**2), mixing_mat)
 
+        print("Symmetrizing")
         sigma_symm = (sigma + sigma.T) / 2
+        print("Computing log det of sigma")
         log_det = np.log(scipy.linalg.det(2 * np.pi * sigma_symm))
         return mean, sigma_symm, log_det
 
     def sample_mixing_matrix_parallel(self, betas):
-        return self.mixing_matrix_evaluator(betas)[:, 1:]
+        return self.mixing_matrix_evaluator(beta)[:, 1:]
 
 
 
@@ -152,7 +172,7 @@ class Sampler:
 
     def compute_weight(self, input):
         observed_data = config.sky_map
-        noise_level, random_seed, means, sigmas_symm, denom = input
+        noise_level, random_seed = input
         np.random.seed(random_seed)
         with open("B3DCMB/data/temp" + str(random_seed), "rb") as f:
             data = pickle.load(f)
@@ -161,10 +181,10 @@ class Sampler:
         print("Duplicating CMB")
         duplicate_CMB = (l for l in map_CMB for _ in range(15))
         print("Splitting for computation")
-        x = np.split((observed_data - np.array(duplicate_CMB)) - np.array(means), self.Npix*2)
+        x = np.split((observed_data - np.array(list(duplicate_CMB))) - np.array(list(self.means)), self.Npix*2)
         print("Computing log weights")
-        r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas_symm, x)))
-        lw = r + denom
+        r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(self.sigmas_symm, x)))
+        lw = r + self.denom
         return lw
 
     def sample_data(self):
