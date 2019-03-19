@@ -70,7 +70,7 @@ class Sampler:
     def prepare_sigma(self, input):
         sampled_beta, i = input
         mixing_mat = self.sample_mixing_matrix_parallel(sampled_beta)
-        mean = np.dot(mixing_mat, (self.Qs + self.Us)[i])
+        mean = np.dot(mixing_mat, (self.Qs + self.Us)[2*i:(2*i+2)])
         print(mean.shape)
         sigma = np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", mixing_mat,
                                                             (np.diag((self.sigma_Qs +self.sigma_Us)[i])**2), mixing_mat)
