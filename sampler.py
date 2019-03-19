@@ -78,8 +78,8 @@ class Sampler:
         return cov
 
     def sample_model_parameters(self):
-        #sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_stdd)
-        sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, np.random.normal(MEAN_AS, SIGMA_AS*200), 0.0561])
+        sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_stdd)
+        #sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, np.random.normal(MEAN_AS, SIGMA_AS*200), 0.0561])
         #sampled_beta = self.sample_normal(self.matrix_mean, np.diag(self.matrix_var)).reshape((self.Npix, -1), order = "F")
         sampled_beta = self.matrix_mean.reshape((self.Npix, -1), order = "F")
         return sampled_cosmo, sampled_beta
@@ -195,9 +195,5 @@ class Sampler:
         print("Creating noise")
         noise = self.sample_normal(np.zeros(2 * 15 * self.Npix), self.noise_stdd_all, diag = True)
         print("Adding noise to the maps")
-        #sky_map_no_noise = freq_maps + duplicated_cmb
         sky_map = np.add(np.add(freq_maps, duplicated_cmb), noise)
-
-        #sig = 1/(np.dot(np.dot(np.transpose(sky_map_no_noise), np.diag(1/(self.noise_stdd_all**2))), sky_map_no_noise))
-        return duplicated_cmb
-        #return {"sky_map": sky_map, "cosmo_params": cosmo_params, "betas": sampled_beta}
+        return {"sky_map": sky_map, "cosmo_params": cosmo_params, "betas": sampled_beta}
