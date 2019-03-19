@@ -49,6 +49,8 @@ class Sampler:
         self.noise_covar_one_pix = self.noise_covariance_in_freq(self.NSIDE)
         self.noise_stdd_all = np.concatenate([np.sqrt(self.noise_covar_one_pix) for _ in range(2*self.Npix)])
 
+        print(self.Qs)
+
         print("End of initialisation")
 
     def __getstate__(self):
