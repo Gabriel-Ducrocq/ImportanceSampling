@@ -31,8 +31,9 @@ def main(NSIDE):
     print(sampled_beta.shape)
     all_sample = []
     for i in range(len(sampled_beta)):
+        all_sample.append(sampler.prepare_sigma((sampled_beta[i,:],i)))
         if i%10000 == 0:
-            all_sample.append(sampler.prepare_sigma((sampled_beta[i,:],i)))
+            print(i)
 
     print(len(all_sample))
     print(len(all_sample[0][0]))
