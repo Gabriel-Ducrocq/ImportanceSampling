@@ -29,16 +29,20 @@ def main(NSIDE):
     pool1 = mp.Pool(N_PROCESS_MAX)
     time_start = time.time()
     print("starting sampling")
-    print(sampled_beta[0,:])
-    all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :],i,) for i in
-                                                range(len(sampled_beta))), chunksize= 10000)
+    print(sampled_beta.shape)
+    all_sample = []
+    for i in range(len(sampled_beta)):
+        if i%10000 == 0:
+            all_sample.append(sampler.prepare_sigma((sampled_beta,i)))
+
+    #all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :],i,) for i in
+    #                                            range(len(sampled_beta))), chunksize= 10000)
 
     print("Unzipping result")
     means, sigmas_symm, log_det = zip(*all_sample)
     means = (i for l in means for i in l)
     denom = -(1 / 2) * np.sum(log_det)
-
-    print(time.time() - start_time)
+    print(time.time() - time_start)
 
     with open("B3DCMB/data/preliminaries_512", "wb") as f:
         pickle.dump({"means":means, "sigmas_symm":sigmas_symm, "denom":denom}, f)
