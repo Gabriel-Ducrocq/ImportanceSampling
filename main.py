@@ -21,7 +21,7 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def main(NSIDE):
-    #sampler = Sampler(NSIDE)
+    sampler = Sampler(NSIDE)
 
     #start_time = time.time()
     #ref = sampler.sample_data()
@@ -67,7 +67,7 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
     '''
-    '''
+
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -88,18 +88,21 @@ def main(NSIDE):
     time_elapsed = time.time() - time_start
     print(time_elapsed)
 
-    with open("B3DCMB/data/simulated_AS_NSIDE_512", "wb") as f:
+    with open("B3DCMB/data/simulated_AS_NSIDE_512_bis", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
-    '''
+
     with open("B3DCMB/data/simulated_AS_NSIDE_512", "rb") as f:
-        data = pickle.load(f)
+        data1 = pickle.load(f)
+
+    with open("B3DCMB/data/simulated_AS_NSIDE_512_bis", "rb") as f:
+        data2 = pickle.load(f)
 
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
-    log_weights = data["log_weights"]
-    all_sample = data["simulated_points"]
+    log_weights = data1["log_weights"] + data2["log_weights"]
+    all_sample = data1["simulated_points"] + data2["simulated_points"]
 
     print("\n")
     print(log_weights)
