@@ -24,7 +24,7 @@ def main(NSIDE):
     sampler = Sampler(NSIDE)
 
     data = sampler.sample_data()
-    with open("B3DCMB/data/reference_data_all_NSIDE_512") as f:
+    with open("B3DCMB/data/reference_data_all_NSIDE_512", "wb") as f:
         pickle.dump(data, f)
 
     #start_time = time.time()
