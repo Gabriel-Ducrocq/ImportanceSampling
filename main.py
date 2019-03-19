@@ -33,7 +33,7 @@ def main(NSIDE):
     all_sample = []
     for i in range(len(sampled_beta)):
         if i%10000 == 0:
-            all_sample.append(sampler.prepare_sigma((sampled_beta,i)))
+            all_sample.append(sampler.prepare_sigma((sampled_beta[i,:],i)))
 
     #all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :],i,) for i in
     #                                            range(len(sampled_beta))), chunksize= 10000)
