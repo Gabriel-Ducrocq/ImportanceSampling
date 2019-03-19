@@ -49,7 +49,7 @@ def main(NSIDE):
         prel = pickle.load(f)
 
     means = prel["means"]
-    print(means)
+    print(len(means))
     sigmas_symm = prel["sigmas_symm"]
     denom = ["denom"]
 
