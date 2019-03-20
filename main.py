@@ -32,14 +32,20 @@ def main(NSIDE):
         vals = []
         for cosmo in params:
             vals.append(cosmo[i])
-            other = np.random.normal(0, 1, 200)
-            other = COSMO_PARAMS_MEANS[i] + COSMO_PARAMS_SIGMA[i]*other
-            plt.hist(other, density=True, bins=10, alpha=0.5, label="Numpy")
-            plt.hist(vals, density = True, bins = 10, alpha = 0.5, label = "Code")
-            plt.title("Histogram " + name)
-            plt.legend(loc='upper right')
-            plt.savefig("B3DCMB/check_histo_" + name+ ".png")
-            plt.close()
+
+        other = np.random.normal(0, 1, 200)
+        other = COSMO_PARAMS_MEANS[i] + COSMO_PARAMS_SIGMA[i]*other
+        plt.hist(other, density=True, bins=10, alpha=0.5, label="Numpy")
+        plt.hist(vals, density = True, bins=10, alpha=0.5, label = "Code")
+        plt.title("Histogram " + name)
+        plt.legend(loc='upper right')
+        plt.savefig("B3DCMB/check_histo_" + name+ ".png")
+        plt.close()
+
+
+    a = zip(*params)
+    for k in a:
+        print(np.std(a))
 
 
 
