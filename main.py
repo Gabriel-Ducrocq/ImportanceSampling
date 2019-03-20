@@ -115,8 +115,8 @@ def main(NSIDE):
 
     histogram_posterior(w, all_sample, reference_data["cosmo_params"])
 
-    #with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
-    #    reference_data = pickle.load(f)
+    with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
+        reference_data = pickle.load(f)
 
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
