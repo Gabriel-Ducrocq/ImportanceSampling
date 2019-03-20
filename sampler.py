@@ -65,7 +65,6 @@ class Sampler:
 
     def sample_normal(self, mu, stdd, diag = False):
         standard_normal = np.random.normal(0, 1, size = mu.shape[0])
-        print(stdd)
         if diag:
             normal = np.multiply(stdd, standard_normal)
         else:
