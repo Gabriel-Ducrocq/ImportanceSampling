@@ -33,6 +33,8 @@ def main(NSIDE):
         for cosmo in params:
             vals.append(cosmo[i])
 
+        print(np.std(vals))
+
         other = np.random.normal(0, 1, 200)
         other = COSMO_PARAMS_MEANS[i] + COSMO_PARAMS_SIGMA[i]*other
         plt.hist(other, density=True, bins=10, alpha=0.5, label="Numpy")
@@ -41,12 +43,6 @@ def main(NSIDE):
         plt.legend(loc='upper right')
         plt.savefig("B3DCMB/check_histo_" + name+ ".png")
         plt.close()
-
-
-    a = list(zip(*params))
-    for k in a:
-        print(np.std(a))
-
 
 
     #start_time = time.time()
