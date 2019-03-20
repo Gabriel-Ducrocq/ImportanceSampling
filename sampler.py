@@ -64,10 +64,12 @@ class Sampler:
         self.mixing_matrix_evaluator = self.mixing_matrix.evaluator(self.instrument.Frequencies)
 
     def sample_normal(self, mu, stdd, diag = False):
-        standard_normal = np.random.normal(0, 1, size = mu.shape[0])
+        standard_normal = np.random.normal(0, 1, size=mu.shape[0])
         if diag:
             normal = np.multiply(stdd, standard_normal)
         else:
+            print(standard_normal.shape)
+            print(stdd.shape)
             normal = np.dot(stdd, standard_normal)
 
         normal += np.add(mu, normal)
