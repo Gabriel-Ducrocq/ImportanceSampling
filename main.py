@@ -40,6 +40,8 @@ def main(NSIDE):
             plt.savefig("B3DCMB/check_histo_" + name+ ".png")
             plt.close()
 
+
+
     #start_time = time.time()
     #ref = sampler.sample_data()
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
