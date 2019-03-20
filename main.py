@@ -23,12 +23,12 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 def main(NSIDE):
     sampler = Sampler(NSIDE)
 
-    start_time = time.time()
-    ref = sampler.sample_data()
-    with open("B3DCMB/data/reference_data_free_beta_NSIDE_512", "wb") as f:
-        pickle.dump(ref, f)
+    #start_time = time.time()
+    #ref = sampler.sample_data()
+    #with open("B3DCMB/data/reference_data_free_beta_NSIDE_512", "wb") as f:
+    #    pickle.dump(ref, f)
 
-    print(time.time() - start_time)
+    #print(time.time() - start_time)
 
     '''
     start = time.time()
@@ -66,7 +66,6 @@ def main(NSIDE):
 
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
-    '''
     '''
     with open("B3DCMB/data/reference_data_free_beta_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
@@ -107,7 +106,6 @@ def main(NSIDE):
 
     #histogram_posterior(w, all_sample, reference_data["cosmo_params"])
 
-    '''
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
         ref = pickle.load(f)
