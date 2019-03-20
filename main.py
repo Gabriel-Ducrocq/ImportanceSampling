@@ -43,7 +43,7 @@ def main(NSIDE):
         plt.close()
 
 
-    a = zip(*params)
+    a = list(zip(*params))
     for k in a:
         print(np.std(a))
 
