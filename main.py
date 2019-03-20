@@ -23,6 +23,20 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 def main(NSIDE):
     sampler = Sampler(NSIDE)
 
+    params = []
+    for i in range(200):
+        cosmo, _ = sampler.sample_model_parameters()
+        params.append(cosmo)
+
+    for i, name in enumerate(COSMO_PARAMS_NAMES):
+        vals = []
+        for cosmo in params:
+            vals.append(cosmo[i])
+            plt.hist(vals, density = True, bins = 10)
+            plt.title("Histogram " + name)
+            plt.savefig("B3DCMB/check_histo_" + name+ ".png")
+            plt.close()
+
     #start_time = time.time()
     #ref = sampler.sample_data()
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
@@ -67,7 +81,7 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
     '''
-
+    '''
     with open("B3DCMB/data/reference_data_all_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -116,7 +130,7 @@ def main(NSIDE):
 
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     #    reference_data = pickle.load(f)
-
+    '''
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
         ref = pickle.load(f)
