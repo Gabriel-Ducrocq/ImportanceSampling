@@ -68,8 +68,6 @@ class Sampler:
         if diag:
             normal = np.multiply(stdd, standard_normal)
         else:
-            print(standard_normal.shape)
-            print(stdd.shape)
             normal = np.dot(stdd, standard_normal)
 
         normal += mu
@@ -80,7 +78,8 @@ class Sampler:
         return cov
 
     def sample_model_parameters(self):
-        sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_stdd)
+        #sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_stdd)
+        sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
         sampled_beta = self.sample_normal(self.matrix_mean, self.matrix_var, diag = True).reshape((self.Npix, -1), order = "F")
         #sampled_beta = self.matrix_mean.reshape((self.Npix, -1), order = "F")
         return sampled_cosmo, sampled_beta
@@ -164,7 +163,6 @@ class Sampler:
         print("Computing log weights")
         r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas_symm2, x)))
         lw = r + denom
-        print(r, denom)
         return lw
 
     def sample_data(self):
