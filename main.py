@@ -93,6 +93,9 @@ def main(NSIDE):
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
     '''
+    with open("B3DCMB/data/reference_data_all_NSIDE_512", "rb") as f:
+        reference_data = pickle.load(f)
+        
     with open("B3DCMB/data/simulated_all_NSIDE_512", "rb") as f:
         data = pickle.load(f)
 
@@ -113,10 +116,9 @@ def main(NSIDE):
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
 
+
     histogram_posterior(w, all_sample, reference_data["cosmo_params"])
 
-    with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
-        reference_data = pickle.load(f)
 
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
