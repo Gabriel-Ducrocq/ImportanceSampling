@@ -32,7 +32,7 @@ def main(NSIDE):
         vals = []
         for cosmo in params:
             vals.append(cosmo[i])
-            other = np.random.normal(COSMO_PARAMS_MEANS[i], COSMO_PARAMS_SIGMA[i], 200)
+            other = np.random.normal(COSMO_PARAMS_MEANS[i], COSMO_PARAMS_SIGMA[i]**2, 200)
             plt.hist(other, density=True, bins=10, alpha=0.5, label="Numpy")
             plt.hist(vals, density = True, bins = 10, alpha = 0.5, label = "Code")
             plt.title("Histogram " + name)
