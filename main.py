@@ -67,6 +67,8 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_64", "wb") as f:
     #    pickle.dump(data, f)
     '''
+    with open("B3DCMB/data/reference_data_free_beta_NSIDE_512", "rb") as f:
+        reference_data = pickle.load(f)
 
     print([k for k in reference_data.keys()])
     map = np.array(reference_data["sky_map"])
