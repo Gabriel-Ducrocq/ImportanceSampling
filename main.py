@@ -34,6 +34,7 @@ def main(NSIDE):
             vals.append(cosmo[i])
 
         print(np.std(vals))
+        print(sampler.cosmo_stdd)
 
         other = np.random.normal(0, 1, 200)
         other = COSMO_PARAMS_MEANS[i] + COSMO_PARAMS_SIGMA[i]*other
