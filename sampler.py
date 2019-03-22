@@ -59,13 +59,17 @@ class Sampler:
         pool1 = mp.Pool(N_PROCESS_MAX)
         time_start = time.time()
         all_sample = pool1.map(self.prepare_sigma, ((sampled_beta[i,:], (self.Qs + self.Us)[i]
-                                                     , (self.sigma_Qs+self.sigma_Us)[i],) for i in range(N_sample)))
+                                                     , (self.sigma_Qs+self.sigma_Us)[i],) for i in range(len(sampled_beta))))
 
         print("Unzipping result")
         means, self.sigmas_symm, log_det = zip(*all_sample)
         self.means = (i for l in means for i in l)
         self.denom = -(1/2)*np.sum(log_det)
         print(time.time() - time_start)
+
+        with open("B3DCMB/data/preliminaries_512", "wb") as f:
+            pickle.dump({"means": self.means, "sigmas_symm": self.sigmas_symm, "denom": self.denom}, f)
+
         print("End of initialisation")
 
     def __getstate__(self):
