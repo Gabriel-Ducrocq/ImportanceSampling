@@ -27,6 +27,7 @@ LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
 
 N_PROCESS_MAX = 50
+N_sample = 2
 
 
 class Sampler:
