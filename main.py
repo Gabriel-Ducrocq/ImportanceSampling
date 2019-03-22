@@ -23,26 +23,6 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 def main(NSIDE):
     sampler = Sampler(NSIDE)
 
-    print("Creating mixing matrix")
-    _, sampled_beta = sampler.sample_model_parameters()
-    sampled_beta = np.tile(sampled_beta, (2, 1))
-    time_start = time.time()
-    print("starting sampling")
-    print(sampled_beta.shape)
-    all_sample = []
-    for i in range(len(sampled_beta)):
-        all_sample.append(sampler.prepare_sigma((sampled_beta[i,:],i)))
-        if i%10000 == 0:
-            print(i)
-
-    print(len(all_sample))
-    print(len(all_sample[0][0]))
-    print("Unzipping result")
-    means, sigmas_symm, log_det = zip(*all_sample)
-    means = [i for l in means for i in l]
-    denom = -(1 / 2) * np.sum(log_det)
-    print(time.time() - time_start)
-
     with open("B3DCMB/data/preliminaries_512", "wb") as f:
         pickle.dump({"means":means, "sigmas_symm":sigmas_symm, "denom":denom}, f)
 

@@ -83,7 +83,8 @@ class Sampler:
         self.mixing_matrix_evaluator = self.mixing_matrix.evaluator(self.instrument.Frequencies)
 
 
-    def prepare_sigma(self, sampled_beta, Q_or_U, sigma_Q_or_U):
+    def prepare_sigma(self, input):
+        sampled_beta, Q_or_U, sigma_Q_or_U = input
         print("Creating mixing mat")
         mixing_mat = list(self.sample_mixing_matrix_parallel(sampled_beta))
         print("Computing mean")
@@ -99,7 +100,7 @@ class Sampler:
         return mean, sigma_symm, log_det
 
     def sample_mixing_matrix_parallel(self, betas):
-        return self.mixing_matrix_evaluator(beta)[:, 1:]
+        return self.mixing_matrix_evaluator(betas)[:, 1:]
 
 
 
