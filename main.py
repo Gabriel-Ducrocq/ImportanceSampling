@@ -29,7 +29,7 @@ def main(NSIDE):
     pool1 = mp.Pool(N_PROCESS_MAX)
     time_start = time.time()
     print("Launching")
-    all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :], i,) for i in range(10000)), chunksize=1000)
+    all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :], i,) for i in range(100000)), chunksize=10000)
 
     print("Unzipping result")
     means, sigmas_symm, log_det = zip(*all_sample)
