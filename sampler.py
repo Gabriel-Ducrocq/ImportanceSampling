@@ -65,7 +65,7 @@ class Sampler:
         means, self.sigmas_symm, log_det = zip(*all_sample)
         self.means = (i for l in means for i in l)
         self.denom = -(1/2)*np.sum(log_det)
-        print(time.time() - start_time)
+        print(time.time() - time_start)
         print("End of initialisation")
 
     def __getstate__(self):
