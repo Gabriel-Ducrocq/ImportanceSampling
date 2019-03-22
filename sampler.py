@@ -71,17 +71,12 @@ class Sampler:
 
     def prepare_sigma(self, input):
         sampled_beta, i = input
-        print("Creating mixing mat")
         mixing_mat = list(self.sample_mixing_matrix_parallel(sampled_beta))
-        print("Computing mean")
         mean = np.dot(mixing_mat,(self.Qs + self.Us)[i])
-        print("Computing sigma")
         sigma = np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", mixing_mat,
                                                             (np.diag((self.sigma_Qs+self.sigma_Us)[i])**2), mixing_mat)
 
-        print("Symmetrizing")
         sigma_symm = (sigma + sigma.T) / 2
-        print("Computing log det of sigma")
         log_det = np.log(scipy.linalg.det(2 * np.pi * sigma_symm))
         return mean, sigma_symm, log_det
 
