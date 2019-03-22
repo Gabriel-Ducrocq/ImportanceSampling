@@ -58,6 +58,7 @@ class Sampler:
         sampled_beta = np.tile(sampled_beta, (2,1))
         pool1 = mp.Pool(N_PROCESS_MAX)
         time_start = time.time()
+        print("Launching")
         all_sample = pool1.map(self.prepare_sigma, ((sampled_beta[i,:], (self.Qs + self.Us)[i]
                                                      , (self.sigma_Qs+self.sigma_Us)[i],) for i in range(len(sampled_beta))))
 
