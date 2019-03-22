@@ -51,26 +51,6 @@ class Sampler:
 
         self.noise_covar_one_pix = self.noise_covariance_in_freq(self.NSIDE)
         self.noise_stdd_all = np.concatenate([np.sqrt(self.noise_covar_one_pix) for _ in range(2*self.Npix)])
-
-
-        print("Creating mixing matrix")
-        _, sampled_beta = self.sample_model_parameters()
-        sampled_beta = np.tile(sampled_beta, (2,1))
-        pool1 = mp.Pool(N_PROCESS_MAX)
-        time_start = time.time()
-        print("Launching")
-        all_sample = pool1.map(self.prepare_sigma, ((sampled_beta[i,:], (self.Qs + self.Us)[i]
-                                                     , (self.sigma_Qs+self.sigma_Us)[i],) for i in range(len(sampled_beta))))
-
-        print("Unzipping result")
-        means, self.sigmas_symm, log_det = zip(*all_sample)
-        self.means = (i for l in means for i in l)
-        self.denom = -(1/2)*np.sum(log_det)
-        print(time.time() - time_start)
-
-        with open("B3DCMB/data/preliminaries_512", "wb") as f:
-            pickle.dump({"means": self.means, "sigmas_symm": self.sigmas_symm, "denom": self.denom}, f)
-
         print("End of initialisation")
 
     def __getstate__(self):
@@ -90,14 +70,14 @@ class Sampler:
 
 
     def prepare_sigma(self, input):
-        sampled_beta, Q_or_U, sigma_Q_or_U = input
+        sampled_beta, i = input
         print("Creating mixing mat")
         mixing_mat = list(self.sample_mixing_matrix_parallel(sampled_beta))
         print("Computing mean")
-        mean = np.dot(mixing_mat, Q_or_U)
+        mean = np.dot(mixing_mat,(self.Qs + self.Us)[i])
         print("Computing sigma")
         sigma = np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", mixing_mat,
-                                                            (np.diag(sigma_Q_or_U)**2), mixing_mat)
+                                                            (np.diag((self.sigma_Qs+self.sigma_Us)[i])**2), mixing_mat)
 
         print("Symmetrizing")
         sigma_symm = (sigma + sigma.T) / 2
