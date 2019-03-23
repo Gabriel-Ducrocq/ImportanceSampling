@@ -81,8 +81,9 @@ def main(NSIDE):
         pool1 = mp.Pool(N_PROCESS_MAX)
         time_start = time.time()
         print("Launching")
+        print(sampled_beta.shape)
         all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means)
-                                               for i in range(len(sampled_beta))), chunksize=2500)
+                                               for i in range(1000)), chunksize=25)
 
         print("Unzipping result")
         means, sigmas_symm, log_det = zip(*all_sample)
