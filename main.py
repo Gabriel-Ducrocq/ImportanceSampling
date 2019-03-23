@@ -20,8 +20,41 @@ COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
+Qs, Us, sigma_Qs, sigma_Us = aggregate_by_pixels_params(get_pixels_params(NSIDE))
+
+components = [CMB(), Dust(150.), Synchrotron(150.)]
+mixing_matrix = MixingMatrix(*self.components)
+mixing_matrix_evaluator = mixing_matrix.evaluator(self.instrument.Frequencies)
+
+
+def sample_mixing_matrix_parallel(betas):
+    return mixing_matrix_evaluator(betas)[:, 1:]
+
+
+def prepare_sigma(input):
+    sampled_beta, i, sigma_Q_U, Q_U = input
+    mixing_mat = list(self.sample_mixing_matrix_parallel(sampled_beta))
+    mean = np.dot(mixing_mat, Q_U[i])
+    sigma = np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", mixing_mat,
+                                                          (np.diag(sigma_Q_U[i]) ** 2),
+                                                          mixing_mat)
+
+    sigma_symm = (sigma + sigma.T) / 2
+    log_det = np.log(scipy.linalg.det(2 * np.pi * sigma_symm))
+    return mean, sigma_symm, log_det
+
+
+
+
+
+
+
+
 def main(NSIDE):
     sampler = Sampler(NSIDE)
+
+    arr_sigmas = Array('d', sigma_Qs + sigma_Us)
+    arr_means = Array('d', Qs + Us)
 
     print("Creating mixing matrix")
     _, sampled_beta = sampler.sample_model_parameters()
@@ -29,7 +62,7 @@ def main(NSIDE):
     pool1 = mp.Pool(N_PROCESS_MAX)
     time_start = time.time()
     print("Launching")
-    all_sample = pool1.map(sampler.prepare_sigma, ((sampled_beta[i, :], i,) for i in range(100000)), chunksize=2500)
+    all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means) for i in range(100000)), chunksize=2500)
 
     print("Unzipping result")
     means, sigmas_symm, log_det = zip(*all_sample)
