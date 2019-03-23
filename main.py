@@ -10,6 +10,7 @@ from scipy import stats
 from matplotlib import cm
 import config
 import pandas as pd
+from multiprocessing import Manager
 
 
 from fgbuster.mixingmatrix import MixingMatrix
@@ -62,23 +63,22 @@ def main(NSIDE):
     sampler = Sampler(NSIDE)
     print(np.array((sigma_Qs + sigma_Us)).shape)
 
-    arr = mp.Array('i', np.array([1, 2, 3]))
-    arr_sigmas = mp.Array('d', np.array(sigma_Qs + sigma_Us), lock = False)
-    arr_means = mp.Array('d', np.array(Qs + Us), lock = False)
+    with Manager() as manager:
+        arr_sigmas = manager.list(sigma_Qs + sigma_Us)
+        arr_means = manager.list(Qs + Us)
+        print("Creating mixing matrix")
+        _, sampled_beta = sampler.sample_model_parameters()
+        sampled_beta = np.tile(sampled_beta, (2, 1))
+        pool1 = mp.Pool(N_PROCESS_MAX)
+        time_start = time.time()
+        print("Launching")
+        all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means) for i in range(10000)), chunksize=250)
 
-    print("Creating mixing matrix")
-    _, sampled_beta = sampler.sample_model_parameters()
-    sampled_beta = np.tile(sampled_beta, (2, 1))
-    pool1 = mp.Pool(N_PROCESS_MAX)
-    time_start = time.time()
-    print("Launching")
-    all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means) for i in range(10000)), chunksize=250)
-
-    print("Unzipping result")
-    means, sigmas_symm, log_det = zip(*all_sample)
-    means = (i for l in means for i in l)
-    denom = -(1 / 2) * np.sum(log_det)
-    print(time.time() - time_start)
+        print("Unzipping result")
+        means, sigmas_symm, log_det = zip(*all_sample)
+        means = (i for l in means for i in l)
+        denom = -(1 / 2) * np.sum(log_det)
+        print(time.time() - time_start)
 
     with open("B3DCMB/data/preliminaries_512", "wb") as f:
         pickle.dump({"means": means, "sigmas_symm": sigmas_symm, "denom": denom}, f)
