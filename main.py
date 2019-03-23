@@ -71,7 +71,6 @@ def prepare_sigma(input):
 
 def main(NSIDE):
     sampler = Sampler(NSIDE)
-    print(np.array((sigma_Qs + sigma_Us)).shape)
 
     with Manager() as manager:
         arr_sigmas = manager.list(sigma_Qs + sigma_Us)
@@ -82,7 +81,7 @@ def main(NSIDE):
         pool1 = mp.Pool(N_PROCESS_MAX)
         time_start = time.time()
         print("Launching")
-        all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means) for i in range(10000)), chunksize=250)
+        all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means) for i in range(100000)), chunksize=2500)
 
         print("Unzipping result")
         means, sigmas_symm, log_det = zip(*all_sample)
