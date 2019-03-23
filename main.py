@@ -113,7 +113,6 @@ def main(NSIDE):
     #    pickle.dump(ref, f)
 
     #print(time.time() - start_time)
-    print(denom)
     with open("B3DCMB/data/prelim_NSIDE_512", "wb") as f:
         prelim = pickle.load(f)
 
