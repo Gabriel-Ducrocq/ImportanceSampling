@@ -79,18 +79,18 @@ def main(NSIDE):
         _, sampled_beta = sampler.sample_model_parameters()
         sampled_beta = np.tile(sampled_beta, (2, 1))
         pool1 = mp.Pool(N_PROCESS_MAX)
-        time_start = time.time()
+        time_start_all = time.time()
         print("Launching")
         print(sampled_beta.shape)
         all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means)
-                                               for i in range(len(sampled_beta[:100000]))), chunksize=25000)
+                                               for i in range(len(sampled_beta))), chunksize=25000)
 
         print("Unzipping result")
         means, sigmas_symm, log_det = zip(*all_sample)
         sigmas_symm = list(sigmas_symm)
         means = [i for l in means for i in l]
         denom = -(1 / 2) * np.sum(log_det)
-        print(time.time() - time_start)
+        print(time_start_all - time.time())
 
         print(denom)
         with open("B3DCMB/data/prelim_NSIDE_512", "wb") as f:
@@ -135,11 +135,12 @@ def main(NSIDE):
         log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,means, sigmas_symm, denom)
                                                         for i,data in enumerate(all_sample)))
         time_elapsed = time.time() - time_start
-
+        print(time_elapsed)
+        print(time_start_all - time.time())
     with open("B3DCMB/data/simulated_AS_NSIDE_512", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
-
+    """
     print("\n")
     print(log_weights)
     print("\n")
@@ -157,7 +158,7 @@ def main(NSIDE):
 
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     #    reference_data = pickle.load(f)
-
+    """
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
         ref = pickle.load(f)
