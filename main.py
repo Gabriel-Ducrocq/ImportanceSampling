@@ -18,6 +18,7 @@ from fgbuster.observation_helpers import get_instrument
 from utils import get_pixels_params, get_mixing_matrix_params, aggregate_pixels_params, aggregate_mixing_params, aggregate_by_pixels_params
 from fgbuster.component_model import CMB, Dust, Synchrotron
 import pysm
+import healpy as hp
 
 NSIDE = 512
 sigma_rbf = 100000
@@ -27,6 +28,7 @@ N_sample = 2
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
+LiteBIRD_sensitivities = np.array([36.1, 19.6, 20.2, 11.3, 10.3, 8.4, 7.0, 5.8, 4.7, 7.0, 5.8, 8.0, 9.1, 11.4, 19.6])
 
 Qs, Us, sigma_Qs, sigma_Us = aggregate_by_pixels_params(get_pixels_params(NSIDE))
 
@@ -36,15 +38,22 @@ mixing_matrix = MixingMatrix(*components)
 mixing_matrix_evaluator = mixing_matrix.evaluator(instrument.Frequencies)
 
 
+def noise_covariance_in_freq(self, nside):
+    cov = LiteBIRD_sensitivities ** 2 / hp.nside2resol(nside, arcmin=True) ** 2
+    return cov
+
+noise_covar_one_pix = noise_covariance_in_freq(self.NSIDE)
+
+
 def sample_mixing_matrix_parallel(betas):
     return mixing_matrix_evaluator(betas)[:, 1:]
 
 
 def prepare_sigma(input):
     sampled_beta, i, sigma_Q_U, Q_U = input
-    mixing_mat = list(self.sample_mixing_matrix_parallel(sampled_beta))
+    mixing_mat = list(sample_mixing_matrix_parallel(sampled_beta))
     mean = np.dot(mixing_mat, Q_U[i])
-    sigma = np.diag(self.noise_covar_one_pix) + np.einsum("ij,jk,lk", mixing_mat,
+    sigma = np.diag(noise_covar_one_pix) + np.einsum("ij,jk,lk", mixing_mat,
                                                           (np.diag(sigma_Q_U[i]) ** 2),
                                                           mixing_mat)
 
