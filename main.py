@@ -113,7 +113,7 @@ def main(NSIDE):
     #    pickle.dump(ref, f)
 
     #print(time.time() - start_time)
-    with open("B3DCMB/data/prelim_NSIDE_512", "wb") as f:
+    with open("B3DCMB/data/prelim_NSIDE_512", "rb") as f:
         prelim = pickle.load(f)
 
     means = prelim["means"]
