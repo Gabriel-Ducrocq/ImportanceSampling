@@ -87,13 +87,14 @@ def main(NSIDE):
 
         print("Unzipping result")
         means, sigmas_symm, log_det = zip(*all_sample)
-        means = (i for l in means for i in l)
+        sigmas_symm = list(sigmas_symm)
+        means = [i for l in means for i in l]
         denom = -(1 / 2) * np.sum(log_det)
         print(time.time() - time_start)
 
         print(denom)
         with open("B3DCMB/data/prelim_NSIDE_512", "wb") as f:
-            pickle.dump({"means":list(means), "denom": denom, "sigmas_symm": list(sigmas_symm)}, f)
+            pickle.dump({"means":means, "denom": denom, "sigmas_symm": sigmas_symm}, f)
 
     '''
     with open("B3DCMB/data/preliminaries_512", "rb") as f:
@@ -127,8 +128,8 @@ def main(NSIDE):
 
     print("starting weight computing")
     with Manager() as manager:
-        means = manager.list(list(means))
-        sigmas_symm = manager.list(list(sigmas_symm))
+        means = manager.list(means)
+        sigmas_symm = manager.list(sigmas_symm)
         denom = manager.Value('d', denom)
         time_start = time.time()
         log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,means, sigmas_symm, denom)
