@@ -39,7 +39,7 @@ class Sampler:
         #print("Maps")
         #self.Qs, self.Us, self.sigma_Qs, self.sigma_Us = aggregate_by_pixels_params(get_pixels_params(self.NSIDE))
         #print("betas")
-        #self.matrix_mean, self.matrix_var = aggregate_mixing_params(get_mixing_matrix_params(self.NSIDE))
+        self.matrix_mean, self.matrix_var = aggregate_mixing_params(get_mixing_matrix_params(self.NSIDE))
         print("Cosmo params")
         self.cosmo_means = np.array(COSMO_PARAMS_MEANS)
         self.cosmo_stdd = np.diag(COSMO_PARAMS_SIGMA)
