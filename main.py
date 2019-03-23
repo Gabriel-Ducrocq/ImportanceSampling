@@ -19,6 +19,7 @@ from utils import get_pixels_params, get_mixing_matrix_params, aggregate_pixels_
 from fgbuster.component_model import CMB, Dust, Synchrotron
 import pysm
 import healpy as hp
+import scipy
 
 NSIDE = 512
 sigma_rbf = 100000
