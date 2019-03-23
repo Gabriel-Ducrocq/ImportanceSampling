@@ -29,7 +29,7 @@ COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 Qs, Us, sigma_Qs, sigma_Us = aggregate_by_pixels_params(get_pixels_params(NSIDE))
 
-instrument = pysm.Instrument(get_instrument('litebird', self.NSIDE))
+instrument = pysm.Instrument(get_instrument('litebird', NSIDE))
 components = [CMB(), Dust(150.), Synchrotron(150.)]
 mixing_matrix = MixingMatrix(*components)
 mixing_matrix_evaluator = mixing_matrix.evaluator(instrument.Frequencies)
