@@ -92,7 +92,7 @@ def main(NSIDE):
         print(time.time() - time_start)
 
         with open("B3DCMB/data/prelim_NSIDE_512", "wb") as f:
-            pickle.dump({"means":list(means), "denom": denom, "sigmas_symm": sigmas_symm}, f)
+            pickle.dump({"means":list(means), "denom": denom, "sigmas_symm": list(sigmas_symm)}, f)
 
     '''
     with open("B3DCMB/data/preliminaries_512", "rb") as f:
