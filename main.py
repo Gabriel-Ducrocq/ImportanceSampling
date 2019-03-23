@@ -61,8 +61,8 @@ def prepare_sigma(input):
 def main(NSIDE):
     sampler = Sampler(NSIDE)
 
-    arr_sigmas = mp.Array('d', sigma_Qs + sigma_Us)
-    arr_means = mp.Array('d', Qs + Us)
+    arr_sigmas = mp.Array('d', np.array(sigma_Qs + sigma_Us), lock = False)
+    arr_means = mp.Array('d', np.array(Qs + Us), lock = False)
 
     print("Creating mixing matrix")
     _, sampled_beta = sampler.sample_model_parameters()
