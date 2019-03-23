@@ -71,7 +71,7 @@ def prepare_sigma(input):
 
 def main(NSIDE):
     sampler = Sampler(NSIDE)
-
+    '''
     with Manager() as manager:
         arr_sigmas = manager.list(sigma_Qs + sigma_Us)
         arr_means = manager.list(Qs + Us)
@@ -97,6 +97,8 @@ def main(NSIDE):
             pickle.dump({"means":means, "denom": denom, "sigmas_symm": sigmas_symm}, f)
 
     '''
+
+    '''
     with open("B3DCMB/data/preliminaries_512", "rb") as f:
         prel = pickle.load(f)
     means = prel["means"]
@@ -111,6 +113,13 @@ def main(NSIDE):
     #    pickle.dump(ref, f)
 
     #print(time.time() - start_time)
+    print(denom)
+    with open("B3DCMB/data/prelim_NSIDE_512", "wb") as f:
+        prelim = pickle.load(f)
+
+    means = prelim["means"]
+    sigmas_symm = prelim["sigma_symm"]
+    denom = prelim["denom"]
 
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
@@ -128,6 +137,7 @@ def main(NSIDE):
 
     print("starting weight computing")
     with Manager() as manager:
+        print(means[:50])
         means = manager.list(means)
         sigmas_symm = manager.list(sigmas_symm)
         denom = manager.Value('d', denom)
