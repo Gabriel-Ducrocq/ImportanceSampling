@@ -153,7 +153,7 @@ class Sampler:
 
     def compute_weight(self, input):
         observed_data = config.sky_map
-        noise_level, random_seed = input
+        noise_level, random_seed, means, sigmas_symm, denom = input
         np.random.seed(random_seed)
         with open("B3DCMB/data/temp" + str(random_seed), "rb") as f:
             data = pickle.load(f)
@@ -162,10 +162,10 @@ class Sampler:
         print("Duplicating CMB")
         duplicate_CMB = (l for l in map_CMB for _ in range(15))
         print("Splitting for computation")
-        x = np.split((observed_data - np.array(list(duplicate_CMB))) - np.array(list(self.means)), self.Npix*2)
+        x = np.split((observed_data - np.array(list(duplicate_CMB))) - np.array(means), self.Npix*2)
         print("Computing log weights")
-        r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(self.sigmas_symm, x)))
-        lw = r + self.denom
+        r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sigmas_symm, x)))
+        lw = r + denom
         return lw
 
     def sample_data(self):
