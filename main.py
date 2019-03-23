@@ -72,6 +72,7 @@ def prepare_sigma(input):
 def main(NSIDE):
     sampler = Sampler(NSIDE)
 
+    '''
     with Manager() as manager:
         arr_sigmas = manager.list(sigma_Qs + sigma_Us)
         arr_means = manager.list(Qs + Us)
@@ -96,7 +97,7 @@ def main(NSIDE):
         with open("B3DCMB/data/prelim_NSIDE_512", "wb") as f:
             pickle.dump({"means":means, "denom": denom, "sigmas_symm": sigmas_symm}, f)
 
-
+    '''
     '''
     with open("B3DCMB/data/preliminaries_512", "rb") as f:
         prel = pickle.load(f)
@@ -116,7 +117,7 @@ def main(NSIDE):
         prelim = pickle.load(f)
 
     means = prelim["means"]
-    sigmas_symm = prelim["sigma_symm"]
+    sigmas_symm = prelim["sigmas_symm"]
     denom = prelim["denom"]
 
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
