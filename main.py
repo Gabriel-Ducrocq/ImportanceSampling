@@ -60,8 +60,9 @@ def prepare_sigma(input):
 
 def main(NSIDE):
     sampler = Sampler(NSIDE)
-    print(len(sigma_Qs))
+    print(np.array((sigma_Qs + sigma_Us)).shape)
 
+    arr = mp.Array('i', np.array([1, 2, 3]))
     arr_sigmas = mp.Array('d', np.array(sigma_Qs + sigma_Us), lock = False)
     arr_means = mp.Array('d', np.array(Qs + Us), lock = False)
 
