@@ -131,7 +131,7 @@ def main(NSIDE):
         sigmas_symm = manager.list(sigmas_symm)
         denom = manager.Value('d', denom)
         time_start = time.time()
-        log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,means, sigmas_symm, denom)
+        log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,list(means), list(sigmas_symm), denom)
                                                         for i,data in enumerate(all_sample)))
         time_elapsed = time.time() - time_start
 
