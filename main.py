@@ -91,6 +91,7 @@ def main(NSIDE):
         denom = -(1 / 2) * np.sum(log_det)
         print(time.time() - time_start)
 
+        print(denom)
         with open("B3DCMB/data/prelim_NSIDE_512", "wb") as f:
             pickle.dump({"means":list(means), "denom": denom, "sigmas_symm": list(sigmas_symm)}, f)
 
