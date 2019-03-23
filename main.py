@@ -11,6 +11,12 @@ from matplotlib import cm
 import config
 import pandas as pd
 
+
+from fgbuster.mixingmatrix import MixingMatrix
+from fgbuster.observation_helpers import get_instrument
+from utils import get_pixels_params, get_mixing_matrix_params, aggregate_pixels_params, aggregate_mixing_params, aggregate_by_pixels_params
+from fgbuster.component_model import CMB, Dust, Synchrotron
+
 NSIDE = 512
 sigma_rbf = 100000
 N_PROCESS_MAX = 40
