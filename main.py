@@ -38,11 +38,11 @@ mixing_matrix = MixingMatrix(*components)
 mixing_matrix_evaluator = mixing_matrix.evaluator(instrument.Frequencies)
 
 
-def noise_covariance_in_freq(self, nside):
+def noise_covariance_in_freq(nside):
     cov = LiteBIRD_sensitivities ** 2 / hp.nside2resol(nside, arcmin=True) ** 2
     return cov
 
-noise_covar_one_pix = noise_covariance_in_freq(self.NSIDE)
+noise_covar_one_pix = noise_covariance_in_freq(NSIDE)
 
 
 def sample_mixing_matrix_parallel(betas):
