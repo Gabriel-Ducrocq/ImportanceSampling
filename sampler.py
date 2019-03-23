@@ -36,10 +36,10 @@ class Sampler:
         self.Npix = 12*NSIDE**2
         print("Initialising sampler")
         self.cosmo = Class()
-        print("Maps")
-        self.Qs, self.Us, self.sigma_Qs, self.sigma_Us = aggregate_by_pixels_params(get_pixels_params(self.NSIDE))
-        print("betas")
-        self.matrix_mean, self.matrix_var = aggregate_mixing_params(get_mixing_matrix_params(self.NSIDE))
+        #print("Maps")
+        #self.Qs, self.Us, self.sigma_Qs, self.sigma_Us = aggregate_by_pixels_params(get_pixels_params(self.NSIDE))
+        #print("betas")
+        #self.matrix_mean, self.matrix_var = aggregate_mixing_params(get_mixing_matrix_params(self.NSIDE))
         print("Cosmo params")
         self.cosmo_means = np.array(COSMO_PARAMS_MEANS)
         self.cosmo_stdd = np.diag(COSMO_PARAMS_SIGMA)
@@ -50,7 +50,7 @@ class Sampler:
         self.mixing_matrix_evaluator = self.mixing_matrix.evaluator(self.instrument.Frequencies)
 
         self.noise_covar_one_pix = self.noise_covariance_in_freq(self.NSIDE)
-        self.noise_stdd_all = np.concatenate([np.sqrt(self.noise_covar_one_pix) for _ in range(2*self.Npix)])
+        #self.noise_stdd_all = np.concatenate([np.sqrt(self.noise_covar_one_pix) for _ in range(2*self.Npix)])
         print("End of initialisation")
 
     def __getstate__(self):
@@ -82,7 +82,6 @@ class Sampler:
 
     def sample_mixing_matrix_parallel(self, betas):
         return self.mixing_matrix_evaluator(betas)[:, 1:]
-
 
 
     def sample_normal(self, mu, stdd, diag = False):
@@ -142,11 +141,11 @@ class Sampler:
     def sample_model(self, input_params):
         random_seed = input_params
         np.random.seed(random_seed)
-        cosmo_params, sampled_beta = self.sample_model_parameters()
+        cosmo_params, _ = self.sample_model_parameters()
         cosmo_dict = {l[0]: l[1] for l in zip(COSMO_PARAMS_NAMES, cosmo_params.tolist())}
         tuple_QU = self.sample_CMB_QU(cosmo_dict)
         map_CMB = np.concatenate(tuple_QU)
-        result = {"map_CMB": map_CMB,"cosmo_params": cosmo_params,"betas": sampled_beta}
+        result = {"map_CMB": map_CMB,"cosmo_params": cosmo_params}
         with open("B3DCMB/data/temp" + str(random_seed), "wb") as f:
             pickle.dump(result, f)
 

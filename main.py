@@ -81,7 +81,8 @@ def main(NSIDE):
         pool1 = mp.Pool(N_PROCESS_MAX)
         time_start = time.time()
         print("Launching")
-        all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means) for i in range(1000000)), chunksize=2500)
+        all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means)
+                                               for i in range(len(sampled_beta))), chunksize=2500)
 
         print("Unzipping result")
         means, sigmas_symm, log_det = zip(*all_sample)
@@ -89,17 +90,17 @@ def main(NSIDE):
         denom = -(1 / 2) * np.sum(log_det)
         print(time.time() - time_start)
 
-    with open("B3DCMB/data/preliminaries_512", "wb") as f:
-        pickle.dump({"means": means, "sigmas_symm": sigmas_symm, "denom": denom}, f)
+
 
     '''
     with open("B3DCMB/data/preliminaries_512", "rb") as f:
         prel = pickle.load(f)
-
     means = prel["means"]
     print(len(means))
     sigmas_symm = prel["sigmas_symm"]
     denom = ["denom"]
+
+    '''
 
     #ref = sampler.sample_data()
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
@@ -149,7 +150,6 @@ def main(NSIDE):
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     #    reference_data = pickle.load(f)
 
-    '''
     '''
     with open("B3DCMB/data/simulated_AS_NSIDE_512_reference", "rb") as f:
         ref = pickle.load(f)
