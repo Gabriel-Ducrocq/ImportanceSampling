@@ -60,6 +60,7 @@ def prepare_sigma(input):
 
 def main(NSIDE):
     sampler = Sampler(NSIDE)
+    print(len(sigma_Qs))
 
     arr_sigmas = mp.Array('d', np.array(sigma_Qs + sigma_Us), lock = False)
     arr_means = mp.Array('d', np.array(Qs + Us), lock = False)
