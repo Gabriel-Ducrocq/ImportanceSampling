@@ -83,7 +83,7 @@ def main(NSIDE):
         print("Launching")
         print(sampled_beta.shape)
         all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means)
-                                               for i in range(100000)), chunksize=2500)
+                                               for i in range(1000000)), chunksize=25000)
 
         print("Unzipping result")
         means, sigmas_symm, log_det = zip(*all_sample)
