@@ -24,7 +24,7 @@ import scipy
 NSIDE = 512
 sigma_rbf = 100000
 N_PROCESS_MAX = 30
-N_sample = 10
+N_sample = 5
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
@@ -138,9 +138,12 @@ def main(NSIDE):
     with Manager() as manager:
         print(len(means))
         means1 = manager.list(means[:int(len(means)/2)])
-        means2 = manager.list(means[int(len(means) / 2):])
-        sigmas_symm1 = manager.list(sigmas_symm[:int(len(sigmas_symm)/2)])
-        sigmas_symm2 = manager.list(sigmas_symm[int(len(sigmas_symm) /2):])
+        means2 = manager.list(means[int(len(means)/2):])
+        list_sigmas_symm = []
+        for i in range(10):
+            sigmas_symm = manager.list(sigmas_symm[i*int(len(sigmas_symm)/10):max((i+1)*int(len(sigmas_symm)/10), len(sigmas_symm))])
+            list_sigmas_symm.append(sigmas_symm)
+
         denom = manager.Value('d', denom)
         time_start = time.time()
         log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,means, sigmas_symm, denom)
