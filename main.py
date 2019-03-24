@@ -143,7 +143,7 @@ def main(NSIDE):
         print("Means done !")
         list_sigmas_symm = []
         for i in range(2*Npix):
-            sigmas_symm = manager.list(sigmas_symm[i*int(len(sigmas_symm)/(2*Npix)):max((i+1)*int(len(sigmas_symm)/(2*Npix)), len(sigmas_symm))])
+            sigmas_symm = manager.list(sigmas_symm[i*int(len(sigmas_symm)/(2*Npix)):min((i+1)*int(len(sigmas_symm)/(2*Npix)), len(sigmas_symm))])
             list_sigmas_symm.append(sigmas_symm)
 
         denom = manager.Value('d', denom)
