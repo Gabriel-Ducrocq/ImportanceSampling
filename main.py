@@ -137,8 +137,10 @@ def main(NSIDE):
     print("starting weight computing")
     with Manager() as manager:
         print(len(means))
-        means = manager.list(means[:int(len(means)/2)])
-        sigmas_symm = manager.list(sigmas_symm)
+        means1 = manager.list(means[:int(len(means)/2)])
+        means2 = manager.list(means[int(len(means) / 2):])
+        sigmas_symm1 = manager.list(sigmas_symm[:int(len(sigmas_symm)/2)])
+        sigmas_symm2 = manager.list(sigmas_symm[int(len(sigmas_symm) /2):])
         denom = manager.Value('d', denom)
         time_start = time.time()
         log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,means, sigmas_symm, denom)
