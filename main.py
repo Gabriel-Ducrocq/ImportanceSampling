@@ -22,10 +22,10 @@ import healpy as hp
 import scipy
 
 NSIDE = 512
-Npix = 12*NSIDE**2
 sigma_rbf = 100000
 N_PROCESS_MAX = 30
 N_sample = 5
+Npix = 12*NSIDE**2
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
@@ -141,8 +141,10 @@ def main(NSIDE):
         means1 = manager.list(means[:int(len(means)/2)])
         means2 = manager.list(means[int(len(means)/2):])
         print("Means done !")
-        list_sigmas_symm = np.split(sigmas_symm, Npix*2)
-        sigmas_symm = [manager.list(k) for k in list_sigmas_symm]
+        list_sigmas_symm = []
+        for i in range(2*Npix):
+            sigmas_symm = manager.list(sigmas_symm[i*int(len(sigmas_symm)/(2*Npix)):max((i+1)*int(len(sigmas_symm)/(2*Npix)), len(sigmas_symm))])
+            list_sigmas_symm.append(sigmas_symm)
 
         denom = manager.Value('d', denom)
         time_start = time.time()
