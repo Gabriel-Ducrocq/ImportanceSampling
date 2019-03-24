@@ -140,7 +140,7 @@ def main(NSIDE):
         means1 = manager.list(means[:int(len(means)/2)])
         means2 = manager.list(means[int(len(means)/2):])
         print("Means done !")
-        list_sigmas_symm = split(sigmas_symm, self.Npix*2)
+        list_sigmas_symm = np.split(sigmas_symm, self.Npix*2)
         sigmas_symm = [manager.list(k) for k in list_sigmas_symm]
 
         denom = manager.Value('d', denom)
