@@ -141,8 +141,8 @@ def main(NSIDE):
         means2 = manager.list(means[int(len(means)/2):])
         print("Means done !")
         list_sigmas_symm = []
-        for i in range(30):
-            sigmas_symm = manager.list(sigmas_symm[i*int(len(sigmas_symm)/30):max((i+1)*int(len(sigmas_symm)/30), len(sigmas_symm))])
+        for i in range(50):
+            sigmas_symm = manager.list(sigmas_symm[i*int(len(sigmas_symm)/50):max((i+1)*int(len(sigmas_symm)/50), len(sigmas_symm))])
             list_sigmas_symm.append(sigmas_symm)
 
         denom = manager.Value('d', denom)
