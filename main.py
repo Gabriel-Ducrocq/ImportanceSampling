@@ -23,8 +23,8 @@ import scipy
 
 NSIDE = 512
 sigma_rbf = 100000
-N_PROCESS_MAX = 30
-N_sample = 5
+N_PROCESS_MAX = 40
+N_sample = 40
 Npix = 12*NSIDE**2
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
@@ -145,7 +145,6 @@ def main(NSIDE):
                                                     for i in range(len(all_sample))))
     time_elapsed = time.time() - time_start
     print(time_elapsed)
-    print(time_start_all - time.time())
     with open("B3DCMB/data/simulated_AS_NSIDE_512", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
