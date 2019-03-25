@@ -141,8 +141,8 @@ def main(NSIDE):
     print("starting weight computing")
 
     time_start = time.time()
-    log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,means, sigmas_symm, denom)
-                                                    for i,data in enumerate(all_sample)))
+    log_weights = pool2.map(sampler.compute_weight, ((noise_level, i)
+                                                    for i,data in len(all_sample)))
     time_elapsed = time.time() - time_start
     print(time_elapsed)
     print(time_start_all - time.time())
