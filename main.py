@@ -142,7 +142,7 @@ def main(NSIDE):
 
     time_start = time.time()
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i)
-                                                    for i,data in len(all_sample)))
+                                                    for i in range(len(all_sample))))
     time_elapsed = time.time() - time_start
     print(time_elapsed)
     print(time_start_all - time.time())
