@@ -140,7 +140,6 @@ def main(NSIDE):
 
     print("starting weight computing")
 
-    denom = manager.Value('d', denom)
     time_start = time.time()
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,means, sigmas_symm, denom)
                                                     for i,data in enumerate(all_sample)))
