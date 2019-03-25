@@ -127,6 +127,9 @@ def main(NSIDE):
     print("Data opened")
     map = np.array(reference_data["sky_map"])
     config.sky_map = map
+    config.means = means
+    config.sigmas_symm = sigmas_symm
+    config.denom = denom
 
     time_start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
@@ -136,23 +139,14 @@ def main(NSIDE):
     all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
 
     print("starting weight computing")
-    with Manager() as manager:
-        print(len(means))
-        means1 = manager.list(means[:int(len(means)/2)])
-        means2 = manager.list(means[int(len(means)/2):])
-        print("Means done !")
-        list_sigmas_symm = []
-        for i in range(2*Npix):
-            sigmas_symm = manager.list(sigmas_symm[i*int(len(sigmas_symm)/(2*Npix)):min((i+1)*int(len(sigmas_symm)/(2*Npix)), len(sigmas_symm))])
-            list_sigmas_symm.append(sigmas_symm)
 
-        denom = manager.Value('d', denom)
-        time_start = time.time()
-        log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,means, sigmas_symm, denom)
-                                                        for i,data in enumerate(all_sample)))
-        time_elapsed = time.time() - time_start
-        print(time_elapsed)
-        print(time_start_all - time.time())
+    denom = manager.Value('d', denom)
+    time_start = time.time()
+    log_weights = pool2.map(sampler.compute_weight, ((noise_level, i,means, sigmas_symm, denom)
+                                                    for i,data in enumerate(all_sample)))
+    time_elapsed = time.time() - time_start
+    print(time_elapsed)
+    print(time_start_all - time.time())
     with open("B3DCMB/data/simulated_AS_NSIDE_512", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
