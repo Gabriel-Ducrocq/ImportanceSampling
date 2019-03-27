@@ -23,7 +23,6 @@ import scipy
 
 NSIDE = 512
 sigma_rbf = 100000
-N_PROCESS_MAX = 50
 N_sample = 50
 Npix = 12*NSIDE**2
 
@@ -78,7 +77,7 @@ def main(NSIDE):
     start_time = time.time()
     _, sampled_beta = sampler.sample_model_parameters()
     sampled_beta = np.tile(sampled_beta, (2, 1))
-    pool1 = mp.Pool(N_PROCESS_MAX)
+    pool1 = mp.Pool(config.N_PROCESS_MAX)
     print("Launching")
     print(sampled_beta.shape)
     all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i,)
@@ -98,14 +97,14 @@ def main(NSIDE):
     map = np.array(reference_data["sky_map"])
     config.sky_map = map
 
-    pool1 = mp.Pool(N_PROCESS_MAX)
+    pool1 = mp.Pool(config.N_PROCESS_MAX)
     noise_level = 0
     print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
 
-    N_PROCESS_MAX = 20
+    config.N_PROCESS_MAX = 20
     print("starting weight computing")
-    pool2 = mp.Pool(N_PROCESS_MAX)
+    pool2 = mp.Pool(config.N_PROCESS_MAX)
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i)
                                                     for i in range(len(all_sample))))
     time_elapsed = time.time() - start_time
