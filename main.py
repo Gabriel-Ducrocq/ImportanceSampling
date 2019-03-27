@@ -75,10 +75,10 @@ def main(NSIDE):
     config.arr_sigmas = sigma_Qs + sigma_Us
     config.arr_means = Qs + Us
     print("Creating mixing matrix")
+    start_time = time.time()
     _, sampled_beta = sampler.sample_model_parameters()
     sampled_beta = np.tile(sampled_beta, (2, 1))
     pool1 = mp.Pool(N_PROCESS_MAX)
-    time_start_all = time.time()
     print("Launching")
     print(sampled_beta.shape)
     all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i,)
@@ -86,31 +86,10 @@ def main(NSIDE):
 
     print("Unzipping result")
     means, sigmas_symm, log_det = zip(*all_sample)
-    sigmas_symm = list(sigmas_symm)
-    means = [i for l in means for i in l]
-    denom = -(1 / 2) * np.sum(log_det)
-    print(time_start_all - time.time())
-    print(denom)
-    #with open("B3DCMB/data/prelim_NSIDE_512", "wb") as f:
-    #    pickle.dump({"means":means, "denom": denom, "sigmas_symm": sigmas_symm}, f)
+    config.sigmas_symm = list(sigmas_symm)
+    config.means = [i for l in means for i in l]
+    config.denom = -(1 / 2) * np.sum(log_det)
 
-    '''
-    with open("B3DCMB/data/preliminaries_512", "rb") as f:
-        prel = pickle.load(f)
-    means = prel["means"]
-    print(len(means))
-    sigmas_symm = prel["sigmas_symm"]
-    denom = ["denom"]
-
-    '''
-    '''
-    #ref = sampler.sample_data()
-    #with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
-    #    pickle.dump(ref, f)
-
-    #print(time.time() - start_time)
-    with open("B3DCMB/data/prelim_NSIDE_512", "rb") as f:
-        prelim = pickle.load(f)
 
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
@@ -118,28 +97,22 @@ def main(NSIDE):
     print("Data opened")
     map = np.array(reference_data["sky_map"])
     config.sky_map = map
-    config.means = prelim["means"]
-    config.sigmas_symm = np.array(prelim["sigmas_symm"])
-    config.denom = prelim["denom"]
 
-    time_start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
-    pool2 = mp.Pool(N_PROCESS_MAX)
     noise_level = 0
     print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
 
+    N_PROCESS_MAX = 20
     print("starting weight computing")
-
-    time_start = time.time()
+    pool2 = mp.Pool(N_PROCESS_MAX)
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i)
                                                     for i in range(len(all_sample))))
-    time_elapsed = time.time() - time_start
+    time_elapsed = time.time() - start_time
     print(time_elapsed)
     with open("B3DCMB/data/simulated_AS_NSIDE_512", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
 
-    '''
     """
     print("\n")
     print(log_weights)
