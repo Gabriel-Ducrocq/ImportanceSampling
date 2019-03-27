@@ -23,7 +23,7 @@ import scipy
 
 NSIDE = 512
 sigma_rbf = 100000
-N_PROCESS_MAX = 50
+N_PROCESS_MAX = 30
 N_sample = 50
 Npix = 12*NSIDE**2
 
