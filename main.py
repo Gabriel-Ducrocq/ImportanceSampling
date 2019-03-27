@@ -71,7 +71,7 @@ def prepare_sigma(input):
 
 
 def main(NSIDE):
-    #sampler = Sampler(NSIDE)
+    sampler = Sampler(NSIDE)
 
     '''
     with Manager() as manager:
@@ -114,7 +114,6 @@ def main(NSIDE):
     #    pickle.dump(ref, f)
 
     #print(time.time() - start_time)
-    '''
     with open("B3DCMB/data/prelim_NSIDE_512", "rb") as f:
         prelim = pickle.load(f)
 
@@ -148,7 +147,6 @@ def main(NSIDE):
     print(time_elapsed)
     with open("B3DCMB/data/simulated_AS_NSIDE_512", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
-    '''
     """
     print("\n")
     print(log_weights)
@@ -242,16 +240,16 @@ def main(NSIDE):
 
 
 if __name__=='__main__':
-    #main(NSIDE)
-    N = 1000000
-    sig = [np.eye(15) for _ in range(N)]
-    x = [np.ones(15) for i in range(N)]
-    start = time.time()
-    res = compute_exponent(np.array(sig), np.array(x), N)
-    print(time.time() - start)
-    print(res)
+    main(NSIDE)
+    #N = 1000000
+    #sig = [np.eye(15) for _ in range(N)]
+    #x = [np.ones(15) for i in range(N)]
+    #start = time.time()
+    #res = compute_exponent(np.array(sig), np.array(x), N)
+    #print(time.time() - start)
+    #print(res)
 
-    start = time.time()
-    r = np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sig, x)))
-    print(time.time() - start)
-    print(r)
+    #start = time.time()
+    #r = np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(sig, x)))
+    #print(time.time() - start)
+    #print(r)
