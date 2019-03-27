@@ -81,7 +81,7 @@ def main(NSIDE):
     time_start_all = time.time()
     print("Launching")
     print(sampled_beta.shape)
-    all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means)
+    all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i,)
                                            for i in range(len(sampled_beta))), chunksize=25000)
 
     print("Unzipping result")
