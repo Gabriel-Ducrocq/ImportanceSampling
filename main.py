@@ -23,7 +23,7 @@ import scipy
 
 NSIDE = 512
 sigma_rbf = 100000
-N_PROCESS_MAX = 20
+N_PROCESS_MAX = 50
 N_sample = 50
 Npix = 12*NSIDE**2
 
@@ -52,11 +52,11 @@ def sample_mixing_matrix_parallel(betas):
 
 
 def prepare_sigma(input):
-    sampled_beta, i, sigma_Q_U, Q_U = input
+    sampled_beta, i = input
     mixing_mat = list(sample_mixing_matrix_parallel(sampled_beta))
-    mean = np.dot(mixing_mat, Q_U[i])
+    mean = np.dot(mixing_mat, config.arr_means[i])
     sigma = np.diag(noise_covar_one_pix) + np.einsum("ij,jk,lk", mixing_mat,
-                                                          (np.diag(sigma_Q_U[i]) ** 2),
+                                                          (np.diag(config.arr_sigmas[i]) ** 2),
                                                           mixing_mat)
 
     sigma_symm = (sigma + sigma.T) / 2
@@ -72,20 +72,17 @@ def prepare_sigma(input):
 
 def main(NSIDE):
     sampler = Sampler(NSIDE)
-
-    '''
-    with Manager() as manager:
-        arr_sigmas = manager.list(sigma_Qs + sigma_Us)
-        arr_means = manager.list(Qs + Us)
-        print("Creating mixing matrix")
-        _, sampled_beta = sampler.sample_model_parameters()
-        sampled_beta = np.tile(sampled_beta, (2, 1))
-        pool1 = mp.Pool(N_PROCESS_MAX)
-        time_start_all = time.time()
-        print("Launching")
-        print(sampled_beta.shape)
-        all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means)
-                                               for i in range(len(sampled_beta))), chunksize=25000)
+    config.arr_sigmas = sigma_Qs + sigma_Us
+    config.arr_means = Qs + Us
+    print("Creating mixing matrix")
+    _, sampled_beta = sampler.sample_model_parameters()
+    sampled_beta = np.tile(sampled_beta, (2, 1))
+    pool1 = mp.Pool(N_PROCESS_MAX)
+    time_start_all = time.time()
+    print("Launching")
+    print(sampled_beta.shape)
+    all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means)
+                                           for i in range(len(sampled_beta))), chunksize=25000)
 
         print("Unzipping result")
         means, sigmas_symm, log_det = zip(*all_sample)
@@ -99,7 +96,6 @@ def main(NSIDE):
             pickle.dump({"means":means, "denom": denom, "sigmas_symm": sigmas_symm}, f)
 
     '''
-    '''
     with open("B3DCMB/data/preliminaries_512", "rb") as f:
         prel = pickle.load(f)
     means = prel["means"]
@@ -108,7 +104,7 @@ def main(NSIDE):
     denom = ["denom"]
 
     '''
-
+    '''
     #ref = sampler.sample_data()
     #with open("B3DCMB/data/reference_data_As_NSIDE_512", "wb") as f:
     #    pickle.dump(ref, f)
@@ -143,6 +139,8 @@ def main(NSIDE):
     print(time_elapsed)
     with open("B3DCMB/data/simulated_AS_NSIDE_512", "wb") as f:
         pickle.dump({"simulated_points":all_sample, "log_weights":log_weights},f)
+
+    '''
     """
     print("\n")
     print(log_weights)
