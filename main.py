@@ -117,19 +117,15 @@ def main(NSIDE):
     with open("B3DCMB/data/prelim_NSIDE_512", "rb") as f:
         prelim = pickle.load(f)
 
-    means = prelim["means"]
-    sigmas_symm = prelim["sigmas_symm"]
-    denom = prelim["denom"]
-
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
     print("Data opened")
     map = np.array(reference_data["sky_map"])
     config.sky_map = map
-    config.means = means
-    config.sigmas_symm = sigmas_symm
-    config.denom = denom
+    config.means = prelim["means"]
+    config.sigmas_symm = np.array(prelim["sigmas_symm"])
+    config.denom = prelim["denom"]
 
     time_start = time.time()
     pool1 = mp.Pool(N_PROCESS_MAX)
