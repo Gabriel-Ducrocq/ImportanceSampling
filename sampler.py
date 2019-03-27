@@ -14,6 +14,7 @@ from itertools import chain, tee
 import pickle
 import time
 import multiprocessing as mp
+from log_weight_computing import compute_exponent
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 MEAN_AS = 3.047
@@ -164,8 +165,9 @@ class Sampler:
         print("Splitting for computation")
         x = ((observed_data - np.array(list(duplicate_CMB))) - np.array(config.means)).reshape(self.Npix*2,-1)
         print("Computing log weights")
-        r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(config.sigmas_symm, x)))
-        lw = r + config.denom
+        #r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(config.sigmas_symm, x)))
+        r = compute_exponent(config.sigmas_symm, x, 2*self.Npix)
+        lw = (-1/2)*r + config.denom
         return lw
 
     def sample_data(self):
