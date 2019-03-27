@@ -84,16 +84,16 @@ def main(NSIDE):
     all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i, arr_sigmas, arr_means)
                                            for i in range(len(sampled_beta))), chunksize=25000)
 
-        print("Unzipping result")
-        means, sigmas_symm, log_det = zip(*all_sample)
-        sigmas_symm = list(sigmas_symm)
-        means = [i for l in means for i in l]
-        denom = -(1 / 2) * np.sum(log_det)
-        print(time_start_all - time.time())
+    print("Unzipping result")
+    means, sigmas_symm, log_det = zip(*all_sample)
+    sigmas_symm = list(sigmas_symm)
+    means = [i for l in means for i in l]
+    denom = -(1 / 2) * np.sum(log_det)
+    print(time_start_all - time.time())
 
-        print(denom)
-        with open("B3DCMB/data/prelim_NSIDE_512", "wb") as f:
-            pickle.dump({"means":means, "denom": denom, "sigmas_symm": sigmas_symm}, f)
+    print(denom)
+    with open("B3DCMB/data/prelim_NSIDE_512", "wb") as f:
+        pickle.dump({"means":means, "denom": denom, "sigmas_symm": sigmas_symm}, f)
 
     '''
     with open("B3DCMB/data/preliminaries_512", "rb") as f:
