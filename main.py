@@ -85,7 +85,7 @@ def main(NSIDE):
 
     print("Unzipping result")
     means, sigmas_symm, log_det = zip(*all_sample)
-    config.sigmas_symm = list(sigmas_symm)
+    config.sigmas_symm = np.array(list(sigmas_symm))
     config.means = [i for l in means for i in l]
     config.denom = -(1 / 2) * np.sum(log_det)
 
