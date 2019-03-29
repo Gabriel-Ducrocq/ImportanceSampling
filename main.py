@@ -23,7 +23,7 @@ import scipy
 
 NSIDE = 512
 sigma_rbf = 100000
-N_sample = 50
+N_sample = 2
 Npix = 12*NSIDE**2
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
@@ -84,7 +84,7 @@ def main(NSIDE):
     print("Creating mixing matrix")
     start_time = time.time()
 
-    for k in range(2):
+    for k in range(1):
         _, sampled_beta = sampler.sample_model_parameters()
         sampled_beta = np.tile(sampled_beta, (2, 1))
         pool1 = mp.Pool(config.N_PROCESS_MAX)
