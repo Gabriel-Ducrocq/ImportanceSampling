@@ -84,7 +84,7 @@ def main(NSIDE):
     print("Creating mixing matrix")
     start_time = time.time()
 
-    for k in range(1):
+    for k in range(2):
         _, sampled_beta = sampler.sample_model_parameters()
         sampled_beta = np.tile(sampled_beta, (2, 1))
         pool1 = mp.Pool(config.N_PROCESS_MAX)
