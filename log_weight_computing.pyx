@@ -18,8 +18,11 @@ def compute_exponent(double[:,:,:] sigmas_symm, double[:,::1] b, int l):
         int inc = 1
         double result = 0.0
         int[:] pivot = np.zeros(sigmas_symm.shape[1], dtype = np.intc)
-        double[:] current = np.zeros(sigmas_symm.shape[1], dtype = np.intc)
+        double[:] current = np.zeros(sigmas_symm.shape[1])
         double out = 0.0
+
+
+    print len(sigmas_symm)
 
     for i in range(l):
         current = b.base[i].copy()
