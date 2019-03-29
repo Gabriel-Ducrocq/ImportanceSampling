@@ -2,6 +2,7 @@ import numpy as np
 cimport numpy as np
 from scipy.linalg.cython_blas cimport *
 from scipy.linalg.cython_lapack cimport *
+from libc.stdio cimport printf
 cimport cython
 
 
@@ -21,8 +22,7 @@ def compute_exponent(double[:,:,:] sigmas_symm, double[:,::1] b, int l):
         double[:] current = np.zeros(sigmas_symm.shape[1])
         double out = 0.0
 
-    print "AAAAAAAAAAA"
-    print len(sigmas_symm)
+    printf(str(sigmas_symm.shape[1]))
 
     for i in range(l):
         current = b.base[i].copy()
