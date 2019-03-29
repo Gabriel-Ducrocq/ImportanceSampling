@@ -167,6 +167,7 @@ class Sampler:
         print("Computing log weights")
         #r = -(1/2)*np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(config.sigmas_symm, x)))
         r = compute_exponent(config.sigmas_symm, x, 2*self.Npix)
+        print(r)
         lw = (-1/2)*r + config.denom
         return lw
 
