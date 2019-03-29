@@ -114,8 +114,11 @@ def main(NSIDE):
 
         config.N_PROCESS_MAX = 50
 
+        time.sleep(180)
+        
     time_elapsed = time.time() - start_time
     print(time_elapsed)
+
 
     """
     print("\n")
