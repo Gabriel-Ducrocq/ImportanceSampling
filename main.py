@@ -98,7 +98,6 @@ def main(NSIDE):
         config.means = [i for l in means for i in l]
         config.denom = -(1 / 2) * np.sum(log_det)
 
-        config.sigmas_symm.setflags(write=False)
         pool1 = mp.Pool(config.N_PROCESS_MAX)
         noise_level = 0
         print("Starting sampling")
