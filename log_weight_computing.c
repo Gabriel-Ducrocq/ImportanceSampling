@@ -2645,10 +2645,10 @@ static PyObject *__pyx_pf_20log_weight_computing_compute_exponent(CYTHON_UNUSED 
   PyObject *__pyx_t_5 = NULL;
   __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_t_7 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  char const *__pyx_t_8;
+  int __pyx_t_8;
   int __pyx_t_9;
   int __pyx_t_10;
-  int __pyx_t_11;
+  Py_ssize_t __pyx_t_11;
   Py_ssize_t __pyx_t_12;
   Py_ssize_t __pyx_t_13;
   Py_ssize_t __pyx_t_14;
@@ -2656,7 +2656,6 @@ static PyObject *__pyx_pf_20log_weight_computing_compute_exponent(CYTHON_UNUSED 
   Py_ssize_t __pyx_t_16;
   Py_ssize_t __pyx_t_17;
   Py_ssize_t __pyx_t_18;
-  Py_ssize_t __pyx_t_19;
   __Pyx_RefNannySetupContext("compute_exponent", 0);
 
   /* "log_weight_computing.pyx":14
@@ -2832,108 +2831,92 @@ static PyObject *__pyx_pf_20log_weight_computing_compute_exponent(CYTHON_UNUSED 
  *         double[:] current = np.zeros(sigmas_symm.shape[1])
  *         double out = 0.0             # <<<<<<<<<<<<<<
  * 
- *     printf(str(sigmas_symm.shape[1]))
+ *     for i in range(l):
  */
   __pyx_v_out = 0.0;
 
   /* "log_weight_computing.pyx":25
  *         double out = 0.0
  * 
- *     printf(str(sigmas_symm.shape[1]))             # <<<<<<<<<<<<<<
- * 
- *     for i in range(l):
- */
-  __pyx_t_5 = PyInt_FromSsize_t((__pyx_v_sigmas_symm.shape[1])); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 25, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_8 = __Pyx_PyObject_AsString(__pyx_t_3); if (unlikely((!__pyx_t_8) && PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L1_error)
-  (void)(printf(__pyx_t_8));
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "log_weight_computing.pyx":27
- *     printf(str(sigmas_symm.shape[1]))
- * 
  *     for i in range(l):             # <<<<<<<<<<<<<<
  *         current = b.base[i].copy()
  *         dgesv(&n, &nrhs, &sigmas_symm[i, 0, 0], &lda, &pivot[0], &current[0], &ldb, &info)
  */
-  __pyx_t_9 = __pyx_v_l;
-  __pyx_t_10 = __pyx_t_9;
-  for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
-    __pyx_v_i = __pyx_t_11;
+  __pyx_t_8 = __pyx_v_l;
+  __pyx_t_9 = __pyx_t_8;
+  for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
+    __pyx_v_i = __pyx_t_10;
 
-    /* "log_weight_computing.pyx":28
+    /* "log_weight_computing.pyx":26
  * 
  *     for i in range(l):
  *         current = b.base[i].copy()             # <<<<<<<<<<<<<<
  *         dgesv(&n, &nrhs, &sigmas_symm[i, 0, 0], &lda, &pivot[0], &current[0], &ldb, &info)
  *         out = ddot(&n, &current[0], &inc, &b[i, 0], &inc)
  */
-    __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_b, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 28, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_base); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
+    __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_b, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_base); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 28, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = NULL;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-      if (likely(__pyx_t_5)) {
+      __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
+      if (likely(__pyx_t_3)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_3);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_4, function);
       }
     }
-    if (__pyx_t_5) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (__pyx_t_3) {
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 26, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else {
-      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 26, __pyx_L1_error)
     }
-    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_ds_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 28, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_ds_double(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 26, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_current, 1);
     __pyx_v_current = __pyx_t_7;
     __pyx_t_7.memview = NULL;
     __pyx_t_7.data = NULL;
 
-    /* "log_weight_computing.pyx":29
+    /* "log_weight_computing.pyx":27
  *     for i in range(l):
  *         current = b.base[i].copy()
  *         dgesv(&n, &nrhs, &sigmas_symm[i, 0, 0], &lda, &pivot[0], &current[0], &ldb, &info)             # <<<<<<<<<<<<<<
  *         out = ddot(&n, &current[0], &inc, &b[i, 0], &inc)
  *         result = result + out
  */
-    __pyx_t_12 = __pyx_v_i;
+    __pyx_t_11 = __pyx_v_i;
+    __pyx_t_12 = 0;
     __pyx_t_13 = 0;
     __pyx_t_14 = 0;
     __pyx_t_15 = 0;
-    __pyx_t_16 = 0;
-    __pyx_f_5scipy_6linalg_13cython_lapack_dgesv((&__pyx_v_n), (&__pyx_v_nrhs), (&(*((double *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_sigmas_symm.data + __pyx_t_12 * __pyx_v_sigmas_symm.strides[0]) ) + __pyx_t_13 * __pyx_v_sigmas_symm.strides[1]) ) + __pyx_t_14 * __pyx_v_sigmas_symm.strides[2]) )))), (&__pyx_v_lda), (&(*((int *) ( /* dim=0 */ (__pyx_v_pivot.data + __pyx_t_15 * __pyx_v_pivot.strides[0]) )))), (&(*((double *) ( /* dim=0 */ (__pyx_v_current.data + __pyx_t_16 * __pyx_v_current.strides[0]) )))), (&__pyx_v_ldb), (&__pyx_v_info));
+    __pyx_f_5scipy_6linalg_13cython_lapack_dgesv((&__pyx_v_n), (&__pyx_v_nrhs), (&(*((double *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_sigmas_symm.data + __pyx_t_11 * __pyx_v_sigmas_symm.strides[0]) ) + __pyx_t_12 * __pyx_v_sigmas_symm.strides[1]) ) + __pyx_t_13 * __pyx_v_sigmas_symm.strides[2]) )))), (&__pyx_v_lda), (&(*((int *) ( /* dim=0 */ (__pyx_v_pivot.data + __pyx_t_14 * __pyx_v_pivot.strides[0]) )))), (&(*((double *) ( /* dim=0 */ (__pyx_v_current.data + __pyx_t_15 * __pyx_v_current.strides[0]) )))), (&__pyx_v_ldb), (&__pyx_v_info));
 
-    /* "log_weight_computing.pyx":30
+    /* "log_weight_computing.pyx":28
  *         current = b.base[i].copy()
  *         dgesv(&n, &nrhs, &sigmas_symm[i, 0, 0], &lda, &pivot[0], &current[0], &ldb, &info)
  *         out = ddot(&n, &current[0], &inc, &b[i, 0], &inc)             # <<<<<<<<<<<<<<
  *         result = result + out
  * 
  */
-    __pyx_t_17 = 0;
-    __pyx_t_18 = __pyx_v_i;
-    __pyx_t_19 = 0;
-    __pyx_v_out = __pyx_f_5scipy_6linalg_11cython_blas_ddot((&__pyx_v_n), (&(*((double *) ( /* dim=0 */ (__pyx_v_current.data + __pyx_t_17 * __pyx_v_current.strides[0]) )))), (&__pyx_v_inc), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_b.data + __pyx_t_18 * __pyx_v_b.strides[0]) )) + __pyx_t_19)) )))), (&__pyx_v_inc));
+    __pyx_t_16 = 0;
+    __pyx_t_17 = __pyx_v_i;
+    __pyx_t_18 = 0;
+    __pyx_v_out = __pyx_f_5scipy_6linalg_11cython_blas_ddot((&__pyx_v_n), (&(*((double *) ( /* dim=0 */ (__pyx_v_current.data + __pyx_t_16 * __pyx_v_current.strides[0]) )))), (&__pyx_v_inc), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_b.data + __pyx_t_17 * __pyx_v_b.strides[0]) )) + __pyx_t_18)) )))), (&__pyx_v_inc));
 
-    /* "log_weight_computing.pyx":31
+    /* "log_weight_computing.pyx":29
  *         dgesv(&n, &nrhs, &sigmas_symm[i, 0, 0], &lda, &pivot[0], &current[0], &ldb, &info)
  *         out = ddot(&n, &current[0], &inc, &b[i, 0], &inc)
  *         result = result + out             # <<<<<<<<<<<<<<
@@ -2943,7 +2926,7 @@ static PyObject *__pyx_pf_20log_weight_computing_compute_exponent(CYTHON_UNUSED 
     __pyx_v_result = (__pyx_v_result + __pyx_v_out);
   }
 
-  /* "log_weight_computing.pyx":33
+  /* "log_weight_computing.pyx":31
  *         result = result + out
  * 
  *     return result             # <<<<<<<<<<<<<<
@@ -2951,10 +2934,10 @@ static PyObject *__pyx_pf_20log_weight_computing_compute_exponent(CYTHON_UNUSED 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_result); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_r = __pyx_t_3;
-  __pyx_t_3 = 0;
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_result); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_r = __pyx_t_5;
+  __pyx_t_5 = 0;
   goto __pyx_L0;
 
   /* "log_weight_computing.pyx":11
@@ -19194,7 +19177,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 25, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 229, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 810, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 1000, __pyx_L1_error)

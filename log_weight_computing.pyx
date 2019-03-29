@@ -22,8 +22,6 @@ def compute_exponent(double[:,:,:] sigmas_symm, double[:,::1] b, int l):
         double[:] current = np.zeros(sigmas_symm.shape[1])
         double out = 0.0
 
-    printf(str(sigmas_symm.shape[1]))
-
     for i in range(l):
         current = b.base[i].copy()
         dgesv(&n, &nrhs, &sigmas_symm[i, 0, 0], &lda, &pivot[0], &current[0], &ldb, &info)

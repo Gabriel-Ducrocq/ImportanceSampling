@@ -23,7 +23,7 @@ import scipy
 
 NSIDE = 512
 sigma_rbf = 100000
-N_sample = 2
+N_sample = 50
 Npix = 12*NSIDE**2
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
