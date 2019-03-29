@@ -21,7 +21,7 @@ def compute_exponent(double[:,:,:] sigmas_symm, double[:,::1] b, int l):
         double[:] current = np.zeros(sigmas_symm.shape[1])
         double out = 0.0
 
-    print("AAAAAAAAAAA")
+    print "AAAAAAAAAAA"
     print len(sigmas_symm)
 
     for i in range(l):

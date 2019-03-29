@@ -2850,14 +2850,14 @@ static PyObject *__pyx_pf_20log_weight_computing_compute_exponent(CYTHON_UNUSED 
  *         double[:] current = np.zeros(sigmas_symm.shape[1])
  *         double out = 0.0             # <<<<<<<<<<<<<<
  * 
- *     print("AAAAAAAAAAA")
+ *     print "AAAAAAAAAAA"
  */
   __pyx_v_out = 0.0;
 
   /* "log_weight_computing.pyx":24
  *         double out = 0.0
  * 
- *     print("AAAAAAAAAAA")             # <<<<<<<<<<<<<<
+ *     print "AAAAAAAAAAA"             # <<<<<<<<<<<<<<
  *     print len(sigmas_symm)
  * 
  */
@@ -2865,7 +2865,7 @@ static PyObject *__pyx_pf_20log_weight_computing_compute_exponent(CYTHON_UNUSED 
 
   /* "log_weight_computing.pyx":25
  * 
- *     print("AAAAAAAAAAA")
+ *     print "AAAAAAAAAAA"
  *     print len(sigmas_symm)             # <<<<<<<<<<<<<<
  * 
  *     for i in range(l):
