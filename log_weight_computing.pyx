@@ -3,12 +3,13 @@ cimport numpy as np
 from scipy.linalg.cython_blas cimport *
 from scipy.linalg.cython_lapack cimport *
 from libc.stdio cimport printf
+from libc.stdlib cimport malloc, free
 cimport cython
 
 
 @cython.boundscheck(False)  # Deactivate bounds checking
 @cython.wraparound(False)
-def compute_exponent(double[:,:,:] sigmas_symm, double[:,::1] b, int l):
+def compute_exponent(double[:,:,:] sigmas_symm, double[:,:] b, int l):
 
     cdef:
         int n = sigmas_symm.shape[1]
@@ -27,6 +28,9 @@ def compute_exponent(double[:,:,:] sigmas_symm, double[:,::1] b, int l):
         dgesv(&n, &nrhs, &sigmas_symm[i, 0, 0], &lda, &pivot[0], &current[0], &ldb, &info)
         out = ddot(&n, &current[0], &inc, &b[i, 0], &inc)
         result = result + out
+
+    free(sigmas_symm)
+    free(b)
 
     return result
 
