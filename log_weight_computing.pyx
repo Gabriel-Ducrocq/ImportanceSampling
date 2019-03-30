@@ -30,7 +30,6 @@ def compute_exponent(double[:,:,:] sigmas_symm, double[:,:] b, int l):
         result = result + out
 
     free(sigmas_symm)
-    free(b)
 
     return result
 
