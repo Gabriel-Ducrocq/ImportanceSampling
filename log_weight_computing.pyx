@@ -28,7 +28,7 @@ def compute_exponent(double[:,:,:] sigmas_symm, double[::1,:] b, int l):
         #current = b.base[i].copy_fortran()
         current = b[i].copy_fortran()
         sigm_current = sigmas_symm[i,:,:].copy_fortran()
-        dgesv(&n, &nrhs, &sigm_curent[0, 0], &lda, &pivot[0], &current[0], &ldb, &info)
+        dgesv(&n, &nrhs, &sigm_current[0, 0], &lda, &pivot[0], &current[0], &ldb, &info)
         out = ddot(&n, &current[0], &inc, &b[i, 0], &inc)
         result = result + out
 
