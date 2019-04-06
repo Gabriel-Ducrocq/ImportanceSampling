@@ -21,7 +21,7 @@ def compute_exponent(double[:,:,:] sigmas_symm, double[::1,:] b, int l):
         double result = 0.0
         int[::1] pivot = np.zeros(sigmas_symm.shape[1], dtype = np.intc, order = "F")
         double[::1] current = np.zeros(sigmas_symm.shape[1], order = "F")
-        double[::1, :] sigm_current = np.zeros(sigmas_symm.shape[1], sigmas_symm.shape[1], order = "F")
+        double[::1, :] sigm_current = np.zeros((sigmas_symm.shape[1], sigmas_symm.shape[1]), order = "F")
         double out = 0.0
 
     for i in range(l):
