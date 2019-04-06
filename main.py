@@ -103,7 +103,7 @@ def main(NSIDE, run_num):
     print("Starting sampling")
     all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
 
-    config.N_PROCESS_MAX = 20
+    config.N_PROCESS_MAX = 50
     print("starting weight computing")
     pool2 = mp.Pool(config.N_PROCESS_MAX)
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i)
@@ -117,16 +117,8 @@ def main(NSIDE, run_num):
     time_elapsed = time.time() - start_time
     print("Script number " + str(run_num) + " took " + str(time_elapsed) + "seconds")
 
-    print("\n")
-    print(log_weights)
-    print("\n")
-    print(log_weights - np.max(log_weights))
-    print("\n")
     w = np.exp(log_weights - np.max(log_weights))
-    print(w)
-    print("\n")
     w = w/np.sum(w)
-    print(w)
 
     ess = (np.sum(w)**2)/np.sum(w**2)
     print(ess)
