@@ -112,7 +112,7 @@ def main(NSIDE, run_num):
     #with open("B3DCMB/data/simulated_beta_NSIDE_512_" + str(run_num), "wb") as f:
     #    pickle.dump({"simulated_points":all_sample, "sampled_beta":sampled_beta, "log_weights":log_weights},f)
 
-    config.N_PROCESS_MAX = 50
+    config.N_PROCESS_MAX = 40
 
     time_elapsed = time.time() - start_time
     print("Script number " + str(run_num) + " took " + str(time_elapsed) + "seconds")
