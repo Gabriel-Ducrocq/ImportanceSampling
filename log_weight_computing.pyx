@@ -9,7 +9,7 @@ cimport cython
 
 @cython.boundscheck(False)  # Deactivate bounds checking
 @cython.wraparound(False)
-def compute_exponent(double[:,::1,:] sigmas_symm, double[::1,:] b, int l):
+def compute_exponent(double[:,:,:] sigmas_symm, double[::1,:] b, int l):
 
     cdef:
         int n = sigmas_symm.shape[1]
