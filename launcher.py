@@ -20,5 +20,5 @@ for i in range(N_scripts):
     weights = w/np.sum(w)
     ess = (np.sum(weights)**2)/np.sum(weights**2)
     ESS_list.append(ess)
-    print(ess/len(log_weights))
+    print(ess)
     #pickle.dump({"simulated_points": all_sample, "sampled_beta": sampled_beta, "log_weights": log_weights}, f)
