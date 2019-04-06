@@ -109,15 +109,14 @@ def main(NSIDE, run_num):
     log_weights = pool2.map(sampler.compute_weight, ((noise_level, i)
                                                     for i in range(len(all_sample))))
 
-    with open("B3DCMB/data/simulated_beta_NSIDE_512_" + str(run_num), "wb") as f:
-        pickle.dump({"simulated_points":all_sample, "sampled_beta":sampled_beta, "log_weights":log_weights},f)
+    #with open("B3DCMB/data/simulated_beta_NSIDE_512_" + str(run_num), "wb") as f:
+    #    pickle.dump({"simulated_points":all_sample, "sampled_beta":sampled_beta, "log_weights":log_weights},f)
 
     config.N_PROCESS_MAX = 50
 
     time_elapsed = time.time() - start_time
-    print("Script number " + str(run_num) + " took " + time_elapsed + "seconds")
+    print("Script number " + str(run_num) + " took " + str(time_elapsed) + "seconds")
 
-    """
     print("\n")
     print(log_weights)
     print("\n")
