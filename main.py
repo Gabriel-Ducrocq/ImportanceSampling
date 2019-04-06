@@ -59,7 +59,7 @@ def prepare_sigma(input):
                                                           (np.diag(config.arr_sigmas[i]) ** 2),
                                                           mixing_mat)
 
-    sigma_symm = (sigma + sigma.T) / 2
+    sigma_symm = np.asfortranarray((sigma + sigma.T) / 2)
     log_det = np.log(scipy.linalg.det(2 * np.pi * sigma_symm))
     return mean, sigma_symm, log_det
 

@@ -9,7 +9,7 @@ cimport cython
 
 @cython.boundscheck(False)  # Deactivate bounds checking
 @cython.wraparound(False)
-def compute_exponent(double[:,:,:] sigmas_symm, double[:,:] b, int l):
+def compute_exponent(double[:,::1,:] sigmas_symm, double[::1,:] b, int l):
 
     cdef:
         int n = sigmas_symm.shape[1]
@@ -19,17 +19,16 @@ def compute_exponent(double[:,:,:] sigmas_symm, double[:,:] b, int l):
         int info = 0
         int inc = 1
         double result = 0.0
-        int[:] pivot = np.zeros(sigmas_symm.shape[1], dtype = np.intc)
-        double[:] current = np.zeros(sigmas_symm.shape[1])
+        int[::1] pivot = np.zeros(sigmas_symm.shape[1], dtype = np.intc, order = "F")
+        double[::1] current = np.zeros(sigmas_symm.shape[1], order = "F")
         double out = 0.0
 
     for i in range(l):
-        current = b.base[i].copy()
+        #current = b.base[i].copy_fortran()
+        current = b[i].copy_fortran()
         dgesv(&n, &nrhs, &sigmas_symm[i, 0, 0], &lda, &pivot[0], &current[0], &ldb, &info)
         out = ddot(&n, &current[0], &inc, &b[i, 0], &inc)
         result = result + out
-
-    free(sigmas_symm)
 
     return result
 

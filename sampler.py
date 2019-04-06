@@ -163,10 +163,10 @@ class Sampler:
         print("Duplicating CMB")
         duplicate_CMB = (l for l in map_CMB for _ in range(15))
         print("Splitting for computation")
-        x = ((observed_data - np.array(list(duplicate_CMB))) - np.array(config.means)).reshape(self.Npix*2,-1)
+        x = ((observed_data - np.array(list(duplicate_CMB))) - np.array(config.means)).reshape(self.Npix*2,-1, order = "F")
         print("Computing log weights")
-        r = np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(config.sigmas_symm, x)))
-        #r = compute_exponent(config.sigmas_symm, x, 2*self.Npix)
+        #r = np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(config.sigmas_symm, x)))
+        r = compute_exponent(config.sigmas_symm, x, 2*self.Npix)
         lw = (-1/2)*r + config.denom
         return lw
 
