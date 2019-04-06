@@ -21,12 +21,14 @@ def compute_exponent(double[:,:,:] sigmas_symm, double[::1,:] b, int l):
         double result = 0.0
         int[::1] pivot = np.zeros(sigmas_symm.shape[1], dtype = np.intc, order = "F")
         double[::1] current = np.zeros(sigmas_symm.shape[1], order = "F")
+        double[::1, :] sigm_current = np.zeros(sigmas_symm.shape[1], sigmas_symm.shape[1], order = "F")
         double out = 0.0
 
     for i in range(l):
         #current = b.base[i].copy_fortran()
         current = b[i].copy_fortran()
-        dgesv(&n, &nrhs, &sigmas_symm[i, 0, 0], &lda, &pivot[0], &current[0], &ldb, &info)
+        sigm_current = sigmas_symm[i,:,:].copy_fortran()
+        dgesv(&n, &nrhs, &sigm_curent[0, 0], &lda, &pivot[0], &current[0], &ldb, &info)
         out = ddot(&n, &current[0], &inc, &b[i, 0], &inc)
         result = result + out
 
