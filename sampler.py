@@ -102,8 +102,8 @@ class Sampler:
     def sample_model_parameters(self):
         #sampled_cosmo = self.sample_normal(self.cosmo_means, self.cosmo_stdd)
         sampled_cosmo = np.array([0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
-        #sampled_beta = self.sample_normal(self.matrix_mean, self.matrix_var, diag = True).reshape((self.Npix, -1), order = "F")
-        sampled_beta = self.matrix_mean.reshape((self.Npix, -1), order = "F")
+        sampled_beta = self.sample_normal(self.matrix_mean, self.matrix_var, diag = True).reshape((self.Npix, -1), order = "F")
+        #sampled_beta = self.matrix_mean.reshape((self.Npix, -1), order = "F")
         return sampled_cosmo, sampled_beta
 
     def sample_CMB_QU(self, cosmo_params):
@@ -163,11 +163,11 @@ class Sampler:
         print("Duplicating CMB")
         duplicate_CMB = (l for l in map_CMB for _ in range(15))
         print("Splitting for computation")
-        #Le problème en cython venait peut être du fait que j'utilisais reshape order = F au lieu de asfortranarray !!!
+        #Le problème est surement que chaque ligne de X doit être en fortran order, ce qui du coup est aussi C order !!!
         x = np.asfortranarray((observed_data - np.array(list(duplicate_CMB)) - np.array(config.means)).reshape(self.Npix*2,-1))
         print("Computing log weights")
-        #r = np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(config.sigmas_symm, x)))
-        r = compute_exponent(config.sigmas_symm, x, 2*self.Npix)
+        r = np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(config.sigmas_symm, x)))
+        #r = compute_exponent(config.sigmas_symm, x, 2*self.Npix)
         lw = (-1/2)*r + config.denom
         return lw
 
