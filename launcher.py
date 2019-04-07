@@ -4,14 +4,14 @@ import pickle
 
 N_scripts = 50
 
-for i in range(N_scripts):
-    subprocess.run(["python", "main.py", str(i)])
+#for i in range(N_scripts):
+#    subprocess.run(["python", "main.py", str(i)])
 
 
-'''
+
 ## Computing the weight for each beta:
 ESS_list = []
-for i in range(N_scripts):
+for i in range(44):
     with open("B3DCMB/data/simulated_beta_NSIDE_512_" + str(i), "rb") as f:
         res_current = pickle.load(f)
 
@@ -23,4 +23,3 @@ for i in range(N_scripts):
     print(ess)
     #pickle.dump({"simulated_points": all_sample, "sampled_beta": sampled_beta, "log_weights": log_weights}, f)
 
-'''

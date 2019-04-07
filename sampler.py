@@ -163,6 +163,7 @@ class Sampler:
         print("Duplicating CMB")
         duplicate_CMB = (l for l in map_CMB for _ in range(15))
         print("Splitting for computation")
+        #Le problème en cython venait peut être du fait que j'utilisais reshape order = F au lieu de asfortranarray !!!
         x = np.asfortranarray((observed_data - np.array(list(duplicate_CMB)) - np.array(config.means)).reshape(self.Npix*2,-1))
         print("Computing log weights")
         r = np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(config.sigmas_symm, x)))
