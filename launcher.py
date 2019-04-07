@@ -19,7 +19,7 @@ for i in range(44):
     log_weights = res_current["log_weights"]
     w = np.exp(log_weights - np.max(log_weights))
     weights = w/np.sum(w)
-    beta_weights.append(np.sum(weights))
+    beta_weights.append(np.mean(weights))
     ess = (np.sum(weights)**2)/np.sum(weights**2)
     ESS_list.append(ess)
     print(ess)
