@@ -12,6 +12,7 @@ N_scripts = 50
 ## Computing the weight for each beta:
 ESS_list = []
 beta_weights = []
+all_weights = []
 for i in range(44):
     with open("B3DCMB/data/simulated_beta_NSIDE_512_" + str(i), "rb") as f:
         res_current = pickle.load(f)
@@ -20,6 +21,7 @@ for i in range(44):
     w = np.exp(log_weights - np.max(log_weights))
     weights = (w/np.sum(w))
     beta_weights.append(np.sum(weights))
+    all_weights += list(weights)
     ess = (np.sum(weights)**2)/np.sum(weights**2)
     ESS_list.append(ess)
     print(ess)
@@ -30,3 +32,7 @@ beta_ess = (np.sum(beta_weights)**2)/np.sum(np.array(beta_weights)**2)
 print("beta_ess:")
 print(len(beta_weights))
 print(beta_ess)
+print("All ess")
+all_ess = (np.sum(all_weights)**2)/np.sum(np.array(all_weights)**2)
+print(len(all_weights))
+print(all_ess)
