@@ -26,4 +26,5 @@ for i in range(44):
     #pickle.dump({"simulated_points": all_sample, "sampled_beta": sampled_beta, "log_weights": log_weights}, f)
 
 print(beta_weights)
-beta_ess = (np.sum(beta_weights)**2)/np.sum(beta_weights**2)
+beta_ess = (np.sum(beta_weights)**2)/np.sum(np.array(beta_weights)**2)
+print(beta_ess)
