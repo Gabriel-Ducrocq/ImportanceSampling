@@ -28,4 +28,6 @@ for i in range(44):
 
 print(beta_weights)
 beta_ess = (np.sum(beta_weights)**2)/np.sum(np.array(beta_weights)**2)
+print("beta_ess:")
+print(len(beta_weights))
 print(beta_ess)
