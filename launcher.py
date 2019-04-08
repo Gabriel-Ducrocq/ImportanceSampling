@@ -20,8 +20,8 @@ for i in range(44):
     log_weights = res_current["log_weights"]
     w = np.exp(log_weights - np.max(log_weights))
     weights = (w/np.sum(w))
-    beta_weights.append(np.sum(weights))
-    all_weights += list(weights)
+    beta_weights.append(log_weights)
+    all_weights += list(log_weights)
     ess = (np.sum(weights)**2)/np.sum(weights**2)
     ESS_list.append(ess)
     print(ess)
@@ -36,3 +36,9 @@ print("All ess")
 all_ess = (np.sum(all_weights)**2)/np.sum(np.array(all_weights)**2)
 print(len(all_weights))
 print(all_ess)
+print("Good Ess")
+denom = np.sum(np.exp(all_weights - np.max(all_weights)))
+weights = [np.sum(np.exp(arr - np.max(all_weights)))/denom for arr in beta_weights]
+ess = (np.sum(weights)**2)/np.sum(weights**2)
+print(ess)
+
