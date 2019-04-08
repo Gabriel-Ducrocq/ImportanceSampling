@@ -38,7 +38,7 @@ class Sampler:
         print("Initialising sampler")
         self.cosmo = Class()
         #print("Maps")
-        self.Qs, self.Us, self.sigma_Qs, self.sigma_Us = aggregate_by_pixels_params(get_pixels_params(self.NSIDE))
+        #self.Qs, self.Us, self.sigma_Qs, self.sigma_Us = aggregate_by_pixels_params(get_pixels_params(self.NSIDE))
         #print("betas")
         self.matrix_mean, self.matrix_var = aggregate_mixing_params(get_mixing_matrix_params(self.NSIDE))
         print("Cosmo params")
@@ -51,7 +51,7 @@ class Sampler:
         self.mixing_matrix_evaluator = self.mixing_matrix.evaluator(self.instrument.Frequencies)
 
         self.noise_covar_one_pix = self.noise_covariance_in_freq(self.NSIDE)
-        self.noise_stdd_all = np.concatenate([np.sqrt(self.noise_covar_one_pix) for _ in range(2*self.Npix)])
+        #self.noise_stdd_all = np.concatenate([np.sqrt(self.noise_covar_one_pix) for _ in range(2*self.Npix)])
         print("End of initialisation")
 
     def __getstate__(self):
@@ -164,10 +164,10 @@ class Sampler:
         duplicate_CMB = (l for l in map_CMB for _ in range(15))
         print("Splitting for computation")
         #Le problème est surement que chaque ligne de X doit être en fortran order, ce qui du coup est aussi C order !!!
-        x = np.asfortranarray((observed_data - np.array(list(duplicate_CMB)) - np.array(config.means)).reshape(self.Npix*2,-1))
+        x = np.ascontiguousarray((observed_data - np.array(list(duplicate_CMB)) - np.array(config.means)).reshape(self.Npix*2,-1))
         print("Computing log weights")
-        r = np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(config.sigmas_symm, x)))
-        #r = compute_exponent(config.sigmas_symm, x, 2*self.Npix)
+        #r = np.sum((np.dot(l[1], scipy.linalg.solve(l[0], l[1].T)) for l in zip(config.sigmas_symm, x)))
+        r = compute_exponent(config.sigmas_symm, x, 2*self.Npix)
         lw = (-1/2)*r + config.denom
         return lw
 
