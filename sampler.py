@@ -38,7 +38,7 @@ class Sampler:
         print("Initialising sampler")
         self.cosmo = Class()
         #print("Maps")
-        #self.Qs, self.Us, self.sigma_Qs, self.sigma_Us = aggregate_by_pixels_params(get_pixels_params(self.NSIDE))
+        self.Qs, self.Us, self.sigma_Qs, self.sigma_Us = aggregate_by_pixels_params(get_pixels_params(self.NSIDE))
         #print("betas")
         self.matrix_mean, self.matrix_var = aggregate_mixing_params(get_mixing_matrix_params(self.NSIDE))
         print("Cosmo params")
