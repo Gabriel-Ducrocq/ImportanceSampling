@@ -2,7 +2,7 @@ import subprocess
 import numpy as np
 import pickle
 
-N_scripts = 50
+N_scripts = 100
 
 for i in range(N_scripts):
     subprocess.run(["python", "main.py", str(i)])
