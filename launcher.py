@@ -18,7 +18,7 @@ for i in range(44):
         res_current = pickle.load(f)
 
     log_weights = res_current["log_weights"]
-    print(res_current["all_sample"])
+    print(res_current["simulated_points"])
     w = np.exp(log_weights - np.max(log_weights))
     weights = (w/np.sum(w))
     beta_weights.append(log_weights)
