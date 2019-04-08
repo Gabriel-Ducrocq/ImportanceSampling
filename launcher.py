@@ -27,18 +27,9 @@ for i in range(44):
     print(ess)
     #pickle.dump({"simulated_points": all_sample, "sampled_beta": sampled_beta, "log_weights": log_weights}, f)
 
-print(beta_weights)
-beta_ess = (np.sum(beta_weights)**2)/np.sum(np.array(beta_weights)**2)
-print("beta_ess:")
-print(len(beta_weights))
-print(beta_ess)
-print("All ess")
-all_ess = (np.sum(all_weights)**2)/np.sum(np.array(all_weights)**2)
-print(len(all_weights))
-print(all_ess)
-print("Good Ess")
-denom = np.sum(np.exp(all_weights - np.max(all_weights)))
-weights = [np.sum(np.exp(arr - np.max(all_weights)))/denom for arr in beta_weights]
-ess = (np.sum(weights)**2)/np.sum(np.array(weights)**2)
+w = [np.max(arr) + np.log(np.mean(np.exp(arr - np.max(arr)))) for arr in beta_weights]
+auto_norm_w = w/np.sum(w)
+ess = (np.sum(auto_norm_w)**2)/np.sum(np.array(auto_norm_w)**2)
+print("Ess for beta")
 print(ess)
 
