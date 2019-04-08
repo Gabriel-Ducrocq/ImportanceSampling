@@ -39,6 +39,6 @@ print(all_ess)
 print("Good Ess")
 denom = np.sum(np.exp(all_weights - np.max(all_weights)))
 weights = [np.sum(np.exp(arr - np.max(all_weights)))/denom for arr in beta_weights]
-ess = (np.sum(weights)**2)/np.sum(weights**2)
+ess = (np.sum(weights)**2)/np.sum(np.array(weights)**2)
 print(ess)
 
