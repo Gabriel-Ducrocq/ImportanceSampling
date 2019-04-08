@@ -22,13 +22,13 @@ for i in range(44):
     weights = (w/np.sum(w))
     beta_weights.append(log_weights)
     ess = (np.sum(weights)**2)/np.sum(weights**2)
-    ESS_list.append(ess)
     print(ess)
     #pickle.dump({"simulated_points": all_sample, "sampled_beta": sampled_beta, "log_weights": log_weights}, f)
 
-w = [np.max(arr) + np.log(np.mean(np.exp(arr - np.max(arr)))) for arr in beta_weights]
+log_w = np.array([np.max(arr) + np.log(np.mean(np.exp(arr - np.max(arr)))) for arr in beta_weights])
+w = np.exp(log_w - np.max(log_w))
 auto_norm_w = w/np.sum(w)
-ess = (np.sum(auto_norm_w)**2)/np.sum(np.array(auto_norm_w)**2)
+ess = (np.sum(auto_norm_w)**2)/np.sum(auto_norm_w**2)
 print("Ess for beta")
 print(ess)
 print("Ess/N")
