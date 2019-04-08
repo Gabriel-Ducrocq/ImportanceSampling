@@ -200,9 +200,5 @@ class Sampler:
         print("Creating noise")
         noise = self.sample_normal(np.zeros(2 * 15 * self.Npix), self.noise_stdd_all, diag = True)
         print("Adding noise to the maps")
-        #sky_map_no_noise = freq_maps + duplicated_cmb
         sky_map = np.add(np.add(freq_maps, duplicated_cmb), noise)
-
-        #sig = 1/(np.dot(np.dot(np.transpose(sky_map_no_noise), np.diag(1/(self.noise_stdd_all**2))), sky_map_no_noise))
-        return duplicated_cmb
-        #return {"sky_map": sky_map, "cosmo_params": cosmo_params, "betas": sampled_beta}
+        return {"sky_map": sky_map, "cosmo_params": cosmo_params, "betas": sampled_beta}
