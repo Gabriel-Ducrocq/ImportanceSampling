@@ -4,16 +4,16 @@ import pickle
 
 N_scripts = 100
 
-for i in range(N_scripts):
-    subprocess.run(["python", "main.py", str(i)])
+#for i in range(N_scripts):
+#    subprocess.run(["python", "main.py", str(i)])
 
 
-"""
+
 ## Computing the weight for each beta:
 ESS_list = []
 beta_weights = []
 all_weights = []
-for i in range(44):
+for i in range(86):
     with open("B3DCMB/data/simulated_beta_NSIDE_512_" + str(i), "rb") as f:
         res_current = pickle.load(f)
 
@@ -38,4 +38,3 @@ print(auto_norm_w)
 print(log_w)
 print(w)
 print(log_w - np.max(log_w))
-"""
