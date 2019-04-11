@@ -116,7 +116,7 @@ def main(NSIDE, run_num):
         #    pickle.dump({"simulated_points":all_sample, "sampled_beta":sampled_beta, "log_weights":log_weights},f)
 
         uniforms = np.random.uniform(size = len(log_weights))
-        accepted = uniforms < np.array(log_weights)
+        accepted = np.log(uniforms) < np.array(log_weights)
 
         if np.sum(accepted) > 0:
             print("took " + str(l+1) + "iterations to obtain " + str(np.sum(accepted)) + " accepted samples")
