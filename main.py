@@ -118,6 +118,8 @@ def main(NSIDE, run_num):
         uniforms = np.random.uniform(size = len(log_weights))
         accepted = np.log(uniforms) < np.array(log_weights)
 
+        print(log_weights)
+
         if np.sum(accepted) > 0:
             print("took " + str(l+1) + "iterations to obtain " + str(np.sum(accepted)) + " accepted samples")
             break
