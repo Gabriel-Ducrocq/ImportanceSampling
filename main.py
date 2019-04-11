@@ -130,6 +130,7 @@ def main(NSIDE, run_num):
 
         time_elapsed = time.time() - start_time
         print("Script number " + str(run_num) + " took " + str(time_elapsed) + "seconds")
+        break
 
 
 
