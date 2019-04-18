@@ -29,7 +29,8 @@ cosmo.struct_cleanup()
 cosmo.empty()
 
 start = time.clock()
-res = sphtfunc.map2alm((I, Q, U))
+res = sphtfunc.map2alm(Q)
+res = sphtfunc.map2alm(U)
 print(Q.shape)
 print(res.shape)
 end_back = time.clock() - start
