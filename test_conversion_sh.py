@@ -20,7 +20,7 @@ params = {'output': OUTPUT_CLASS,
 params.update(cosmo_params)
 cosmo.set(params)
 cosmo.compute()
-cls = self.cosmo.lensed_cl(L_MAX_SCALARS)
+cls = cosmo.lensed_cl(L_MAX_SCALARS)
 eb_tb = np.zeros(shape=cls["tt"].shape)
 _, Q, U = hp.synfast((cls['tt'], cls['ee'], cls['bb'], cls['te'], eb_tb, eb_tb), nside=self.NSIDE, new=True)
 end_generation = time.clock() - start
