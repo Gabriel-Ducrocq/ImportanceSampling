@@ -5,6 +5,7 @@ import time
 from healpy import sphtfunc
 
 
+NSIDE = 512
 L_MAX_SCALARS = 5000
 LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
@@ -22,7 +23,7 @@ cosmo.set(params)
 cosmo.compute()
 cls = cosmo.lensed_cl(L_MAX_SCALARS)
 eb_tb = np.zeros(shape=cls["tt"].shape)
-_, Q, U = hp.synfast((cls['tt'], cls['ee'], cls['bb'], cls['te'], eb_tb, eb_tb), nside=self.NSIDE, new=True)
+_, Q, U = hp.synfast((cls['tt'], cls['ee'], cls['bb'], cls['te'], eb_tb, eb_tb), nside=NSIDE, new=True)
 end_generation = time.clock() - start
 cosmo.struct_cleanup()
 cosmo.empty()
