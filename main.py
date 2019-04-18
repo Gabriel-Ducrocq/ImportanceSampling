@@ -24,7 +24,7 @@ import sys
 
 NSIDE = 512
 sigma_rbf = 100000
-N_sample = 50
+N_sample = 100
 Npix = 12*NSIDE**2
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
@@ -70,9 +70,9 @@ def prepare_sigma(input):
 
 
 
-def main(NSIDE, run_num):
+def main(NSIDE, run_num, As):
     start_time = time.time()
-    sampler = Sampler(NSIDE)
+    sampler = Sampler(NSIDE, As)
 
     with open("B3DCMB/data/reference_data_free_beta_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
@@ -85,56 +85,40 @@ def main(NSIDE, run_num):
     config.arr_means = Qs + Us
     print("Creating mixing matrix")
 
-    '''
-    l = 0
-    while True:
-        _, sampled_beta = sampler.sample_model_parameters()
-        sampled_beta = np.tile(sampled_beta, (2, 1))
-        pool1 = mp.Pool(config.N_PROCESS_MAX)
-        print("Launching")
-        all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i,)
-                                               for i in range(len(sampled_beta))), chunksize=25000)
+
+    _, sampled_beta = sampler.sample_model_parameters()
+    sampled_beta = np.tile(sampled_beta, (2, 1))
+    pool1 = mp.Pool(config.N_PROCESS_MAX)
+    print("Launching")
+    all_sample = pool1.map(prepare_sigma, ((sampled_beta[i, :], i,)
+                                           for i in range(len(sampled_beta))), chunksize=25000)
 
 
-        print("Unzipping result")
-        means, sigmas_symm, log_det = zip(*all_sample)
-        config.sigmas_symm = np.array(list(sigmas_symm))
-        config.means = [i for l in means for i in l]
-        config.denom = -(1 / 2) * np.sum(log_det)
+    print("Unzipping result")
+    means, sigmas_symm, log_det = zip(*all_sample)
+    config.sigmas_symm = np.array(list(sigmas_symm))
+    config.means = [i for l in means for i in l]
+    config.denom = -(1 / 2) * np.sum(log_det)
 
-        pool1 = mp.Pool(config.N_PROCESS_MAX)
-        noise_level = 0
-        print("Starting sampling")
-        all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
+    pool1 = mp.Pool(config.N_PROCESS_MAX)
+    noise_level = 0
+    print("Starting sampling")
+    all_sample = pool1.map(sampler.sample_model, (i for i in range(N_sample)))
 
-        config.N_PROCESS_MAX = 50
-        print("starting weight computing")
-        pool2 = mp.Pool(config.N_PROCESS_MAX)
-        log_weights = pool2.map(sampler.compute_weight, ((noise_level, i)
-                                                        for i in range(len(all_sample))))
+    config.N_PROCESS_MAX = 50
+    print("starting weight computing")
+    pool2 = mp.Pool(config.N_PROCESS_MAX)
+    log_weights = pool2.map(sampler.compute_weight, ((noise_level, i)
+                                                    for i in range(len(all_sample))))
 
-        #with open("B3DCMB/data/simulated_beta_NSIDE_512_" + str(run_num), "wb") as f:
-        #    pickle.dump({"simulated_points":all_sample, "sampled_beta":sampled_beta, "log_weights":log_weights},f)
+    #with open("B3DCMB/data/simulated_beta_NSIDE_512_" + str(run_num), "wb") as f:
+    #    pickle.dump({"simulated_points":all_sample, "sampled_beta":sampled_beta, "log_weights":log_weights},f)
+    config.N_PROCESS_MAX = 50
 
-        uniforms = np.random.uniform(size = len(log_weights))
-        accepted = np.log(uniforms) < np.array(log_weights)
+    time_elapsed = time.time() - start_time
+    print("Script number " + str(run_num) + " took " + str(time_elapsed) + "seconds")
+    return np.max(log_weights) + np.log(np.mean(log_weights - np.max(log_weights)))
 
-        print(log_weights)
-
-        if np.sum(accepted) > 0:
-            print("took " + str(l+1) + "iterations to obtain " + str(np.sum(accepted)) + " accepted samples")
-            break
-
-        l += 1
-
-        config.N_PROCESS_MAX = 50
-
-        time_elapsed = time.time() - start_time
-        print("Script number " + str(run_num) + " took " + str(time_elapsed) + "seconds")
-        break
-
-
-    '''
     """
     w = np.exp(log_weights - np.max(log_weights))
     w = w/np.sum(w)

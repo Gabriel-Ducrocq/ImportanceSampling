@@ -24,6 +24,7 @@ cosmo.compute()
 cls = cosmo.lensed_cl(L_MAX_SCALARS)
 eb_tb = np.zeros(shape=cls["tt"].shape)
 I, Q, U = hp.synfast((cls['tt'], cls['ee'], cls['bb'], cls['te'], eb_tb, eb_tb), nside=NSIDE, new=True)
+print(cls["tt"].shape)
 end_generation = time.clock() - start
 cosmo.struct_cleanup()
 cosmo.empty()

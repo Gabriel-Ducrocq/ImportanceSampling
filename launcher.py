@@ -1,6 +1,7 @@
 import subprocess
 import numpy as np
 import pickle
+from main import main
 
 N_scripts = 100
 
@@ -8,7 +9,7 @@ N_scripts = 100
 #    subprocess.run(["python", "main.py", str(i)])
 
 
-
+"""
 ## Computing the weight for each beta:
 ESS_list = []
 beta_weights = []
@@ -37,3 +38,4 @@ print(auto_norm_w)
 print(log_w)
 print(w)
 print(log_w - np.max(log_w))
+"""
