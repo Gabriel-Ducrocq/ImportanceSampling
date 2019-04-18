@@ -85,6 +85,7 @@ def main(NSIDE, run_num):
     config.arr_means = Qs + Us
     print("Creating mixing matrix")
 
+    '''
     l = 0
     while True:
         _, sampled_beta = sampler.sample_model_parameters()
@@ -133,7 +134,7 @@ def main(NSIDE, run_num):
         break
 
 
-
+    '''
     """
     w = np.exp(log_weights - np.max(log_weights))
     w = w/np.sum(w)
