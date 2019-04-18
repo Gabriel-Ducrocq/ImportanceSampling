@@ -30,6 +30,7 @@ cosmo.empty()
 
 start = time.clock()
 res = sphtfunc.map2alm((I, Q, U))
+print(Q.shape)
 print(res.shape)
 end_back = time.clock() - start
 
