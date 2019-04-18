@@ -24,8 +24,8 @@ cls = self.cosmo.lensed_cl(L_MAX_SCALARS)
 eb_tb = np.zeros(shape=cls["tt"].shape)
 _, Q, U = hp.synfast((cls['tt'], cls['ee'], cls['bb'], cls['te'], eb_tb, eb_tb), nside=self.NSIDE, new=True)
 end_generation = time.clock() - start
-self.cosmo.struct_cleanup()
-self.cosmo.empty()
+cosmo.struct_cleanup()
+cosmo.empty()
 
 start = time.clock()
 res = sphtfunc.map2alm((Q,U))
