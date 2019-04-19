@@ -74,7 +74,7 @@ def main(NSIDE, run_num, As):
     start_time = time.time()
     sampler = Sampler(NSIDE, As)
 
-    with open("B3DCMB/data/reference_data_free_beta_NSIDE_512", "rb") as f:
+    with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
     print("Data opened")

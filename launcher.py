@@ -8,6 +8,19 @@ N_scripts = 100
 #for i in range(N_scripts):
 #    subprocess.run(["python", "main.py", str(i)])
 
+likelihood_evals = []
+points = []
+for i in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False):
+    lik_eval = main(i, i)
+    points.append(i)
+    likelihood_evals.append(lik_eval)
+
+
+
+d = {"y": likelihood_evals, "x":points}
+with open("B3DCMB/flatness", "wb") as f:
+    pickle.dump(d, f)
+
 
 """
 ## Computing the weight for each beta:
