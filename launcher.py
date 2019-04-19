@@ -12,6 +12,7 @@ likelihood_evals = []
 points = []
 for i in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False):
     lik_eval = main(512, i, i)
+    print(lik_eval)
     points.append(i)
     likelihood_evals.append(lik_eval)
 
