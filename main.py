@@ -117,7 +117,7 @@ def main(NSIDE, run_num, As):
 
     time_elapsed = time.time() - start_time
     print("Script number " + str(run_num) + " took " + str(time_elapsed) + "seconds")
-    return np.max(log_weights) + np.log(np.mean(log_weights - np.max(log_weights)))
+    return np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
 
     """
     w = np.exp(log_weights - np.max(log_weights))
