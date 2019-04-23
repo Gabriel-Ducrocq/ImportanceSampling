@@ -11,7 +11,7 @@ N_scripts = 100
 likelihood_evals = []
 points = []
 for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
-    lik_eval = subprocess.run(["python", "main.py", str(i), As])
+    lik_eval = subprocess.run(["python", "main.py", str(i), str(As)])
     print(lik_eval.stdout)
     #lik_eval = main(512, i, i)
     print(lik_eval)
