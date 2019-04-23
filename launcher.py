@@ -1,7 +1,7 @@
 import subprocess
 import numpy as np
 import pickle
-from main import main
+import matplotlib.pyplot as plt
 
 N_scripts = 100
 
