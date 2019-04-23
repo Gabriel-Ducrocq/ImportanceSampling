@@ -8,13 +8,24 @@ N_scripts = 100
 #for i in range(N_scripts):
 #    subprocess.run(["python", "main.py", str(i)])
 
-likelihood_evals = []
+#likelihood_evals = []
+#points = []
+#for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 3, endpoint = False)):
+#    subprocess.run(["python", "main.py", str(i), str(As)])
+
+lik_evals = []
 points = []
 for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 3, endpoint = False)):
-    subprocess.run(["python", "main.py", str(i), str(As)])
+    with open("B3DCMB/flatness_" +str(i), "wb") as f:
+        d = pickle.load(f)
+        log_weights = d["log_weights"]
+        approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
+        lik_evals.append(approx)
+        points.append(As)
 
 
-
+plt.plot(points, appox)
+plt.show()
 #d = {"y": likelihood_evals, "x":points}
 #with open("B3DCMB/flatness", "wb") as f:
 #    pickle.dump(d, f)
