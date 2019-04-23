@@ -12,7 +12,7 @@ likelihood_evals = []
 points = []
 for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
     lik_eval = subprocess.check_output(["python", "main.py", str(i), str(As)])
-    print(lik_eval.stdout)
+    print(lik_eval)
     #lik_eval = main(512, i, i)
     print(lik_eval)
     points.append(i)
