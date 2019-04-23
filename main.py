@@ -114,8 +114,12 @@ def main(NSIDE, run_num, As):
     #    pickle.dump({"simulated_points":all_sample, "sampled_beta":sampled_beta, "log_weights":log_weights},f)
 
     time_elapsed = time.time() - start_time
+    d = {"log_weights": log_weights, "point": As}
+    with open("B3DCMB/flatness_" +str(run_num), "wb") as f:
+        pickle.dump(d, f)
+
     print("Script number " + str(run_num) + " took " + str(time_elapsed) + "seconds")
-    return np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
+    #return np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
 
     """
     w = np.exp(log_weights - np.max(log_weights))
