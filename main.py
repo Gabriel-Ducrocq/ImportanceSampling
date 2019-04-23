@@ -203,4 +203,6 @@ def main(NSIDE, run_num, As):
 
 if __name__=='__main__':
     run_num = sys.argv[1]
-    main(NSIDE, run_num)
+    As = sys.argv[2]
+    print(As)
+    main(NSIDE, run_num, As)
