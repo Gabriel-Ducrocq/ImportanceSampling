@@ -5,4 +5,4 @@ denom = None
 
 arr_sigmas = None
 arr_means = None
-N_PROCESS_MAX = 10
+N_PROCESS_MAX = 50
