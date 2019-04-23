@@ -25,7 +25,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 3, endpoint = F
         points.append(As)
 
 
-plt.plot(points, appox)
+plt.plot(points, lik_evals)
 plt.save("testtest.png")
 #d = {"y": likelihood_evals, "x":points}
 #with open("B3DCMB/flatness", "wb") as f:
