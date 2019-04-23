@@ -24,8 +24,8 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 3, endpoint = F
         points.append(As)
 
 
-segments = np.array(points[1:] - points[:-1])
-vals = (np.exp(lik_evals[1:] - np.max(lik_evals)) + np.exp(lik_evals[:-1] - np.max(lik_evals)))/(2*np.exp(-np.max(lik_evals)))
+segments = np.array(points[1:]) - np.array(points[:-1])
+vals = (np.exp(np.array(lik_evals[1:]) - np.max(lik_evals)) + np.exp(np.array(lik_evals[:-1]) - np.max(lik_evals)))/(2*np.exp(-np.max(lik_evals)))
 print(vals)
 plt.plot(points, lik_evals)
 plt.savefig("testtest.png")
