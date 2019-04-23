@@ -24,7 +24,7 @@ import sys
 
 NSIDE = 512
 sigma_rbf = 100000
-N_sample = 50
+N_sample = 5
 Npix = 12*NSIDE**2
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
@@ -115,7 +115,7 @@ def main(NSIDE, run_num, As):
 
     time_elapsed = time.time() - start_time
     print("Script number " + str(run_num) + " took " + str(time_elapsed) + "seconds")
-    return str(np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights)))))
+    return np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
 
     """
     w = np.exp(log_weights - np.max(log_weights))
