@@ -10,10 +10,9 @@ N_scripts = 100
 
 #likelihood_evals = []
 #points = []
-for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
-    subprocess.run(["python", "main.py", str(i), str(As)])
+#for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
+#    subprocess.run(["python", "main.py", str(i), str(As)])
 
-"""
 lik_evals = []
 points = []
 for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
@@ -25,16 +24,15 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         points.append(As)
 
 
-segments = np.array(points[1:]) - np.array(points[:-1])
-vals = (np.exp(np.array(lik_evals[1:]) - np.max(lik_evals)) + np.exp(np.array(lik_evals[:-1]) - np.max(lik_evals)))/(2*np.exp(-np.max(lik_evals)))
-print(vals)
+#segments = np.array(points[1:]) - np.array(points[:-1])
+#vals = (np.exp(np.array(lik_evals[1:]) - np.max(lik_evals)) + np.exp(np.array(lik_evals[:-1]) - np.max(lik_evals)))/(2*np.exp(-np.max(lik_evals)))
+#print(vals)
 plt.plot(points, lik_evals)
 plt.savefig("testtest.png")
 #d = {"y": likelihood_evals, "x":points}
 #with open("B3DCMB/flatness", "wb") as f:
 #    pickle.dump(d, f)
 
-"""
 """
 ## Computing the weight for each beta:
 ESS_list = []
