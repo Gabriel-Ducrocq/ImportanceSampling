@@ -77,7 +77,7 @@ def main(NSIDE, run_num, As):
     d = sampler.sample_data()
     print(d["cosmo_params"])
     with open("B3DCMB/data/reference_data_As_NSIDE_512_bis", "wb") as f:
-        f.dump(d, f)
+        pickle.dump(d, f)
 
     print(time.time()- start_time)
     """
