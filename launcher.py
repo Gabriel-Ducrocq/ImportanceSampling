@@ -24,13 +24,15 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         points.append(As)
 
 
-#segments = np.array(points[1:]) - np.array(points[:-1])
-#vals = (np.exp(np.array(lik_evals[1:]) - np.max(lik_evals)) + np.exp(np.array(lik_evals[:-1]) - np.max(lik_evals)))/(2*np.exp(-np.max(lik_evals)))
-#print(vals)
 w = np.exp(np.array(lik_evals) - np.max(lik_evals))
 weights = (w / np.sum(w))
 plt.plot(points, w)
 plt.savefig("testtest.png")
+segments = np.array(points[1:]) - np.array(points[:-1])
+vals = (weights[1:] + np.array(weights[:-1]))*segments/2
+integral = np.sum(vals)
+print(integral)
+#print(vals)
 
 with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     reference_data = pickle.load(f)
