@@ -35,8 +35,7 @@ plt.savefig("testtest.png")
 with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     reference_data = pickle.load(f)
 
-for k in reference_data.keys():
-    print(k)
+print(reference_data["cosmo_params"])
 #d = {"y": likelihood_evals, "x":points}
 #with open("B3DCMB/flatness", "wb") as f:
 #    pickle.dump(d, f)
