@@ -25,11 +25,14 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
 
 
 w = np.exp(np.array(lik_evals) - np.max(lik_evals))
-weights = (w / np.sum(w))
-plt.plot(points, w)
+segments = np.array(points[1:]) - np.array(points[:-1])
+fact = (w[1:] + w[:-1])/2
+integral = segments*fact
+evals = w/integral
+plt.plot(points, evals)
 plt.savefig("testtest.png")
 segments = np.array(points[1:]) - np.array(points[:-1])
-vals = (weights[1:] + np.array(weights[:-1]))*segments/2
+vals = (evals[1:] + np.array(evals[:-1]))*segments/2
 integral = np.sum(vals)
 print(integral)
 #print(vals)
