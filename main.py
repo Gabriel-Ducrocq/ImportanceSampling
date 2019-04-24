@@ -74,6 +74,13 @@ def main(NSIDE, run_num, As):
     start_time = time.time()
     sampler = Sampler(NSIDE, As)
 
+    d = sampler.sample_data()
+    print(d["cosmo_params"])
+    with open("B3DCMB/data/reference_data_As_NSIDE_512_bis", "wb") as f:
+        f.dump(d, f)
+
+    print(time.time()- start_time)
+    """
     with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
@@ -120,7 +127,7 @@ def main(NSIDE, run_num, As):
 
     print("Script number " + str(run_num) + " took " + str(time_elapsed) + "seconds")
     #return np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
-
+    """
     """
     w = np.exp(log_weights - np.max(log_weights))
     w = w/np.sum(w)
