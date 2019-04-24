@@ -27,7 +27,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
 w = np.exp(np.array(lik_evals) - np.max(lik_evals))
 segments = np.array(points[1:]) - np.array(points[:-1])
 fact = (w[1:] + w[:-1])/2
-integral = segments*fact
+integral = np.sum(segments*fact)
 evals = w/integral
 plt.plot(points, evals)
 plt.savefig("testtest.png")
