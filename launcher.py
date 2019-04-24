@@ -27,7 +27,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
 #segments = np.array(points[1:]) - np.array(points[:-1])
 #vals = (np.exp(np.array(lik_evals[1:]) - np.max(lik_evals)) + np.exp(np.array(lik_evals[:-1]) - np.max(lik_evals)))/(2*np.exp(-np.max(lik_evals)))
 #print(vals)
-w = np.exp(np.array(lik_evals) - np.max(log_weights))
+w = np.exp(np.array(lik_evals) - np.max(lik_evals))
 weights = (w / np.sum(w))
 plt.plot(points, w)
 plt.savefig("testtest.png")
