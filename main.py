@@ -74,7 +74,7 @@ def main(NSIDE, run_num, As):
     start_time = time.time()
     sampler = Sampler(NSIDE, As)
 
-    with open("B3DCMB/data/reference_data_As_NSIDE_512_bis", "rb") as f:
+    with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
         reference_data = pickle.load(f)
 
     print("Data opened")
@@ -115,7 +115,7 @@ def main(NSIDE, run_num, As):
 
     time_elapsed = time.time() - start_time
     d = {"log_weights": log_weights, "point": As}
-    with open("B3DCMB/flatness_bis" +str(run_num), "wb") as f:
+    with open("B3DCMB/flatness_ter" +str(run_num), "wb") as f:
         pickle.dump(d, f)
 
     print("Script number " + str(run_num) + " took " + str(time_elapsed) + "seconds")

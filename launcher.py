@@ -10,10 +10,10 @@ N_scripts = 100
 
 #likelihood_evals = []
 #points = []
-#for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
-#    subprocess.run(["python", "main.py", str(i), str(As)])
+for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
+    subprocess.run(["python", "main.py", str(i), str(As)])
 
-
+"""
 lik_evals = []
 var = []
 points = []
@@ -26,7 +26,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         print(var)
         lik_evals.append(approx)
         points.append(As)
-
+"""
 """
 w = np.exp(np.array(lik_evals) - np.max(lik_evals))
 segments = np.array(points[1:]) - np.array(points[:-1])
