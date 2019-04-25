@@ -10,14 +10,14 @@ N_scripts = 100
 
 #likelihood_evals = []
 #points = []
-for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
-    subprocess.run(["python", "main.py", str(i), str(As)])
+#for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
+#    subprocess.run(["python", "main.py", str(i), str(As)])
 
-"""
+
 lik_evals = []
 points = []
 for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
-    with open("B3DCMB/flatness_" +str(i), "rb") as f:
+    with open("B3DCMB/flatness_bis" +str(i), "rb") as f:
         d = pickle.load(f)
         log_weights = d["log_weights"]
         approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
@@ -31,21 +31,20 @@ fact = (w[1:] + w[:-1])/2
 integral = np.sum(segments*fact)
 evals = w/integral
 plt.plot(points, evals)
-plt.savefig("testtest.png")
+plt.savefig("likelihood_As_bis.png")
 segments = np.array(points[1:]) - np.array(points[:-1])
 vals = (evals[1:] + np.array(evals[:-1]))*segments/2
 integral = np.sum(vals)
 print(integral)
 #print(vals)
 
-with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
+with open("B3DCMB/data/reference_data_As_NSIDE_512_bis", "rb") as f:
     reference_data = pickle.load(f)
 
 print(reference_data["cosmo_params"])
 #d = {"y": likelihood_evals, "x":points}
 #with open("B3DCMB/flatness", "wb") as f:
 #    pickle.dump(d, f)
-"""
 """
 ## Computing the weight for each beta:
 ESS_list = []
