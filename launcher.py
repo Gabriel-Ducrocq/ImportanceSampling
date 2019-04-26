@@ -21,9 +21,8 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         d = pickle.load(f)
         log_weights = d["log_weights"]
         approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
+        print(np.exp(log_weights - np.max(log_weights))/np.sum(np.exp(log_weights - np.max(log_weights))))
         var = 2*np.max(log_weights) + np.log(np.mean((np.exp(log_weights - np.max(log_weights)) - np.exp(approx - np.max(log_weights)))**2))
-        print(var)
-        print(np.exp(var))
         lik_evals.append(approx)
         points.append(As)
 
