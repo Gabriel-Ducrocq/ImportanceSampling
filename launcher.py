@@ -13,21 +13,6 @@ N_scripts = 100
 #for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
 #    subprocess.run(["python", "main.py", str(i), str(As)])
 
-
-lik_evals_ter = []
-var = []
-points = []
-for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
-    with open("B3DCMB/flatness_ter" +str(i), "rb") as f:
-        d = pickle.load(f)
-        log_weights = d["log_weights"]
-        approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
-        var = np.mean(np.exp(log_weights-np.max(log_weights))**2)*np.exp(2*np.max(log_weights))
-        print(var)
-        lik_evals_ter.append(approx)
-        points.append(As)
-
-
 lik_evals = []
 var = []
 points = []
@@ -36,7 +21,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         d = pickle.load(f)
         log_weights = d["log_weights"]
         approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
-        var = np.mean(np.exp(log_weights-np.max(log_weights))**2)*np.exp(2*np.max(log_weights))
+        var = 2*np.max(log_weights) + np.log(np.mean((np.exp(log_weights - np.max(log_weights)) - np.exp(approx - np.max(log_weights)))**2))
         print(var)
         lik_evals.append(approx)
         points.append(As)
