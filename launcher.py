@@ -20,12 +20,10 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
     with open("B3DCMB/flatness_bis" +str(i), "rb") as f:
         d = pickle.load(f)
         log_weights = d["log_weights"]
-        approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
-        w = np.exp(log_weights - np.max(log_weights))
-        w = w/np.sum(w)
-        print((np.sum(w)**2)/np.sum(w**2))
-        var = 2*np.max(log_weights) + np.log(np.mean((np.exp(log_weights - np.max(log_weights)) - np.exp(approx - np.max(log_weights)))**2))
-        lik_evals.append(w)
+        log_approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
+        log_var = 2*np.max(log_weights) + np.log(np.mean((np.exp(log_weights - np.max(log_weights)) - np.exp(approx - np.max(log_weights)))**2))
+        lik_evals.append(log_approx)
+        print(log_var - log_approx)
 
 
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
