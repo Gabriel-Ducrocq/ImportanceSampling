@@ -29,7 +29,6 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
 
 
 print(lik_evals)
-print(lik_evals_ter)
 w = np.exp(np.array(lik_evals) - np.max(lik_evals))
 segments = np.array(points[1:]) - np.array(points[:-1])
 fact = (w[1:] + w[:-1])/2
