@@ -26,9 +26,9 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         print((np.sum(w)**2)/np.sum(w**2))
         var = 2*np.max(log_weights) + np.log(np.mean((np.exp(log_weights - np.max(log_weights)) - np.exp(approx - np.max(log_weights)))**2))
         lik_evals.append(w)
-        points.append(As)
 
 
+points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
 plt.plot(points, lik_evals)
 plt.savefig("log_likelihood_As_bis.png")
 #print(vals)
