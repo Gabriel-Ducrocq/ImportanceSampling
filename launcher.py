@@ -27,6 +27,8 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         ess = (np.sum(np.exp(log_weights - np.max(log_weights)))**2)/np.sum(np.exp(log_weights - np.max(log_weights))**2)
         print("ess")
         print(ess)
+        print("As")
+        print(As)
         print("\n")
 
 
