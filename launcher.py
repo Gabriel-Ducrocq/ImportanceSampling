@@ -17,7 +17,7 @@ lik_evals = []
 var = []
 points = []
 for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
-    with open("B3DCMB/flatness_" +str(i), "rb") as f:
+    with open("B3DCMB/flatness_bis" +str(i), "rb") as f:
         d = pickle.load(f)
         log_weights = d["log_weights"]
         approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
@@ -34,8 +34,8 @@ segments = np.array(points[1:]) - np.array(points[:-1])
 fact = (w[1:] + w[:-1])/2
 integral = np.sum(segments*fact)
 evals = w/integral
-plt.plot(points, np.exp(lik_evals - np.max(lik_evals)))
-plt.savefig("log_likelihood_As.png")
+plt.plot(points, lik_evals)
+plt.savefig("log_likelihood_As_bis.png")
 segments = np.array(points[1:]) - np.array(points[:-1])
 vals = (evals[1:] + np.array(evals[:-1]))*segments/2
 integral = np.sum(vals)
