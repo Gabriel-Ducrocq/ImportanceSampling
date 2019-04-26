@@ -34,8 +34,8 @@ segments = np.array(points[1:]) - np.array(points[:-1])
 fact = (w[1:] + w[:-1])/2
 integral = np.sum(segments*fact)
 evals = w/integral
-plt.plot(points, evals)
-plt.savefig("likelihood_As_ter.png")
+plt.plot(points, lik_evals)
+plt.savefig("log_likelihood_As.png")
 segments = np.array(points[1:]) - np.array(points[:-1])
 vals = (evals[1:] + np.array(evals[:-1]))*segments/2
 integral = np.sum(vals)
