@@ -14,7 +14,7 @@ N_scripts = 100
 #    subprocess.run(["python", "main.py", str(i), str(As)])
 
 
-lik_evals = []
+lik_evals_ter = []
 var = []
 points = []
 for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
@@ -24,10 +24,26 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
         var = np.mean(np.exp(log_weights-np.max(log_weights))**2)*np.exp(2*np.max(log_weights))
         print(var)
+        lik_evals_ter.append(approx)
+        points.append(As)
+
+
+lik_evals = []
+var = []
+points = []
+for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
+    with open("B3DCMB/flatness" +str(i), "rb") as f:
+        d = pickle.load(f)
+        log_weights = d["log_weights"]
+        approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
+        var = np.mean(np.exp(log_weights-np.max(log_weights))**2)*np.exp(2*np.max(log_weights))
+        print(var)
         lik_evals.append(approx)
         points.append(As)
 
 
+print(lik_evals)
+print(lik_evals_ter)
 w = np.exp(np.array(lik_evals) - np.max(lik_evals))
 segments = np.array(points[1:]) - np.array(points[:-1])
 fact = (w[1:] + w[:-1])/2
