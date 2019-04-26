@@ -24,6 +24,10 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         log_var = 2*np.max(log_weights) + np.log(np.mean((np.exp(log_weights - np.max(log_weights)) - np.exp(log_approx - np.max(log_weights)))**2))
         lik_evals.append(log_approx)
         print(log_var - log_approx)
+        ess = (np.sum(np.exp(log_weights - np.max(log_weights)))**2)/np.sum(np.exp(log_weights - np.max(log_weights))**2)
+        print("ess")
+        print(ess)
+        print("\n")
 
 
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
