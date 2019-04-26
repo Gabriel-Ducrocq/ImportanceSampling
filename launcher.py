@@ -23,7 +23,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         log_approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
         log_var = 2*np.max(log_weights) + np.log(np.mean((np.exp(log_weights - np.max(log_weights)) - np.exp(log_approx - np.max(log_weights)))**2))
         lik_evals.append(log_approx)
-        print(log_approx - log_var)
+        print(log_var - log_approx)
 
 
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
