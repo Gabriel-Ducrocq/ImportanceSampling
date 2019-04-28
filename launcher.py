@@ -35,6 +35,8 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         print(ess)
         print("As")
         print(As)
+        if ess < 50:
+            print(log_weights)
         print("\n")
 
 
