@@ -17,7 +17,7 @@ lik_evals = []
 var = []
 points = []
 for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
-    with open("B3DCMB/flatness_bis" +str(i), "rb") as f:
+    with open("B3DCMB/flatness" +str(i), "rb") as f:
         d = pickle.load(f)
         log_weights = d["log_weights"]
         log_approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
@@ -44,10 +44,10 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
 print(lik_evals)
 plt.plot(points, lik_evals)
-plt.savefig("log_likelihood_As_bis.png")
+plt.savefig("log_likelihood_As.png")
 #print(vals)
 
-with open("B3DCMB/data/reference_data_As_NSIDE_512_bis", "rb") as f:
+with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     reference_data = pickle.load(f)
 
 print(reference_data["cosmo_params"])
