@@ -43,7 +43,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
 
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
 print(lik_evals)
-plt.plot(points, np.exp(lik_evals - np.max(lik_evals))/np.sum(np.exp(lik_evals - np.max(lik_evals))))
+plt.plot(points, lik_evals)
 plt.savefig("log_likelihood_As_bis.png")
 #print(vals)
 
