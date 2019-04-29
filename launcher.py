@@ -17,6 +17,7 @@ lik_evals = []
 upper_bounds = []
 lower_bounds = []
 var = []
+ratios = []
 points = []
 for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
     with open("B3DCMB/flatness_" +str(i), "rb") as f:
@@ -41,6 +42,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         print(ess)
         print("As")
         print(As)
+        ratios = [upper_bound/log_approx == log_approx/lower_bound]
         print("\n")
 
 
@@ -56,7 +58,7 @@ with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     reference_data = pickle.load(f)
 
 print(reference_data["cosmo_params"])
-print(var)
+print(ratio)
 #d = {"y": likelihood_evals, "x":points}
 #with open("B3DCMB/flatness", "wb") as f:
 #    pickle.dump(d, f)
