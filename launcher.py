@@ -36,6 +36,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         print(np.exp(log_approx - (1/2)*log_var))
         print(lower_bound)
         ess = (np.sum(np.exp(log_weights - np.max(log_weights)))**2)/np.sum(np.exp(log_weights - np.max(log_weights))**2)
+        var.append(np.exp(log_approx - (1/2)*log_var))
         print("ess")
         print(ess)
         print("As")
@@ -55,6 +56,7 @@ with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     reference_data = pickle.load(f)
 
 print(reference_data["cosmo_params"])
+print(var)
 #d = {"y": likelihood_evals, "x":points}
 #with open("B3DCMB/flatness", "wb") as f:
 #    pickle.dump(d, f)
