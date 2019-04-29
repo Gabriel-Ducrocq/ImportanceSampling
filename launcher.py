@@ -41,7 +41,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         print(ess)
         print("As")
         print(As)
-        ratios.append([upper_bound/log_approx,log_approx/lower_bound])
+        ratios.append(upper_bound*lower_bound/(log_approx**2))
         print("\n")
 
 
