@@ -60,7 +60,9 @@ print(reference_data["cosmo_params"])
 print(ratios)
 print(lower_bounds)
 var = np.array(var)
-print(np.exp(var - np.max(var))/(np.sum(np.exp(var - np.max(var)))))
+e = np.exp(var - np.max(var))/(np.sum(np.exp(var - np.max(var))))
+print(e)
+print(np.sum(e))
 #d = {"y": likelihood_evals, "x":points}
 #with open("B3DCMB/flatness", "wb") as f:
 #    pickle.dump(d, f)
