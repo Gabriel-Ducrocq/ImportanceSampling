@@ -46,9 +46,9 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
 
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
 print(lik_evals)
-plt.plot(points, lik_evals)
+plt.plot(points, lik_evals, "blue")
 plt.plot(points, upper_bounds, "red")
-plt.plot(points, lower_bounds, "blue")
+#plt.plot(points, lower_bounds, "red")
 plt.savefig("log_likelihood_As.png")
 #print(vals)
 
