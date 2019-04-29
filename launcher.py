@@ -36,7 +36,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         print(np.exp(log_approx - (1/2)*log_var))
         print(lower_bound)
         ess = (np.sum(np.exp(log_weights - np.max(log_weights)))**2)/np.sum(np.exp(log_weights - np.max(log_weights))**2)
-        var.append(((1/2)*log_var)*np.log(1 - np.exp(log_approx - (1/2)*log_var)))
+        var.append(((1/2)*log_var)*np.log(1 + np.exp(log_approx - (1/2)*log_var)))
         print("ess")
         print(ess)
         print("As")
