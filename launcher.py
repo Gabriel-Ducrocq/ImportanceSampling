@@ -36,7 +36,6 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         print(np.exp(log_approx - (1/2)*log_var))
         print(lower_bound)
         ess = (np.sum(np.exp(log_weights - np.max(log_weights)))**2)/np.sum(np.exp(log_weights - np.max(log_weights))**2)
-        var.append(((1/2)*log_var)+np.log((1.96)/np.sqrt(len(log_weights)) + np.exp(log_approx - (1/2)*log_var)))
         print("ess")
         print(ess)
         print("As")
@@ -47,9 +46,9 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
 
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
 print(lik_evals)
-plt.plot(points, lik_evals, "blue")
-plt.plot(points, upper_bounds, "red")
-plt.plot(points, lower_bounds, "red")
+plt.plot(points[0:25], lik_evals[0:25], "blue")
+plt.plot(points[0:25], upper_bounds[0:25], "red")
+#plt.plot(points, lower_bounds, "red")
 plt.savefig("log_likelihood_As.png")
 #print(vals)
 
