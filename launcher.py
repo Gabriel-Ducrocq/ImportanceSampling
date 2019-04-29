@@ -14,6 +14,8 @@ N_scripts = 100
 #    subprocess.run(["python", "main.py", str(i), str(As)])
 
 lik_evals = []
+upper_bounds = []
+lower_bounds = []
 var = []
 points = []
 for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
@@ -26,6 +28,8 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         lik_evals.append(log_approx)
         upper_bound = log_approx + np.log(1 + (1.96/np.sqrt(len(log_weights)))*np.exp((1/2)*log_var - log_approx))
         lower_bound = log_var + np.log(np.exp(log_approx - (1/2)*log_var) - (1.96/np.sqrt(len(log_weights))))
+        upper_bounds.append(upper_bound)
+        lower_bounds.append(lower_bound)
         print("bounds")
         print(upper_bound)
         print(log_approx)
@@ -43,6 +47,8 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
 print(lik_evals)
 plt.plot(points, lik_evals)
+plt.plot(points, upper_bounds, "red")
+plt.pot(points, lower_bounds, "blue")
 plt.savefig("log_likelihood_As.png")
 #print(vals)
 
