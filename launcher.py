@@ -18,6 +18,7 @@ upper_bounds = []
 lower_bounds = []
 var = []
 ratios = []
+all_ess = []
 points = []
 for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
     with open("B3DCMB/flatness_" +str(i), "rb") as f:
@@ -36,6 +37,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         print(np.exp(log_approx - (1/2)*log_var))
         print(lower_bound)
         ess = (np.sum(np.exp(log_weights - np.max(log_weights)))**2)/np.sum(np.exp(log_weights - np.max(log_weights))**2)
+        all_ess.append(ess)
         print("ess")
         print(ess)
         print("As")
@@ -51,6 +53,10 @@ plt.plot(points[0:25], lik_evals[0:25], "blue")
 plt.plot(points[0:25], upper_bounds[0:25], "red")
 #plt.plot(points, lower_bounds, "red")
 plt.savefig("log_likelihood_As.png")
+plt.close()
+plt.plot(points, all_ess)
+#plt.plot(points, lower_bounds, "red")
+plt.savefig("log_likelihood_ess.png")
 #print(vals)
 
 with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
