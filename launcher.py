@@ -51,6 +51,8 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
 
 fig, axes = plt.subplots(2, 2)
 axes[0,0].plot(points, lik_evals, "blue")
+axes[0, 0].title("log likelihood")
+axes[0, 0].xlabel("As")
 axes[0, 0].plot(points, upper_bounds, "red")
 axes[0, 0].plot(points, lower_bounds, "red")
 axes[0, 1].plot(points, all_ess)
