@@ -48,7 +48,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
 
 
 
-fig, axes = plt.subplot(2, 2)
+fig, axes = plt.subplot(nrows = 2,ncols = 2)
 axes[0,0].plot(points, lik_evals, "blue")
 axes[0, 0].plot(points, upper_bounds, "red")
 axes[0, 1].plot(points, all_ess)
