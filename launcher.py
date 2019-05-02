@@ -50,7 +50,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
 
 
 fig, axes = plt.subplots(2, 2)
-fig.subplots_adjust(wspace = 0.2, hspace = 0.2)
+fig.subplots_adjust(wspace = 2, hspace = 2)
 axes[0,0].plot(points, lik_evals, "blue")
 axes[0, 0].set_title("log likelihood")
 axes[0, 0].set_xlabel("As")
