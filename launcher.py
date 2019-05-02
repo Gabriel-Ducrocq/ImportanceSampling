@@ -61,7 +61,7 @@ plt.close()
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
 print(lik_evals)
 plt.plot(points[-15:-20], lik_evals[-15:-20], "blue")
-plt.plot(points[-15-20:], upper_bounds[-15:-20], "red")
+plt.plot(points[-15:-20], upper_bounds[-15:-20], "red")
 plt.plot(points[-15:-20], lower_bounds[-15:-20], "red")
 #plt.plot(points, lower_bounds, "red")
 plt.savefig("log_likelihood_As_1.png")
