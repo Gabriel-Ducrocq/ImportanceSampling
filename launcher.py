@@ -21,7 +21,7 @@ ratios = []
 all_ess = []
 points = []
 for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
-    with open("B3DCMB/flatness_" +str(i), "rb") as f:
+    with open("B3DCMB/flatness_bis" +str(i), "rb") as f:
         d = pickle.load(f)
         log_weights = d["log_weights"]
         log_approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
