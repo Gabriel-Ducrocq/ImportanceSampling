@@ -60,9 +60,9 @@ fig.savefig("BIGBIG")
 plt.close()
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
 print(lik_evals)
-plt.plot(points[-15:-10], lik_evals[-15:-10], "blue")
-plt.plot(points[-15:-10], upper_bounds[-15:-10], "red")
-plt.plot(points[-15:-10], lower_bounds[-15:-10], "red")
+plt.plot(points[-15:-12], lik_evals[-15:-12], "blue")
+plt.plot(points[-15:-12], upper_bounds[-15:-12], "red")
+plt.plot(points[-15:-12], lower_bounds[-15:-12], "red")
 #plt.plot(points, lower_bounds, "red")
 plt.savefig("log_likelihood_As_1.png")
 plt.close()
@@ -71,16 +71,10 @@ plt.plot(points, all_ess)
 plt.savefig("log_likelihood_ess_1.png")
 #print(vals)
 
-with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
+with open("B3DCMB/data/reference_data_As_NSIDE_512_bis", "rb") as f:
     reference_data = pickle.load(f)
 
 print(reference_data["cosmo_params"])
-print(ratios)
-print(lower_bounds)
-var = np.array(var)
-e = np.exp(var - np.max(var))/(np.sum(np.exp(var - np.max(var))))
-print(e)
-print(np.sum(e))
 #d = {"y": likelihood_evals, "x":points}
 #with open("B3DCMB/flatness", "wb") as f:
 #    pickle.dump(d, f)
