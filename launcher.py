@@ -51,7 +51,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
 cut = 23
 fig, axes = plt.subplots(2, 2, figsize = (10, 10))
 fig.subplots_adjust(wspace = 0.7, hspace = 0.7)
-fig.suptitle("log likelihood for 'true value' of As = 3.")
+fig.suptitle("log likelihood in As for 'true value' of As = 3.0341")
 axes[0,0].plot(points, lik_evals, "blue")
 axes[0, 0].set_title("log likelihood")
 axes[0, 0].set_xlabel("As")
@@ -63,7 +63,7 @@ axes[1, 0].plot(points[0:cut], upper_bounds[0:cut], "red")
 axes[1, 0].plot(points[0:cut], lower_bounds[0:cut], "red")
 axes[1, 0].set_title("95% confidence intervals for each point", pad = 20)
 axes[1, 0].set_xlabel("As")
-fig.savefig("BIGBIG")
+fig.savefig("log_lik_As_3.png")
 plt.close()
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
 print(lik_evals)
