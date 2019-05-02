@@ -48,7 +48,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = 
         print("\n")
 
 
-
+cut = 12
 fig, axes = plt.subplots(2, 2, figsize = (10, 10))
 fig.subplots_adjust(wspace = 0.7, hspace = 0.7)
 axes[0,0].plot(points, lik_evals, "blue")
@@ -57,9 +57,9 @@ axes[0, 0].set_xlabel("As")
 axes[0, 1].plot(points, all_ess)
 axes[0, 1].set_title("Ess of approximation for each point")
 axes[0, 1].set_xlabel("As")
-axes[1, 0].plot(points[0:30], lik_evals[0:30], "blue")
-axes[1, 0].plot(points[0:30], upper_bounds[0:30], "red")
-axes[1, 0].plot(points[0:30], lower_bounds[0:30], "red")
+axes[1, 0].plot(points[0:cut], lik_evals[0:cut], "blue")
+axes[1, 0].plot(points[0:cut], upper_bounds[0:cut], "red")
+axes[1, 0].plot(points[0:cut], lower_bounds[0:cut], "red")
 axes[1, 0].set_title("95% confidence intervals for each point", pad = 20)
 fig.savefig("BIGBIG")
 plt.close()
