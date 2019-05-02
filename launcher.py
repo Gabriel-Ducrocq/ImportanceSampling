@@ -60,7 +60,7 @@ axes[0, 1].set_xlabel("As")
 axes[1, 0].plot(points[0:30], lik_evals[0:30], "blue")
 axes[1, 0].plot(points[0:30], upper_bounds[0:30], "red")
 axes[1, 0].plot(points[0:30], lower_bounds[0:30], "red")
-axes[1, 0].set_title("95% confidence intervals for each point")
+axes[1, 0].set_title("95% confidence intervals for each point", pad = 20)
 fig.savefig("BIGBIG")
 plt.close()
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
