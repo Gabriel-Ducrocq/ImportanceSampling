@@ -36,6 +36,11 @@ print(Q.shape)
 print(res.shape)
 end_back = time.clock() - start
 
+s = 0
+for l in range(1, 3*NSIDE):
+    s += 2*l + 1
+    
 print(end_generation)
 print(end_back)
+print(s)
 
