@@ -38,17 +38,17 @@ cls_tt = sample_power_spectrum([0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561
 TRUE_MAP = hp.synalm(cls_tt, new=True)
 
 def compute_posterior(cls, params):
-    prior = np.exp((-1/2)*np.sum(((params - np.array(COSMO_PARAMS_MEANS))**2)/(np.array(COSMO_PARAMS_SIGMA)**2)))/np.product(np.array(COSMO_PARAMS_SIGMA)**2)
-    likelihood = np.exp((-1/2)*np.sum(TRUE_MAP/np.array([val for l, val in enumerate(cls) for _ in range(l+1)])))/np.product(np.array([val for l, val in enumerate(cls) for m in range(l+1)]))
-    return prior*likelihood
+    prior = (-1/2)*np.sum(((params - np.array(COSMO_PARAMS_MEANS))**2)/(np.array(COSMO_PARAMS_SIGMA)**2)) - np.log(np.product(np.array(COSMO_PARAMS_SIGMA)**2))
+    likelihood = (-1/2)*np.sum(TRUE_MAP/np.array([val for l, val in enumerate(cls) for _ in range(l+1)])) - np.log(np.product(np.array([val for l, val in enumerate(cls) for m in range(l+1)])))
+    return prior + likelihood
 
 def kernel(old_theta):
     new_theta = proposal(old_theta)
     new_cls = sample_power_spectrum(new_theta)
     old_cls = sample_power_spectrum(old_theta)
-    ratio = min(1, compute_posterior(new_cls, new_theta)/compute_posterior(old_cls, old_theta))
+    ratio = min(0, compute_posterior(new_cls, new_theta) - compute_posterior(old_cls, old_theta))
     u = np.random.uniform()
-    if u < ratio:
+    if np.log(u) < ratio:
         return new_theta, 1
 
     return old_theta, 0
