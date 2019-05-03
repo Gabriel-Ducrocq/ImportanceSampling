@@ -44,5 +44,5 @@ print(end_generation)
 print(end_back)
 print(s)
 
-U = hp.synalm((cls['tt'], cls['ee'], cls['bb'], cls['te'], eb_tb, eb_tb), new=True, mmax = 100)
+U = hp.synalm((cls['tt'], cls['ee'], cls['bb'], cls['te'], eb_tb, eb_tb), new=True, mmax = 10)
 print(U.shape)
