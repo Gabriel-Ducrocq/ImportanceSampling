@@ -37,7 +37,7 @@ print(cls["tt"].shape)
 end_back = time.clock() - start
 
 s = 0
-for l in range(0, 9):
+for l in range(0, 20):
     s += 2*l+1
 
 print(end_generation)
