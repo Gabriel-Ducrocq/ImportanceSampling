@@ -54,7 +54,7 @@ def kernel(old_theta):
 
     return old_theta, 0
 
-
+"""
 
 path = []
 acceptance = []
@@ -63,6 +63,7 @@ path.append(init_theta)
 current_theta = init_theta
 for i in range(1000):
     print("AAAAAAAAAAAAAAAAAAAAAAAAA")
+    print(i)
     if i%10 == 0:
         print(i)
         print(np.mean(acceptance))
@@ -71,3 +72,4 @@ for i in range(1000):
     path.append(current_theta)
 
 
+"""
