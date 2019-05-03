@@ -44,8 +44,8 @@ def compute_posterior(cls, params):
 
 def kernel(old_theta):
     new_theta = proposal(old_theta)
-    new_cls, new_et_tb = sample_power_spectrum(new_theta)
-    ratio = min(1, compute_posterior(new_cls, new_et_tb, new_theta)/compute_posterior(cls, et_tb, theta))
+    new_cls = sample_power_spectrum(new_theta)
+    ratio = min(1, compute_posterior(new_cls, new_et_tb, new_theta)/compute_posterior(cls, et_tb, old_theta))
     u = np.random.uniform()
     print("BBBBBBBBBBBBBBBBB")
     print(ratio)
