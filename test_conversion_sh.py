@@ -30,7 +30,7 @@ cosmo.struct_cleanup()
 cosmo.empty()
 
 start = time.clock()
-res = sphtfunc.map2alm((I, Q, U), lmax = 1500)
+res = sphtfunc.map2alm((I, Q, U), lmax = 10)
 #res = sphtfunc.map2alm(U)
 print(res.shape)
 print(cls["tt"].shape)
