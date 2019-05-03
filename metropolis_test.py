@@ -3,13 +3,14 @@ from classy import Class
 import numpy as np
 
 
-NSIDE = 512
-L_MAX_SCALARS = 1500
+NSIDE=512
+L_MAX_SCALARS=1500
 Npix = 12 * NSIDE ** 2
 
 LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
 
+COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
@@ -20,7 +21,9 @@ def sample_power_spectrum(cosmo_params):
     params = {'output': OUTPUT_CLASS,
               'l_max_scalars': L_MAX_SCALARS,
               'lensing': LENSING}
-    params.update(cosmo_params)
+
+    d = {name:val for name, val in zip(COSMO_PARAMS_NAMES, cosmo_params)}
+    params.update(d)
     print(params)
     self.cosmo.set(params)
     self.cosmo.compute()
