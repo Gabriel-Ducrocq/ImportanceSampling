@@ -6,7 +6,7 @@ from healpy import sphtfunc
 
 
 NSIDE = 512
-L_MAX_SCALARS = 1500
+L_MAX_SCALARS = 9
 LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
 
@@ -37,8 +37,8 @@ print(cls["tt"].shape)
 end_back = time.clock() - start
 
 s = 0
-for l in range(1, 1500):
-    s += 2*l + 1
+for l in range(0, 9):
+    s += 2*l+1
 
 print(end_generation)
 print(end_back)
