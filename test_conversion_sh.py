@@ -32,8 +32,8 @@ cosmo.empty()
 start = time.clock()
 res = sphtfunc.map2alm((I, Q, U), lmax = 1500)
 #res = sphtfunc.map2alm(U)
-print(Q.shape)
 print(res.shape)
+print(cls["tt"].shape)
 end_back = time.clock() - start
 
 s = 0
