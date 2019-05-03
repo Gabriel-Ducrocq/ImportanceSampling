@@ -16,7 +16,7 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def proposal(old_theta):
-    return old_theta + np.dot(np.diag(COSMO_PARAMS_SIGMA)/100, np.random.normal(0, 1, size = len(COSMO_PARAMS_MEANS)))
+    return old_theta + np.dot(np.diag(COSMO_PARAMS_SIGMA)/500, np.random.normal(0, 1, size = len(COSMO_PARAMS_MEANS)))
 
 def sample_power_spectrum(cosmo_params):
     params = {'output': OUTPUT_CLASS,
