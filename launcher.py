@@ -21,7 +21,7 @@ ratios = []
 all_ess = []
 points = []
 for i, As in enumerate(np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)):
-    with open("B3DCMB/flatness_bis" +str(i), "rb") as f:
+    with open("B3DCMB/flatness_" +str(i), "rb") as f:
         d = pickle.load(f)
         log_weights = d["log_weights"]
         log_approx = np.max(log_weights) + np.log(np.mean(np.exp(log_weights - np.max(log_weights))))
@@ -63,15 +63,15 @@ axes[1, 0].plot(points[0:cut], upper_bounds[0:cut], "red")
 axes[1, 0].plot(points[0:cut], lower_bounds[0:cut], "red")
 axes[1, 0].set_title("95% confidence intervals for each point", pad = 20)
 axes[1, 0].set_xlabel("As")
-fig.savefig("log_lik_As_1.png")
+fig.savefig("log_lik_As_3.png")
 plt.close()
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
 print(lik_evals)
-plt.plot(points[:25], lik_evals[0:25], "blue")
-plt.plot(points[0:25], upper_bounds[0:25], "red")
-plt.plot(points[0:25], lower_bounds[0:25], "red")
+plt.plot(points[:12], lik_evals[0:12], "blue")
+plt.plot(points[0:12], upper_bounds[0:12], "red")
+plt.plot(points[0:12], lower_bounds[0:12], "red")
 #plt.plot(points, lower_bounds, "red")
-plt.savefig("log_likelihood_As_1.png")
+plt.savefig("log_likelihood_As_3.png")
 plt.close()
 plt.plot(points, all_ess)
 #plt.plot(points, lower_bounds, "red")
