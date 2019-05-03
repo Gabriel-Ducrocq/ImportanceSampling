@@ -47,6 +47,8 @@ def kernel(old_theta):
     new_cls, new_et_tb = sample_power_spectrum(new_theta)
     ratio = min(1, compute_posterior(new_cls, new_et_tb, new_theta)/compute_posterior(cls, et_tb, theta))
     u = np.random.uniform()
+    print("AAAAAAAAAAA")
+    print(ratio)
     if u < ratio:
         return new_theta, 1
 
