@@ -44,3 +44,5 @@ print(end_generation)
 print(end_back)
 print(s)
 
+U = hp.synalm((cls['tt'], cls['ee'], cls['bb'], cls['te'], eb_tb, eb_tb), new=True)
+print(U.shape)
