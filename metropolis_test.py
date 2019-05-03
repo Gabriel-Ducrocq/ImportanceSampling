@@ -47,7 +47,7 @@ def kernel(old_theta):
     new_cls, new_et_tb = sample_power_spectrum(new_theta)
     ratio = min(1, compute_posterior(new_cls, new_et_tb, new_theta)/compute_posterior(cls, et_tb, theta))
     u = np.random.uniform()
-    print("AAAAAAAAAAA")
+    print("BBBBBBBBBBBBBBBBB")
     print(ratio)
     if u < ratio:
         return new_theta, 1
@@ -62,6 +62,7 @@ init_theta = np.random.multivariate_normal(COSMO_PARAMS_MEANS, np.diag(COSMO_PAR
 path.append(init_theta)
 current_theta = init_theta
 for i in range(1000):
+    print("AAAAAAAAAAAAAAAAAAAAAAAAA")
     if i%10 == 0:
         print(i)
         print(np.mean(acceptance))
