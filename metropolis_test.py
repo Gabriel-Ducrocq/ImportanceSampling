@@ -3,6 +3,7 @@ from classy import Class
 import numpy as np
 
 
+cosmo = Class()
 NSIDE=512
 L_MAX_SCALARS=1500
 Npix = 12 * NSIDE ** 2
@@ -25,12 +26,12 @@ def sample_power_spectrum(cosmo_params):
     d = {name:val for name, val in zip(COSMO_PARAMS_NAMES, cosmo_params)}
     params.update(d)
     print(params)
-    self.cosmo.set(params)
-    self.cosmo.compute()
+    cosmo.set(params)
+    cosmo.compute()
     cls = self.cosmo.lensed_cl(L_MAX_SCALARS)
     eb_tb = np.zeros(shape=cls["tt"].shape)
-    self.cosmo.struct_cleanup()
-    self.cosmo.empty()
+    cosmo.struct_cleanup()
+    cosmo.empty()
     return cls["tt"], eb_tb
 
 cls_tt = sample_power_spectrum([1, 1, 1, 1, 1, 1])
