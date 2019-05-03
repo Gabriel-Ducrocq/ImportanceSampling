@@ -6,7 +6,7 @@ from healpy import sphtfunc
 
 
 NSIDE = 512
-L_MAX_SCALARS = 9
+L_MAX_SCALARS = 20
 LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
 
