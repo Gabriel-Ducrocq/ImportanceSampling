@@ -16,7 +16,7 @@ COSMO_PARAMS_MEANS = [0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561]
 COSMO_PARAMS_SIGMA = [0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 def proposal(old_theta):
-    return old_theta + np.dot(np.diag(COSMO_PARAMS_SIGMA), np.random.normal(0, 1, size = len(COSMO_PARAMS_MEANS)))
+    return old_theta + np.dot(np.diag(COSMO_PARAMS_SIGMA)/10, np.random.normal(0, 1, size = len(COSMO_PARAMS_MEANS)))
 
 def sample_power_spectrum(cosmo_params):
     params = {'output': OUTPUT_CLASS,
@@ -47,14 +47,11 @@ def kernel(old_theta):
     new_cls = sample_power_spectrum(new_theta)
     ratio = min(1, compute_posterior(new_cls, new_et_tb, new_theta)/compute_posterior(cls, et_tb, old_theta))
     u = np.random.uniform()
-    print("BBBBBBBBBBBBBBBBB")
-    print(ratio)
     if u < ratio:
         return new_theta, 1
 
     return old_theta, 0
 
-"""
 
 path = []
 acceptance = []
@@ -62,14 +59,9 @@ init_theta = np.random.multivariate_normal(COSMO_PARAMS_MEANS, np.diag(COSMO_PAR
 path.append(init_theta)
 current_theta = init_theta
 for i in range(1000):
-    print("AAAAAAAAAAAAAAAAAAAAAAAAA")
-    print(i)
     if i%10 == 0:
         print(i)
         print(np.mean(acceptance))
 
     current_theta, accepted = kernel(current_theta)
     path.append(current_theta)
-
-
-"""
