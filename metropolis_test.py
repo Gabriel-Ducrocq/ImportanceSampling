@@ -28,7 +28,7 @@ def sample_power_spectrum(cosmo_params):
     print(params)
     cosmo.set(params)
     cosmo.compute()
-    cls = self.cosmo.lensed_cl(L_MAX_SCALARS)
+    cls = cosmo.lensed_cl(L_MAX_SCALARS)
     eb_tb = np.zeros(shape=cls["tt"].shape)
     cosmo.struct_cleanup()
     cosmo.empty()
