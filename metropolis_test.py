@@ -25,7 +25,6 @@ def sample_power_spectrum(cosmo_params):
 
     d = {name:val for name, val in zip(COSMO_PARAMS_NAMES, cosmo_params)}
     params.update(d)
-    print(params)
     cosmo.set(params)
     cosmo.compute()
     cls = cosmo.lensed_cl(L_MAX_SCALARS)
