@@ -38,7 +38,7 @@ cls_tt = sample_power_spectrum([0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561
 TRUE_MAP = hp.synalm(cls_tt, new=True)
 
 def compute_posterior(cls, params):
-    prior = (-1/2)*np.sum(((params - np.array(COSMO_PARAMS_MEANS))**2)/(np.array(COSMO_PARAMS_SIGMA)**2)) - (1/2)*(np.sum(np.log(np.array(COSMO_PARAMS_SIGMA)**2))
+    prior = (-1/2)*np.sum(((params - np.array(COSMO_PARAMS_MEANS))**2)/(np.array(COSMO_PARAMS_SIGMA)**2)) - (1/2)*(np.sum(np.log(np.array(COSMO_PARAMS_SIGMA)**2)))
     likelihood = (-1/2)*np.sum(TRUE_MAP/np.array([val for l, val in enumerate(cls) for _ in range(l+1)])) - (1/2)*np.sum(np.log(np.array([val for l, val in enumerate(cls) for m in range(l+1)])))
     return prior + likelihood
 
