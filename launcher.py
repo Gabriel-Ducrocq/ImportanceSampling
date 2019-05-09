@@ -63,7 +63,7 @@ axes[1, 0].plot(points[0:cut], upper_bounds[0:cut], "red")
 axes[1, 0].plot(points[0:cut], lower_bounds[0:cut], "red")
 axes[1, 0].set_title("95% confidence intervals for each point", pad = 20)
 axes[1, 0].set_xlabel("As")
-fig.savefig("log_lik_As_3.png")
+fig.savefig("log_lik_As_1.png")
 plt.close()
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
 print(lik_evals)
