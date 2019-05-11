@@ -7,3 +7,4 @@ B3DCMB/results
 data/simulations/*
 B3DCMB/
 .ipynb_checkpoints
+__pycache__
