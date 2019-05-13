@@ -74,9 +74,9 @@ plt.plot(points[0:12], lower_bounds[0:12], "red")
 #plt.plot(points, lower_bounds, "red")
 plt.savefig("log_likelihood_As_no_noise.png")
 plt.close()
-plt.plot(points, all_ess)
+#plt.plot(points, all_ess)
 #plt.plot(points, lower_bounds, "red")
-plt.savefig("log_likelihood_ess_no_noise.png")
+#plt.savefig("log_likelihood_ess_no_noise.png")
 #print(vals)
 
 with open("B3DCMB/data/reference_data_As_NSIDE_512_no_noise", "rb") as f:
