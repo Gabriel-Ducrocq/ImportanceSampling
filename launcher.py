@@ -89,7 +89,6 @@ print(lik_evals[29] - lower_bounds[29])
 #with open("B3DCMB/flatness", "wb") as f:
 #    pickle.dump(d, f)
 """
-"""
 ## Computing the weight for each beta:
 ESS_list = []
 beta_weights = []
