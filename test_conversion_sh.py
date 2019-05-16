@@ -6,7 +6,7 @@ from healpy import sphtfunc
 
 
 NSIDE = 512
-L_MAX_SCALARS =
+L_MAX_SCALARS = 2000
 LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
 
@@ -30,7 +30,7 @@ cosmo.struct_cleanup()
 cosmo.empty()
 
 start = time.clock()
-res = sphtfunc.map2alm((I, Q, U), lmax = 9)
+res = sphtfunc.map2alm((I, Q, U), lmax = L_MAX_SCALARS)
 #res = sphtfunc.map2alm(U)
 print(res.shape)
 print(cls["tt"].shape)

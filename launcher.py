@@ -83,8 +83,8 @@ with open("B3DCMB/data/reference_data_As_NSIDE_512_no_noise", "rb") as f:
     reference_data = pickle.load(f)
 
 print(reference_data["cosmo_params"])
-print(upper_bounds[29] - lik_evals[29])
-print(lik_evals[29] - lower_bounds[29])
+#print(upper_bounds[29] - lik_evals[29])
+#print(lik_evals[29] - lower_bounds[29])
 #d = {"y": likelihood_evals, "x":points}
 #with open("B3DCMB/flatness", "wb") as f:
 #    pickle.dump(d, f)
