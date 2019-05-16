@@ -40,9 +40,4 @@ s = 0
 for l in range(0, 20):
     s += 2*l+1
 
-print(end_generation)
 print(end_back)
-print(s)
-
-U = hp.synalm(cls['tt'], new=True)
-print(U.shape)
