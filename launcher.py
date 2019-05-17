@@ -49,7 +49,7 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 13, num = 25, endpoint = 
         print("\n")
 
 
-cut = 25
+cut = 10
 fig, axes = plt.subplots(2, 2, figsize = (10, 10))
 fig.subplots_adjust(wspace = 0.7, hspace = 0.7)
 fig.suptitle("log likelihood in As for 'true value' of As = 3.034")
