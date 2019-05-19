@@ -10,10 +10,10 @@ N_scripts = 100
 
 #likelihood_evals = []
 #points = []
-#for i, As in enumerate(np.linspace(start = 0.5, stop = 13, num = 25, endpoint = False)):
-#    subprocess.run(["python", "main.py", str(i), str(As)])
+for i, As in enumerate(np.linspace(start = 0.01, stop = 13, num = 50, endpoint = False)):
+    subprocess.run(["python", "main.py", str(i), str(As)])
 
-
+"""
 lik_evals = []
 upper_bounds = []
 lower_bounds = []
@@ -88,6 +88,7 @@ print(reference_data["cosmo_params"])
 #d = {"y": likelihood_evals, "x":points}
 #with open("B3DCMB/flatness", "wb") as f:
 #    pickle.dump(d, f)
+"""
 """
 ## Computing the weight for each beta:
 ESS_list = []
