@@ -77,7 +77,7 @@ def main(NSIDE, run_num, As):
     dat = sampler.sample_data()
 
     with open("B3DCMB/data/reference_data_As_NSIDE_512_no_noise_1", "wb") as f:
-        pickle.dump(f, dat)
+        pickle.dump(dat, f)
 
     """
     with open("B3DCMB/data/reference_data_As_NSIDE_512_no_noise", "rb") as f:
