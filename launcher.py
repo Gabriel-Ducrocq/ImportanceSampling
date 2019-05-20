@@ -10,10 +10,10 @@ N_scripts = 100
 
 #likelihood_evals = []
 #points = []
-for i, As in enumerate(np.linspace(start = 0.01, stop = 13, num = 50, endpoint = False)):
-    subprocess.run(["python", "main.py", str(i), str(As)])
+#for i, As in enumerate(np.linspace(start = 0.01, stop = 13, num = 50, endpoint = False)):
+#    subprocess.run(["python", "main.py", str(i), str(As)])
 
-"""
+
 lik_evals = []
 upper_bounds = []
 lower_bounds = []
@@ -21,7 +21,7 @@ var = []
 ratios = []
 all_ess = []
 points = []
-for i, As in enumerate(np.linspace(start = 0.5, stop = 13, num = 25, endpoint = False)):
+for i, As in enumerate(np.linspace(start = 0.01, stop = 13, num = 50, endpoint = False)):
     with open("B3DCMB/flatness_no_noise" +str(i), "rb") as f:
         d = pickle.load(f)
         log_weights = d["log_weights"]
@@ -49,10 +49,10 @@ for i, As in enumerate(np.linspace(start = 0.5, stop = 13, num = 25, endpoint = 
         print("\n")
 
 
-cut = 8
+cut = 20
 fig, axes = plt.subplots(2, 2, figsize = (10, 10))
 fig.subplots_adjust(wspace = 0.7, hspace = 0.7)
-fig.suptitle("log likelihood in As for 'true value' of As = 3.034")
+fig.suptitle("log likelihood in As no noise for 'true value' of As = 1")
 axes[0,0].plot(points, lik_evals, "blue")
 axes[0, 0].set_title("log likelihood")
 axes[0, 0].set_xlabel("As")
@@ -64,7 +64,7 @@ axes[1, 0].plot(points[0:cut], upper_bounds[0:cut], "red")
 axes[1, 0].plot(points[0:cut], lower_bounds[0:cut], "red")
 axes[1, 0].set_title("95% confidence intervals for each point", pad = 20)
 axes[1, 0].set_xlabel("As")
-fig.savefig("log_lik_As_3.png")
+fig.savefig("log_lik_As_no_noise_1.png")
 plt.close()
 points = [As for As in np.linspace(start = 0.5, stop = 25, num = 50, endpoint = False)]
 print(lik_evals)
@@ -72,14 +72,14 @@ plt.plot(points[:12], lik_evals[0:12], "blue")
 plt.plot(points[0:12], upper_bounds[0:12], "red")
 plt.plot(points[0:12], lower_bounds[0:12], "red")
 #plt.plot(points, lower_bounds, "red")
-plt.savefig("log_likelihood_As_no_noise.png")
+plt.savefig("log_likelihood_As_no_noise_1.png")
 plt.close()
 #plt.plot(points, all_ess)
 #plt.plot(points, lower_bounds, "red")
 #plt.savefig("log_likelihood_ess_no_noise.png")
 #print(vals)
 
-with open("B3DCMB/data/reference_data_As_NSIDE_512_no_noise", "rb") as f:
+with open("B3DCMB/data/reference_data_As_NSIDE_512_no_noise_1", "rb") as f:
     reference_data = pickle.load(f)
 
 print(reference_data["cosmo_params"])
@@ -88,7 +88,7 @@ print(reference_data["cosmo_params"])
 #d = {"y": likelihood_evals, "x":points}
 #with open("B3DCMB/flatness", "wb") as f:
 #    pickle.dump(d, f)
-"""
+
 """
 ## Computing the weight for each beta:
 ESS_list = []
