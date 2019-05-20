@@ -79,7 +79,7 @@ plt.close()
 #plt.savefig("log_likelihood_ess_no_noise.png")
 #print(vals)
 
-with open("B3DCMB/data/reference_data_As_NSIDE_512_", "rb") as f:
+with open("B3DCMB/data/reference_data_As_NSIDE_512", "rb") as f:
     reference_data = pickle.load(f)
 
 print(reference_data["cosmo_params"])
