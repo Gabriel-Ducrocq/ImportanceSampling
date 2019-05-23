@@ -4,7 +4,7 @@ import numpy as np
 
 cosmo = Class()
 NSIDE=512
-L_MAX_SCALARS=1500
+L_MAX_SCALARS=500
 Npix = 12 * NSIDE ** 2
 
 LENSING = 'yes'
