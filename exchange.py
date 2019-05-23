@@ -66,6 +66,7 @@ TRUE_SKYMAP = sample_skymap(true_cls, eb_tb)
 old_theta = COSMO_PARAMS_MEANS + np.dot(np.diag(COSMO_PARAMS_SIGMA),np.random.normal(0, 1, size = COSMO_PARAMS_MEANS.shape[0]))
 print(old_theta)
 old_cls, old_eb_tb = sample_cls(old_theta)
+print(old_cls[:50])
 
 for i in range(N_iteration):
     print(i)
