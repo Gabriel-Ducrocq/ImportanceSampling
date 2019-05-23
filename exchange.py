@@ -4,7 +4,7 @@ import numpy as np
 
 cosmo = Class()
 NSIDE=512
-L_MAX_SCALARS=500
+L_MAX_SCALARS=1500
 Npix = 12 * NSIDE ** 2
 
 LENSING = 'yes'
@@ -67,6 +67,7 @@ old_theta = COSMO_PARAMS_MEANS - 2*COSMO_PARAMS_SIGMA
 old_cls, old_eb_tb = sample_cls(old_theta)
 
 for i in range(N_iteration):
+    print(i)
     new_theta = propose_theta(old_theta)
     new_cls, eb_tb = sample_cls(new_theta)
     auxi_skymap = sample_skymap(new_cls, eb_tb)
