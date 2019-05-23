@@ -59,7 +59,8 @@ def compute_MH_ratio(skymap, auxiliary, cls, cls_prime, theta, theta_prime, eb_t
 
 
 TRUE_THETA = COSMO_PARAMS_MEANS - 2*COSMO_PARAMS_SIGMA
-TRUE_SKYMAP = sample_skymap(sample_cls(TRUE_THETA))
+true_cls, eb_tb = sample_cls(TRUE_THETA)
+TRUE_SKYMAP = sample_skymap(true_cls, eb_tb)
 
 old_theta = COSMO_PARAMS_MEANS - 2*COSMO_PARAMS_SIGMA
 old_cls, old_eb_tb = sample_cls(old_theta)
