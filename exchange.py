@@ -30,7 +30,7 @@ def sample_cls(theta):
     eb_tb = np.zeros(shape=cls["tt"].shape)
     cosmo.struct_cleanup()
     cosmo.empty()
-    return cls, eb_tb
+    return cls["tt"], eb_tb
 
 def sample_skymap(cls, eb_tb):
     skymap = hp.synalm(cls, new=True)
