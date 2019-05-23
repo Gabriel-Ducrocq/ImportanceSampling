@@ -51,6 +51,10 @@ def compute_ratio_skymap(skymap, cls, cls_prime, eb_tb, auxiliary):
     S_inv = np.array([1/elt for i,elt in enumerate(cls) for _ in range(2*i+1)])
     S_prime_inv = np.array([1/elt for i,elt in enumerate(cls_prime) for _ in range(2*i+1)])
 
+    print(S_prime_inv.shape)
+    print(S_inv.shape)
+    print(skymap.shape)
+    print(auxiliary.shape)
     return np.exp(-(1/2)*(np.sum(((skymap)**2)*(S_prime_inv - S_inv)) + np.sum(((auxiliary)**2)*(S_inv - S_prime_inv))))
 
 def compute_MH_ratio(skymap, auxiliary, cls, cls_prime, theta, theta_prime, eb_tb):
