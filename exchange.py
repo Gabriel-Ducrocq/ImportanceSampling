@@ -23,6 +23,7 @@ def sample_cls(theta):
               'l_max_scalars': L_MAX_SCALARS,
               'lensing': LENSING}
     d = {name:val for name, val in zip(COSMO_PARAMS_NAMES, theta)}
+    print(d)
     params.update(d)
     cosmo.set(params)
     cosmo.compute()
@@ -63,7 +64,7 @@ true_cls, eb_tb = sample_cls(TRUE_THETA)
 print(true_cls[-50:])
 TRUE_SKYMAP = sample_skymap(true_cls, eb_tb)
 
-old_theta = COSMO_PARAMS_MEANS - np.diag(COSMO_PARAMS_SIGMA)*np.random.normal(0, 1, size = COSMO_PARAMS_MEANS.shape[0])
+old_theta = COSMO_PARAMS_MEANS + np.diag(COSMO_PARAMS_SIGMA)*np.random.normal(0, 1, size = COSMO_PARAMS_MEANS.shape[0])
 old_cls, old_eb_tb = sample_cls(old_theta)
 
 for i in range(N_iteration):
