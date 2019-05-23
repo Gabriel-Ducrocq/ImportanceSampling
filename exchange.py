@@ -34,6 +34,8 @@ def sample_cls(theta):
 
 def sample_skymap(cls, eb_tb):
     skymap = hp.synalm(cls, new=True)
+    print("Skymap")
+    print(skymap[:10])
     return skymap[2:]
 
 
