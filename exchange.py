@@ -23,7 +23,6 @@ def sample_cls(theta):
               'l_max_scalars': L_MAX_SCALARS,
               'lensing': LENSING}
     d = {name:val for name, val in zip(COSMO_PARAMS_NAMES, list(theta))}
-    print(d)
     params.update(d)
     cosmo.set(params)
     cosmo.compute()
@@ -63,15 +62,13 @@ TRUE_THETA = COSMO_PARAMS_MEANS - 0.5*COSMO_PARAMS_SIGMA
 true_cls, eb_tb = sample_cls(TRUE_THETA)
 TRUE_SKYMAP = sample_skymap(true_cls, eb_tb)
 
-old_theta = COSMO_PARAMS_MEANS + np.diag(COSMO_PARAMS_SIGMA)*np.random.normal(0, 1, size = COSMO_PARAMS_MEANS.shape[0])
+old_theta = COSMO_PARAMS_MEANS + np.dot(np.diag(COSMO_PARAMS_SIGMA),np.random.normal(0, 1, size = COSMO_PARAMS_MEANS.shape[0]))
 print(old_theta)
 old_cls, old_eb_tb = sample_cls(old_theta)
 
 for i in range(N_iteration):
     print(i)
     new_theta = propose_theta(old_theta)
-    print("NEW THETA")
-    print(new_theta)
     new_cls, eb_tb = sample_cls(new_theta)
     auxi_skymap = sample_skymap(new_cls, eb_tb)
     ratio = compute_MH_ratio(TRUE_SKYMAP, auxi_skymap, old_cls, new_cls, old_theta, new_theta, eb_tb)
