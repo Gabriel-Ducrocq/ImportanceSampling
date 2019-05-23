@@ -61,7 +61,6 @@ def compute_MH_ratio(skymap, auxiliary, cls, cls_prime, theta, theta_prime, eb_t
 
 TRUE_THETA = COSMO_PARAMS_MEANS - 0.5*COSMO_PARAMS_SIGMA
 true_cls, eb_tb = sample_cls(TRUE_THETA)
-print(true_cls[-50:])
 TRUE_SKYMAP = sample_skymap(true_cls, eb_tb)
 
 old_theta = COSMO_PARAMS_MEANS + np.diag(COSMO_PARAMS_SIGMA)*np.random.normal(0, 1, size = COSMO_PARAMS_MEANS.shape[0])
@@ -70,6 +69,7 @@ old_cls, old_eb_tb = sample_cls(old_theta)
 for i in range(N_iteration):
     print(i)
     new_theta = propose_theta(old_theta)
+    print("NEW THETA")
     print(new_theta)
     new_cls, eb_tb = sample_cls(new_theta)
     auxi_skymap = sample_skymap(new_cls, eb_tb)
