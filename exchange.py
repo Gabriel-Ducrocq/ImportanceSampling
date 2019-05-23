@@ -70,6 +70,7 @@ old_cls, old_eb_tb = sample_cls(old_theta)
 for i in range(N_iteration):
     print(i)
     new_theta = propose_theta(old_theta)
+    print(new_theta)
     new_cls, eb_tb = sample_cls(new_theta)
     auxi_skymap = sample_skymap(new_cls, eb_tb)
     ratio = compute_MH_ratio(TRUE_SKYMAP, auxi_skymap, old_cls, new_cls, old_theta, new_theta, eb_tb)
