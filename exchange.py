@@ -47,6 +47,7 @@ def compute_prior(theta):
     return num/det
 
 def compute_ratio_skymap(skymap, cls, cls_prime, eb_tb, auxiliary):
+    print(cls[-50:])
     S_inv = np.array([1/elt for i,elt in enumerate(cls) for _ in range(2*i+1)])
     S_prime_inv = np.array([1/elt for i,elt in enumerate(cls_prime) for _ in range(2*i+1)])
 
