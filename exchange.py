@@ -63,7 +63,7 @@ TRUE_THETA = COSMO_PARAMS_MEANS - 0.5*COSMO_PARAMS_SIGMA
 true_cls, eb_tb = sample_cls(TRUE_THETA)
 TRUE_SKYMAP = sample_skymap(true_cls, eb_tb)
 
-old_theta = COSMO_PARAMS_MEANS + np.dot(np.diag(COSMO_PARAMS_SIGMA),np.random.normal(0, 1, size = COSMO_PARAMS_MEANS.shape[0]))
+old_theta = COSMO_PARAMS_MEANS + COSMO_PARAMS_SIGMA*np.random.normal(0, 1, size = COSMO_PARAMS_MEANS.shape[0])
 old_cls, old_eb_tb = sample_cls(old_theta)
 
 path = []
