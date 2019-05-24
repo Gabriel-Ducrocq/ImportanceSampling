@@ -34,7 +34,7 @@ def sample_cls(theta):
     return all_cls, eb_tb
 
 def sample_skymap(cls, eb_tb):
-    skymap = np.dot(np.diag(np.sqrt(cls)),np.random.normal(0, 1, size = len(cls)))
+    skymap = np.sqrt(cls)*np.random.normal(0, 1, size = len(cls))
     return skymap
 
 
