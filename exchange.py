@@ -2,6 +2,7 @@ import healpy as hp
 from classy import Class
 import numpy as np
 import time
+import matplotlib.pyplot as plt
 
 cosmo = Class()
 NSIDE=512
@@ -88,7 +89,10 @@ for i in range(N_iteration):
     print("\n")
 
     path.append(old_theta)
-    print(time.time() - stat_time)
+    if i%100 == 0:
+        print(i)
+        print(accepted/(i+1))
 
-
-print(accepted/N_iteration)
+one = [l[0] for l in path]
+plt.plot(one)
+np.save("B3DCMB/exhange.npy", np.array(path))
