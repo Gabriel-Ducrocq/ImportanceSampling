@@ -93,6 +93,8 @@ for i in range(N_iteration):
         print(i)
         print(accepted/(i+1))
 
+print(accepted/N_iteration)
 one = [l[0] for l in path]
 plt.plot(one)
+plt.savefig("B3DCMB/exchange.png")
 np.save("B3DCMB/exhange.npy", np.array(path))
