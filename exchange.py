@@ -16,7 +16,7 @@ COSMO_PARAMS_SIGMA = np.array([0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 proposal_sigma= COSMO_PARAMS_SIGMA/4
 
-N_iteration = 1000
+N_iteration = 100
 
 def sample_cls(theta):
     params = {'output': OUTPUT_CLASS,
@@ -79,8 +79,10 @@ for i in range(N_iteration):
     if u < ratio:
         old_theta = new_theta
         old_cls = new_cls
+        print("accepted")
         accepted += 1
 
     path.append(old_theta)
 
 
+print(accepted/N_iteration)
