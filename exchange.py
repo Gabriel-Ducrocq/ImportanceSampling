@@ -4,6 +4,8 @@ import numpy as np
 import time
 import matplotlib.pyplot as plt
 
+PLOT = True
+
 cosmo = Class()
 NSIDE=512
 L_MAX_SCALARS=1500
@@ -70,6 +72,7 @@ old_cls, old_eb_tb = sample_cls(old_theta)
 
 path = []
 accepted = 0
+"""
 for i in range(N_iteration):
     print(i)
     stat_time = time.time()
@@ -98,3 +101,11 @@ one = [l[0] for l in path]
 plt.plot(one)
 plt.savefig("B3DCMB/exchange.png")
 np.save("B3DCMB/exhange.npy", np.array(path))
+"""
+
+if PLOT:
+    path = np.load("B3DCMB/exhange.npy")
+    first, second, third, fourth, fifth, sixth = zip(*path)
+    plt.hist(first)
+    plt.savefig("B3DCMB/exchange.png")
+
