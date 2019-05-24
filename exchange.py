@@ -1,6 +1,7 @@
 import healpy as hp
 from classy import Class
 import numpy as np
+import time
 
 cosmo = Class()
 NSIDE=512
@@ -14,7 +15,7 @@ COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_
 COSMO_PARAMS_MEANS = np.array([0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
 COSMO_PARAMS_SIGMA = np.array([0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071])
 
-proposal_sigma= COSMO_PARAMS_SIGMA/7
+proposal_sigma= COSMO_PARAMS_SIGMA/6
 
 N_iteration = 100
 
@@ -70,6 +71,7 @@ path = []
 accepted = 0
 for i in range(N_iteration):
     print(i)
+    stat_time = time.time()
     new_theta = propose_theta(old_theta)
     new_cls, eb_tb = sample_cls(new_theta)
     auxi_skymap = sample_skymap(new_cls, eb_tb)
@@ -86,6 +88,7 @@ for i in range(N_iteration):
     print("\n")
 
     path.append(old_theta)
+    print(time.time() - stat_time)
 
 
 print(accepted/N_iteration)
