@@ -107,5 +107,6 @@ if PLOT:
     path = np.load("B3DCMB/exhange.npy")
     first, second, third, fourth, fifth, sixth = zip(*path)
     plt.hist(fifth[2000:])
+    print(np.mean(fifth[2000:]))
     plt.savefig("B3DCMB/exchange.png")
 
