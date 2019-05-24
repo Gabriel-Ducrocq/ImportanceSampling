@@ -30,13 +30,12 @@ def sample_cls(theta):
     eb_tb = np.zeros(shape=cls["tt"].shape)
     cosmo.struct_cleanup()
     cosmo.empty()
-    return cls["tt"][2:], eb_tb
+    all_cls = np.array([elt for i,elt in enumerate(cls["tt"][2:]) for _ in range(2*(i+2)+1)])
+    return all_cls, eb_tb
 
 def sample_skymap(cls, eb_tb):
-    skymap = hp.synalm(cls, new=True)
-    print("Skymap")
-    print(skymap[:10])
-    return skymap[2:]
+    skymap = np.dot(np.diag(np.sqrt(cls)),np.random.normal(0, 1, size = len(cls)))
+    return skymap
 
 
 def propose_theta(old_theta):
@@ -49,14 +48,9 @@ def compute_prior(theta):
     return num/det
 
 def compute_ratio_skymap(skymap, cls, cls_prime, eb_tb, auxiliary):
-    S_inv = np.array([1/elt for i,elt in enumerate(cls) for _ in range(2*i+1)])
-    S_prime_inv = np.array([1/elt for i,elt in enumerate(cls_prime) for _ in range(2*i+1)])
+    S_inv = 1/cls
+    S_prime_inv = 1/cls_prime
 
-    print(S_prime_inv.shape)
-    print(cls.shape)
-    print(S_inv.shape)
-    print(skymap.shape)
-    print(auxiliary.shape)
     return np.exp(-(1/2)*(np.sum(((skymap)**2)*(S_prime_inv - S_inv)) + np.sum(((auxiliary)**2)*(S_inv - S_prime_inv))))
 
 def compute_MH_ratio(skymap, auxiliary, cls, cls_prime, theta, theta_prime, eb_tb):
@@ -70,10 +64,10 @@ true_cls, eb_tb = sample_cls(TRUE_THETA)
 TRUE_SKYMAP = sample_skymap(true_cls, eb_tb)
 
 old_theta = COSMO_PARAMS_MEANS + np.dot(np.diag(COSMO_PARAMS_SIGMA),np.random.normal(0, 1, size = COSMO_PARAMS_MEANS.shape[0]))
-print(old_theta)
 old_cls, old_eb_tb = sample_cls(old_theta)
-print(old_cls[:50])
 
+path = []
+accepted = 0
 for i in range(N_iteration):
     print(i)
     new_theta = propose_theta(old_theta)
@@ -85,7 +79,8 @@ for i in range(N_iteration):
     if u < ratio:
         old_theta = new_theta
         old_cls = new_cls
+        accepted += 1
 
-
+    path.append(old_theta)
 
 
