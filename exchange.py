@@ -18,7 +18,7 @@ COSMO_PARAMS_SIGMA = np.array([0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 proposal_sigma= COSMO_PARAMS_SIGMA/6
 
-N_iteration = 100
+N_iteration = 5000
 
 def sample_cls(theta):
     params = {'output': OUTPUT_CLASS,
