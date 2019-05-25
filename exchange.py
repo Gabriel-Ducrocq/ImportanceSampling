@@ -88,9 +88,9 @@ for i in range(N_iteration):
         accepted += 1
 
     print(ratio)
-    print("\n")
-
     path.append(old_theta)
+    print(old_theta)
+    print("\n")
     if i%100 == 0:
         print(i)
         print(accepted/(i+1))
