@@ -111,21 +111,27 @@ if PLOT:
     fig.subplots_adjust(wspace=0.7, hspace=0.7)
     fig.suptitle("Trajectories")
     axes[0,0].plot(first)
+    axes[0, 0].axhline(COSMO_PARAMS_MEANS[0])
     axes[0,0].set_title("n_s")
 
     axes[0,1].plot(second)
+    axes[0, 1].axhline(COSMO_PARAMS_MEANS[1])
     axes[0,1].set_title("omega_b")
 
     axes[1,0].plot(third)
+    axes[1, 0].axhline(COSMO_PARAMS_MEANS[2])
     axes[1,0].set_title("omega_cdm")
 
     axes[1,1].plot(fourth)
+    axes[1, 1].axhline(COSMO_PARAMS_MEANS[3])
     axes[1,1].set_title("100*theta_s")
 
     axes[2,0].plot(fifth)
+    axes[2, 0].axhline(COSMO_PARAMS_MEANS[4])
     axes[2,0].set_title("ln10^{10}A_s")
 
     axes[2,1].plot(sixth)
+    axes[2, 1].axhline(COSMO_PARAMS_MEANS[5])
     axes[2,1].set_title("tau_reio")
 
     fig.savefig("B3DCMB/exchange.png")
