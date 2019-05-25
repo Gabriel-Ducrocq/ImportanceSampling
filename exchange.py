@@ -63,7 +63,7 @@ def compute_MH_ratio(skymap, auxiliary, cls, cls_prime, theta, theta_prime, eb_t
 
 
 
-TRUE_THETA = COSMO_PARAMS_MEANS - 0.5*COSMO_PARAMS_SIGMA
+TRUE_THETA = np.ones(6)*2
 true_cls, eb_tb = sample_cls(TRUE_THETA)
 TRUE_SKYMAP = sample_skymap(true_cls, eb_tb)
 
@@ -72,7 +72,6 @@ old_cls, old_eb_tb = sample_cls(old_theta)
 
 path = []
 accepted = 0
-"""
 for i in range(N_iteration):
     print(i)
     stat_time = time.time()
@@ -92,6 +91,7 @@ for i in range(N_iteration):
     print("\n")
 
     path.append(old_theta)
+    print(old_theta)
     if i%100 == 0:
         print(i)
         print(accepted/(i+1))
@@ -101,12 +101,13 @@ one = [l[0] for l in path]
 plt.plot(one)
 plt.savefig("B3DCMB/exchange.png")
 np.save("B3DCMB/exhange.npy", np.array(path))
-"""
 
+
+'''
 if PLOT:
     path = np.load("B3DCMB/exhange.npy")
     first, second, third, fourth, fifth, sixth = zip(*path)
     plt.hist(fifth[2000:])
     print(np.mean(fifth[2000:]))
     plt.savefig("B3DCMB/exchange.png")
-
+'''
