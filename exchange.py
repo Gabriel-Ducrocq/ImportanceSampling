@@ -20,7 +20,7 @@ COSMO_PARAMS_SIGMA = np.array([0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071]
 
 proposal_sigma= COSMO_PARAMS_SIGMA/6
 
-N_iteration = 5000
+N_iteration = 50000
 
 def sample_cls(theta):
     params = {'output': OUTPUT_CLASS,
@@ -62,7 +62,7 @@ def compute_MH_ratio(skymap, auxiliary, cls, cls_prime, theta, theta_prime, eb_t
     return (compute_prior(theta_prime)/compute_prior(theta))* skymap_ratio
 
 
-"""
+
 TRUE_THETA = COSMO_PARAMS_MEANS
 true_cls, eb_tb = sample_cls(TRUE_THETA)
 TRUE_SKYMAP = sample_skymap(true_cls, eb_tb)
@@ -98,13 +98,13 @@ for i in range(N_iteration):
 print(accepted/N_iteration)
 one = [l[0] for l in path]
 plt.plot(one)
-plt.savefig("B3DCMB/exchange.png")
-np.save("B3DCMB/exhange.npy", np.array(path))
+plt.savefig("B3DCMB/exchange_long.png")
+np.save("B3DCMB/exhange_long.npy", np.array(path))
 
-"""
+
 
 if PLOT:
-    path = np.load("B3DCMB/exhange.npy")
+    path = np.load("B3DCMB/exhange_long.npy")
     first, second, third, fourth, fifth, sixth = zip(*path)
 
     fig, axes = plt.subplots(3, 2, figsize=(10, 10))
@@ -134,5 +134,5 @@ if PLOT:
     axes[2, 1].axhline(COSMO_PARAMS_MEANS[5])
     axes[2,1].set_title("tau_reio")
 
-    fig.savefig("B3DCMB/exchange.png")
+    fig.savefig("B3DCMB/exchange_long.png")
 
