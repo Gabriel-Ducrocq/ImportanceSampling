@@ -63,7 +63,7 @@ def compute_MH_ratio(skymap, auxiliary, cls, cls_prime, theta, theta_prime, eb_t
 
 
 
-TRUE_THETA = np.ones(6)*2
+TRUE_THETA = np.ones(6)
 true_cls, eb_tb = sample_cls(TRUE_THETA)
 TRUE_SKYMAP = sample_skymap(true_cls, eb_tb)
 
