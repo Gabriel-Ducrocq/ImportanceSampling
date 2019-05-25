@@ -62,7 +62,7 @@ def compute_MH_ratio(skymap, auxiliary, cls, cls_prime, theta, theta_prime, eb_t
     return (compute_prior(theta_prime)/compute_prior(theta))* skymap_ratio
 
 
-
+"""
 TRUE_THETA = COSMO_PARAMS_MEANS
 true_cls, eb_tb = sample_cls(TRUE_THETA)
 TRUE_SKYMAP = sample_skymap(true_cls, eb_tb)
@@ -101,12 +101,32 @@ plt.plot(one)
 plt.savefig("B3DCMB/exchange.png")
 np.save("B3DCMB/exhange.npy", np.array(path))
 
+"""
 
-'''
 if PLOT:
     path = np.load("B3DCMB/exhange.npy")
     first, second, third, fourth, fifth, sixth = zip(*path)
-    plt.hist(fifth[2000:])
-    print(np.mean(fifth[2000:]))
-    plt.savefig("B3DCMB/exchange.png")
-'''
+
+    fig, axes = plt.subplots(2, 3, figsize=(10, 10))
+    fig.subplots_adjust(wspace=0.7, hspace=0.7)
+    fig.suptitle("Trajectories")
+    axes[0,0].plot(first)
+    axes[0,0].set_title("n_s")
+
+    axes[0,1].plot(second)
+    axes[0,1].set_title("omega_b")
+
+    axes[1,0].plot(third)
+    axes[1,0].set_title("omega_cdm")
+
+    axes[1,1].plot(fourth)
+    axes[1,1].set_title("100*theta_s")
+
+    axes[2,0].plot(fifth)
+    axes[2,0].set_title("ln10^{10}A_s")
+
+    axes[2,1].plot(sixth)
+    axes[2,1].set_title("tau_reio")
+
+    fig.savefig("B3DCMB/exchange.png")
+
