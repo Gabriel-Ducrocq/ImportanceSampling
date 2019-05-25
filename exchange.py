@@ -107,7 +107,7 @@ if PLOT:
     path = np.load("B3DCMB/exhange.npy")
     first, second, third, fourth, fifth, sixth = zip(*path)
 
-    fig, axes = plt.subplots(2, 3, figsize=(10, 10))
+    fig, axes = plt.subplots(3, 2, figsize=(10, 10))
     fig.subplots_adjust(wspace=0.7, hspace=0.7)
     fig.suptitle("Trajectories")
     axes[0,0].plot(first)
