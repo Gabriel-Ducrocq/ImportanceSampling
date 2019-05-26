@@ -4,8 +4,9 @@ import numpy as np
 import time
 import matplotlib.pyplot as plt
 
-PLOT = True
-
+PLOT = False
+PLOT_HISTOGRAM = True
+BURNING = 3000
 cosmo = Class()
 NSIDE=512
 L_MAX_SCALARS=1500
@@ -62,7 +63,7 @@ def compute_MH_ratio(skymap, auxiliary, cls, cls_prime, theta, theta_prime, eb_t
     return (compute_prior(theta_prime)/compute_prior(theta))* skymap_ratio
 
 
-
+"""
 TRUE_THETA = COSMO_PARAMS_MEANS
 true_cls, eb_tb = sample_cls(TRUE_THETA)
 TRUE_SKYMAP = sample_skymap(true_cls, eb_tb)
@@ -100,7 +101,7 @@ one = [l[0] for l in path]
 plt.plot(one)
 plt.savefig("B3DCMB/exchange_long.png")
 np.save("B3DCMB/exhange_long.npy", np.array(path))
-
+"""
 
 
 if PLOT:
@@ -136,3 +137,35 @@ if PLOT:
 
     fig.savefig("B3DCMB/exchange_long.png")
 
+if PLOT_HISTOGRAM:
+    path = np.load("B3DCMB/exhange_long.npy")
+    first, second, third, fourth, fifth, sixth = zip(*path)
+
+    fig, axes = plt.subplots(3, 2, figsize=(10, 10))
+    fig.subplots_adjust(wspace=0.7, hspace=0.7)
+    fig.suptitle("Trajectories")
+    axes[0,0].hist(first[BURNING:])
+    axes[0, 0].axvline(COSMO_PARAMS_MEANS[0])
+    axes[0,0].set_title("n_s")
+
+    axes[0,1].hist(second[BURNING:])
+    axes[0, 1].axvline(COSMO_PARAMS_MEANS[1])
+    axes[0,1].set_title("omega_b")
+
+    axes[1,0].hist(third[BURNING:])
+    axes[1, 0].axvline(COSMO_PARAMS_MEANS[2])
+    axes[1,0].set_title("omega_cdm")
+
+    axes[1,1].hist(fourth[BURNING:])
+    axes[1, 1].axvline(COSMO_PARAMS_MEANS[3])
+    axes[1,1].set_title("100*theta_s")
+
+    axes[2,0].hist(fifth[BURNING:])
+    axes[2, 0].axvline(COSMO_PARAMS_MEANS[4])
+    axes[2,0].set_title("ln10^{10}A_s")
+
+    axes[2,1].hist(sixth[BURNING:])
+    axes[2, 1].axvline(COSMO_PARAMS_MEANS[5])
+    axes[2,1].set_title("tau_reio")
+
+    fig.savefig("B3DCMB/exchange_hist_long.png")
