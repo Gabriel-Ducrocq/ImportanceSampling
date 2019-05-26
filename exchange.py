@@ -145,27 +145,27 @@ if PLOT_HISTOGRAM:
     fig.subplots_adjust(wspace=0.7, hspace=0.7)
     fig.suptitle("Trajectories")
     axes[0,0].hist(first[BURNING:])
-    axes[0, 0].axvline(COSMO_PARAMS_MEANS[0], color='k', linestyle='dashed', linewidth=1)
+    axes[0, 0].axvline(COSMO_PARAMS_MEANS[0], color='k', linestyle='dashed', linewidth=1, bins = 1000)
     axes[0,0].set_title("n_s")
 
     axes[0,1].hist(second[BURNING:])
-    axes[0, 1].axvline(COSMO_PARAMS_MEANS[1], color='k', linestyle='dashed', linewidth=1)
+    axes[0, 1].axvline(COSMO_PARAMS_MEANS[1], color='k', linestyle='dashed', linewidth=1, bins = 1000)
     axes[0,1].set_title("omega_b")
 
     axes[1,0].hist(third[BURNING:])
-    axes[1, 0].axvline(COSMO_PARAMS_MEANS[2], color='k', linestyle='dashed', linewidth=1)
+    axes[1, 0].axvline(COSMO_PARAMS_MEANS[2], color='k', linestyle='dashed', linewidth=1, bins = 1000)
     axes[1,0].set_title("omega_cdm")
 
     axes[1,1].hist(fourth[BURNING:])
-    axes[1, 1].axvline(COSMO_PARAMS_MEANS[3], color='k', linestyle='dashed', linewidth=1)
+    axes[1, 1].axvline(COSMO_PARAMS_MEANS[3], color='k', linestyle='dashed', linewidth=1, bins = 1000)
     axes[1,1].set_title("100*theta_s")
 
     axes[2,0].hist(fifth[BURNING:])
-    axes[2, 0].axvline(COSMO_PARAMS_MEANS[4], color='k', linestyle='dashed', linewidth=1)
+    axes[2, 0].axvline(COSMO_PARAMS_MEANS[4], color='k', linestyle='dashed', linewidth=1, bins = 1000)
     axes[2,0].set_title("ln10^{10}A_s")
 
     axes[2,1].hist(sixth[BURNING:])
-    axes[2, 1].axvline(COSMO_PARAMS_MEANS[5], color='k', linestyle='dashed', linewidth=1)
+    axes[2, 1].axvline(COSMO_PARAMS_MEANS[5], color='k', linestyle='dashed', linewidth=1, bins = 1000)
     axes[2,1].set_title("tau_reio")
 
     fig.savefig("B3DCMB/exchange_hist_long.png")
