@@ -39,7 +39,7 @@ def compute_cls(theta):
     params.update(d)
     cosmo.set(params)
     cosmo.compute()
-    print(cosmo.get_current_derived_parameters())
+    print(cosmo.get_current_derived_parameters(["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]))
     cls = cosmo.lensed_cl(L_MAX_SCALARS)
     eb_tb = np.zeros(shape=cls["tt"].shape)
     cosmo.struct_cleanup()
