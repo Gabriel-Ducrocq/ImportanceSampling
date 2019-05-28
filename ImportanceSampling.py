@@ -76,7 +76,8 @@ for i in range(100):
     log_weights.append(log_weight)
 
 log_weights = np.array(log_weights)
-w = np.exp((log_weights) - np.max(log_weights))
+w = np.exp(log_weights - np.max(log_weights))
 normalized_weights = w/np.sum(w)
+print(normalized_weights)
 ess = 1/np.sum(normalized_weights**2)
 print(ess)
