@@ -92,4 +92,5 @@ print(COSMO_PARAMS_MEAN)
 prior = np.random.normal(0, 1, 1000)*COSMO_PARAMS_SIGMA[0] + 10*COSMO_PARAMS_MEAN[0]
 plt.hist(sampled_thetas, weights = normalized_weights, density = True, alpha = 0.5, label = "Posterior")
 plt.hist(prior, density = True, alpha = 0.5, label = "Prior", bins = 100)
+plt.legend(loc='upper right')
 plt.savefig("B3DCMB/test.png")
