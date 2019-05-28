@@ -103,7 +103,7 @@ observed_alms1 = sample_skymap(m1)
 m2 = np.array([0.9665, 0.02242, 0.11933, 1.04101, 4*3.047, 0.0561])
 observed_alms2 = sample_skymap(m2)
 
-m3 = np.array([0.9665, 0.02242, 0.11933, 1.04101, 16*3.047, 0.0561])
+m3 = np.array([0.9665, 0.02242, 0.11933, 1.04101, 10*3.047, 0.0561])
 observed_alms3 = sample_skymap(m3)
 
 
