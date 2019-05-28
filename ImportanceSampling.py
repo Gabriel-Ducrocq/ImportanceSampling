@@ -8,6 +8,7 @@ BURNING = 3000
 cosmo = Class()
 NSIDE=512
 L_MAX_SCALARS=50
+SCALING = 1000
 Npix = 12 * NSIDE ** 2
 cosmo = Class()
 
@@ -30,7 +31,7 @@ noise_covar_one_pix = noise_covariance_in_freq(NSIDE)
 
 def proposal_theta():
     #return np.random.uniform(COSMO_PARAMS_LOWER, COSMO_PARAMS_UPPER)
-    return 100*COSMO_PARAMS_SIGMA*np.random.normal(0, 1, size = 6)+ COSMO_PARAMS_MEAN
+    return SCALING*COSMO_PARAMS_SIGMA*np.random.normal(0, 1, size = 6)+ COSMO_PARAMS_MEAN
 
 def compute_cls(theta):
     params = {'output': OUTPUT_CLASS,
@@ -88,8 +89,8 @@ print(np.sum(np.array(sampled_thetas)*normalized_weights, axis = 0))
 print(TRUE_COSMO_PARAMS)
 print(COSMO_PARAMS_MEAN)
 
-prior = np.random.normal(0, 1, 1000)*COSMO_PARAMS_SIGMA[0]*100 + COSMO_PARAMS_MEAN[0]
-plt.hist(sampled_thetas, weights = normalized_weights, density = True, alpha = 0.5, label = "Posterior", bins = 100)
-plt.hist(prior, density = True, alpha = 0.5, label = "Prior", bins = 100)
+prior = np.random.normal(0, 1, 1000)*COSMO_PARAMS_SIGMA[0]*SCALING + COSMO_PARAMS_MEAN[0]
+plt.hist(sampled_thetas, weights = normalized_weights, density = True, alpha = 0.5, label = "Posterior", bins = 50)
+plt.hist(prior, density = True, alpha = 0.5, label = "Prior", bins = 50)
 plt.legend(loc='upper right')
 plt.savefig("B3DCMB/test.png")
