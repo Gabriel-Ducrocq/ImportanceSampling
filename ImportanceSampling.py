@@ -56,6 +56,8 @@ def sample_skymap(theta):
 
 def compute_likelihood(skymap_pix):
     var = noise_covariance_in_freq(NSIDE)
+    print("len")
+    print(len(skymap_pix))
     log_likelihood = -(1/2)*(((observed_skymap - skymap_pix)**2)/var) - (1/2)*np.log(2*np.pi*var)*len(skymap_pix)
     return log_likelihood
 
@@ -79,5 +81,6 @@ log_weights = np.array(log_weights)
 w = np.exp(log_weights - np.max(log_weights))
 normalized_weights = w/np.sum(w)
 print(normalized_weights)
+print(np.sum(normalized_weights))
 ess = np.sum(w)**2/np.sum(w**2)
 print(ess)
