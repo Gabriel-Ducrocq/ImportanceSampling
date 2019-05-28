@@ -60,7 +60,8 @@ def compute_likelihood(skymap_pix):
     return likelihood
 
 TRUE_COSMO_PARAMS = COSMO_PARAMS_MEAN-COSMO_PARAMS_SIGMA
-observed_skymap = sample_skymap(TRUE_COSMO_PARAMS)
+observed_cls = compute_cls(TRUE_COSMO_PARAMS)
+observed_skymap = hp.synfast(observed_cls,nside=NSIDE, new=True)
 sampled_thetas = []
 weights = []
 print("Done observed skymap")
