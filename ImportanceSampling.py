@@ -43,7 +43,7 @@ def compute_cls(theta):
     eb_tb = np.zeros(shape=cls["tt"].shape)
     cosmo.struct_cleanup()
     cosmo.empty()
-    all_cls = np.array([elt for i,elt in enumerate(cls["tt"]) for _ in range(2*i+1)])
+    all_cls = np.array([elt for i,elt in enumerate(cls["tt"]) for _ in range(i+1)])
     return all_cls
 
 def sample_alm(cls):
