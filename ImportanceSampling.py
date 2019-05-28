@@ -18,7 +18,7 @@ OUTPUT_CLASS = 'tCl pCl lCl'
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEAN = np.array([0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
 #COSMO_PARAMS_SIGMA = np.array([0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071])
-COSMO_PARAMS_SIGMA = np.array([0.0038, 0, 0, 0, 0, 0])
+COSMO_PARAMS_SIGMA = np.array([0, 0, 0, 0, 0.014, 0])
 COSMO_PARAMS_LOWER = np.array([0.7, 0.02, 0.01, 0.01, 2.5, 0.01])
 COSMO_PARAMS_UPPER = np.array([1.4, 0.1, 1.2, 1.2, 3.5, 0.1])
 LiteBIRD_sensitivities = np.array([36.1, 19.6, 20.2, 11.3, 10.3, 8.4, 7.0, 5.8, 4.7, 7.0, 5.8, 8.0, 9.1, 11.4, 19.6])
@@ -69,7 +69,7 @@ observed_skymap = observed_alms
 sampled_thetas = []
 log_weights = []
 print("Done observed skymap")
-"""
+
 for i in range(1000):
     if i%100 == 0:
         print(i)
@@ -95,8 +95,8 @@ plt.hist(sampled_thetas, weights = normalized_weights, density = True, alpha = 0
 plt.hist(prior, density = True, alpha = 0.5, label = "Prior", bins = 50)
 plt.legend(loc='upper right')
 plt.savefig("B3DCMB/test.png")
-"""
 
+"""
 m1 = np.array([0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
 observed_alms1 = sample_skymap(m1)
 
@@ -113,3 +113,4 @@ plt.hist(observed_alms2, label="scaling about 4", density = True, alpha = 0.5, b
 plt.legend(loc="upper right")
 #plt.figure(figsize = (5, 5))
 plt.savefig("B3DCMB/scaling_alm.png")
+"""
