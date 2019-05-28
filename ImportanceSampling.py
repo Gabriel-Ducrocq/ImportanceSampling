@@ -17,7 +17,7 @@ OUTPUT_CLASS = 'tCl pCl lCl'
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
 COSMO_PARAMS_MEAN = np.array([0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
 #COSMO_PARAMS_SIGMA = np.array([0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071])
-COSMO_PARAMS_SIGMA = 10*np.array([0.0038, 0, 0, 0, 0, 0])
+COSMO_PARAMS_SIGMA = np.array([0.0038, 0, 0, 0, 0, 0])
 COSMO_PARAMS_LOWER = np.array([0.7, 0.02, 0.01, 0.01, 2.5, 0.01])
 COSMO_PARAMS_UPPER = np.array([1.4, 0.1, 1.2, 1.2, 3.5, 0.1])
 LiteBIRD_sensitivities = np.array([36.1, 19.6, 20.2, 11.3, 10.3, 8.4, 7.0, 5.8, 4.7, 7.0, 5.8, 8.0, 9.1, 11.4, 19.6])
@@ -30,7 +30,7 @@ noise_covar_one_pix = noise_covariance_in_freq(NSIDE)
 
 def proposal_theta():
     #return np.random.uniform(COSMO_PARAMS_LOWER, COSMO_PARAMS_UPPER)
-    return COSMO_PARAMS_SIGMA*np.random.normal(0, 1, size = 6)+ COSMO_PARAMS_MEAN
+    return 10*COSMO_PARAMS_SIGMA*np.random.normal(0, 1, size = 6)+ COSMO_PARAMS_MEAN
 
 def compute_cls(theta):
     params = {'output': OUTPUT_CLASS,
