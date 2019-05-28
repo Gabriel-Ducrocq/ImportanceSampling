@@ -30,7 +30,7 @@ noise_covar_one_pix = noise_covariance_in_freq(NSIDE)
 
 def proposal_theta():
     #return np.random.uniform(COSMO_PARAMS_LOWER, COSMO_PARAMS_UPPER)
-    return 10*COSMO_PARAMS_SIGMA*np.random.normal(0, 1, size = 6)+ COSMO_PARAMS_MEAN
+    return 100*COSMO_PARAMS_SIGMA*np.random.normal(0, 1, size = 6)+ COSMO_PARAMS_MEAN
 
 def compute_cls(theta):
     params = {'output': OUTPUT_CLASS,
@@ -82,14 +82,13 @@ log_weights = np.array(log_weights)
 w = np.exp(log_weights - np.max(log_weights))
 normalized_weights = w/np.sum(w)
 print(normalized_weights)
-print(np.sum(normalized_weights))
 ess = np.sum(w)**2/np.sum(w**2)
 print(ess)
 print(np.sum(np.array(sampled_thetas)*normalized_weights, axis = 0))
 print(TRUE_COSMO_PARAMS)
 print(COSMO_PARAMS_MEAN)
 
-prior = np.random.normal(0, 1, 1000)*COSMO_PARAMS_SIGMA[0]*10 + COSMO_PARAMS_MEAN[0]
+prior = np.random.normal(0, 1, 1000)*COSMO_PARAMS_SIGMA[0]*100 + COSMO_PARAMS_MEAN[0]
 plt.hist(sampled_thetas, weights = normalized_weights, density = True, alpha = 0.5, label = "Posterior", bins = 100)
 plt.hist(prior, density = True, alpha = 0.5, label = "Prior", bins = 100)
 plt.legend(loc='upper right')
