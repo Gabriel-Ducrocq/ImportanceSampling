@@ -56,14 +56,14 @@ def sample_skymap(theta):
 
 def compute_likelihood(skymap_pix):
     var = noise_covariance_in_freq(NSIDE)
-    likelihood = np.exp(-(1/2)*((observed_skymap - skymap_pix)**2)/var)/np.sqrt((2*np.pi*var)**len(skymap_pix))
-    return likelihood
+    log_likelihood = -(1/2)*(((observed_skymap - skymap_pix)**2)/var) - (1/2)*np.log(2*np.pi*var)*len(skymap_pix)
+    return log_likelihood
 
 TRUE_COSMO_PARAMS = COSMO_PARAMS_MEAN-COSMO_PARAMS_SIGMA
 observed_cls = compute_cls(TRUE_COSMO_PARAMS)
 observed_skymap = hp.synfast(observed_cls,nside=NSIDE, new=True)
 sampled_thetas = []
-weights = []
+log_weights = []
 print("Done observed skymap")
 for i in range(100):
     print(i)
@@ -71,10 +71,12 @@ for i in range(100):
     new_cls = compute_cls(new_theta)
     new_skymap = hp.synfast(new_cls,nside=NSIDE, new=True)
     #new_skymap = sample_skymap(new_theta)
-    weight = compute_likelihood(new_skymap)
+    log_weight = compute_likelihood(new_skymap)
     sampled_thetas.append(new_theta)
-    weights.append(weight)
+    log_weights.append(log_weight)
 
-weights = np.array(weights)
-ess = np.sum(weigths)**2 / np.sum(weights**2)
+log_weights = np.array(log_weights)
+w = np.exp((log_weights) - np.max(log_weights))
+normalized_weights = w/np.sum(w)
+ess = 1/np.sum(normalized_weights**2)
 print(ess)
