@@ -77,7 +77,7 @@ for i in range(1000):
     new_theta = proposal_theta()
     new_skymap = sample_skymap(new_theta)
     log_weight = compute_likelihood(new_skymap)
-    sampled_thetas.append(new_theta[0])
+    sampled_thetas.append(new_theta[4])
     log_weights.append(log_weight)
 
 log_weights = np.array(log_weights)
@@ -90,7 +90,7 @@ print(np.sum(np.array(sampled_thetas)*normalized_weights, axis = 0))
 print(TRUE_COSMO_PARAMS)
 print(COSMO_PARAMS_MEAN)
 
-prior = np.random.normal(0, 1, 1000)*COSMO_PARAMS_SIGMA[0]*SCALING + COSMO_PARAMS_MEAN[0]
+prior = np.random.normal(0, 1, 1000)*COSMO_PARAMS_SIGMA[4]*SCALING + COSMO_PARAMS_MEAN[4]
 plt.hist(sampled_thetas, weights = normalized_weights, density = True, alpha = 0.5, label = "Posterior", bins = 50)
 plt.hist(prior, density = True, alpha = 0.5, label = "Prior", bins = 50)
 plt.legend(loc='upper right')
