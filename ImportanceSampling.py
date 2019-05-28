@@ -62,7 +62,7 @@ def compute_likelihood(skymap_alms):
     log_likelihood = -(1/2)*np.sum((((observed_skymap - skymap_pix)**2)/var)) - (1/2)*np.log(2*np.pi*var)*len(skymap_pix)
     return log_likelihood
 
-TRUE_COSMO_PARAMS = COSMO_PARAMS_MEAN-5*COSMO_PARAMS_SIGMA
+TRUE_COSMO_PARAMS = COSMO_PARAMS_MEAN-20*COSMO_PARAMS_SIGMA
 observed_alms = sample_skymap(TRUE_COSMO_PARAMS)
 #observed_skymap = hp.sphtfunc.alm2map(observed_alms.astype(complex), nside = NSIDE)
 observed_skymap =observed_alms
