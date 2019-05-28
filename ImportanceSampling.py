@@ -54,7 +54,7 @@ def sample_skymap(theta):
     return sample_alm(cls)
 
 def compute_likelihood(skymap_alms):
-    skymap_pix = hp.sphtfunc.alm2map(skymap_alms.astype(complex), nside= NSIDE, lmax= L_MAX_SCALARS)
+    skymap_pix = hp.sphtfunc.alm2map(skymap_alms.astype(complex), nside= NSIDE)
     var = noise_covariance_in_freq(NSIDE)
     print(var)
     log_likelihood = -(1/2)*np.sum((((observed_skymap - skymap_pix)**2)/var)) - (1/2)*np.log(2*np.pi*var)*len(skymap_pix)
