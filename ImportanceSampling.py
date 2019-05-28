@@ -15,7 +15,7 @@ LENSING = 'yes'
 OUTPUT_CLASS = 'tCl pCl lCl'
 
 COSMO_PARAMS_NAMES = ["n_s", "omega_b", "omega_cdm", "100*theta_s", "ln10^{10}A_s", "tau_reio"]
-COSMO_PARAMS_MEAN = np.array([0.80, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
+COSMO_PARAMS_MEAN = np.array([0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
 COSMO_PARAMS_SIGMA = np.array([0.0038, 0.00014, 0.00091, 0.00029, 0.014, 0.0071])
 COSMO_PARAMS_LOWER = np.array([0.7, 0.02, 0.01, 0.01, 2.5, 0.01])
 COSMO_PARAMS_UPPER = np.array([1.4, 0.1, 1.2, 1.2, 3.5, 0.1])
@@ -44,7 +44,7 @@ def compute_cls(theta):
     eb_tb = np.zeros(shape=cls["tt"].shape)
     cosmo.struct_cleanup()
     cosmo.empty()
-    all_cls = np.array([elt for i,elt in enumerate(cls["tt"]) for _ in range(i+1)])
+    all_cls = np.array([elt for i,elt in enumerate(cls["tt"]) for _ in range(2*i+1)])
     return all_cls
 
 def sample_alm(cls):
@@ -55,7 +55,8 @@ def sample_skymap(theta):
     return sample_alm(cls)
 
 def compute_likelihood(skymap_alms):
-    skymap_pix = hp.sphtfunc.alm2map(skymap_alms.astype(complex), nside= NSIDE)
+    #skymap_pix = hp.sphtfunc.alm2map(skymap_alms.astype(complex), nside= NSIDE)
+    skymap_pix = skymap_alms
     var = noise_covariance_in_freq(NSIDE)
     print(var)
     log_likelihood = -(1/2)*np.sum((((observed_skymap - skymap_pix)**2)/var)) - (1/2)*np.log(2*np.pi*var)*len(skymap_pix)
@@ -63,7 +64,8 @@ def compute_likelihood(skymap_alms):
 
 TRUE_COSMO_PARAMS = COSMO_PARAMS_MEAN-5*COSMO_PARAMS_SIGMA
 observed_alms = sample_skymap(TRUE_COSMO_PARAMS)
-observed_skymap = hp.sphtfunc.alm2map(observed_alms.astype(complex), nside = NSIDE)
+#observed_skymap = hp.sphtfunc.alm2map(observed_alms.astype(complex), nside = NSIDE)
+obserd_skymap =observed_alms
 sampled_thetas = []
 log_weights = []
 print("Done observed skymap")
