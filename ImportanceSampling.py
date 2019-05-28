@@ -43,8 +43,9 @@ def compute_cls(theta):
     eb_tb = np.zeros(shape=cls["tt"].shape)
     cosmo.struct_cleanup()
     cosmo.empty()
-    all_cls = np.array([elt for i,elt in enumerate(cls["tt"][2:]) for _ in range(2*(i+2)+1)])
-    return all_cls
+    #all_cls = np.array([elt for i,elt in enumerate(cls["tt"][2:]) for _ in range(2*(i+2)+1)])
+    #return all_cls
+    return cls["tt"]
 
 def sample_alm(cls):
     return np.sqrt(cls)*np.random.normal(0, 1, size = len(cls))
@@ -68,13 +69,13 @@ print("Done observed skymap")
 for i in range(100):
     print(i)
     new_theta = proposal_theta()
-    new_skymap = sample_skymap(new_theta)
-    weight = compute_likelihood(new_skymap)
+    new_cls = compute_cls(new_theta)
+    _, Q, U = hp.synfast(new_cls,nside=self.NSIDE, new=True)
+    #new_skymap = sample_skymap(new_theta)
+    weight = compute_likelihood(Q)
     sampled_thetas.append(new_theta)
     weights.append(weight)
 
 weights = np.array(weights)
 ess = np.sum(weigths)**2 / np.sum(weights**2)
 print(ess)
-
-_, Q, U = hp.synfast((cls['tt'], cls['ee'], cls['bb'], cls['te'], eb_tb, eb_tb), nside=self.NSIDE, new=True)
