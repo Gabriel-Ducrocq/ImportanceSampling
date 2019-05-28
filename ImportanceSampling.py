@@ -8,7 +8,7 @@ BURNING = 3000
 cosmo = Class()
 NSIDE=512
 L_MAX_SCALARS=50
-SCALING = 100
+SCALING = 10
 Npix = 12 * NSIDE ** 2
 cosmo = Class()
 
@@ -65,7 +65,7 @@ def compute_likelihood(skymap_alms):
 TRUE_COSMO_PARAMS = COSMO_PARAMS_MEAN-20*COSMO_PARAMS_SIGMA
 observed_alms = sample_skymap(TRUE_COSMO_PARAMS)
 #observed_skymap = hp.sphtfunc.alm2map(observed_alms.astype(complex), nside = NSIDE)
-observed_skymap =observed_alms
+observed_skymap = observed_alms
 sampled_thetas = []
 log_weights = []
 print("Done observed skymap")
