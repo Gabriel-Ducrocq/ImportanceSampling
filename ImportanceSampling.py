@@ -8,7 +8,7 @@ BURNING = 3000
 cosmo = Class()
 NSIDE=512
 L_MAX_SCALARS=50
-SCALING = 500
+SCALING = 100
 Npix = 12 * NSIDE ** 2
 cosmo = Class()
 
