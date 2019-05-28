@@ -70,7 +70,7 @@ for i in range(100):
     print(i)
     new_theta = proposal_theta()
     new_cls = compute_cls(new_theta)
-    _, Q, U = hp.synfast(new_cls,nside=self.NSIDE, new=True)
+    _, Q, U = hp.synfast(new_cls,nside=NSIDE, new=True)
     #new_skymap = sample_skymap(new_theta)
     weight = compute_likelihood(Q)
     sampled_thetas.append(new_theta)
