@@ -62,7 +62,7 @@ def compute_likelihood(skymap_alms):
 
 TRUE_COSMO_PARAMS = COSMO_PARAMS_MEAN-5*COSMO_PARAMS_SIGMA
 observed_alms = sample_skymap(TRUE_COSMO_PARAMS)
-observed_skymap = hp.sphtfun.alm2map(observed_alms.astype(complex), nside = NSIDE)
+observed_skymap = hp.sphtfunc.alm2map(observed_alms.astype(complex), nside = NSIDE)
 sampled_thetas = []
 log_weights = []
 print("Done observed skymap")
