@@ -30,7 +30,7 @@ noise_covar_one_pix = noise_covariance_in_freq(NSIDE)
 
 def proposal_theta():
     #return np.random.uniform(COSMO_PARAMS_LOWER, COSMO_PARAMS_UPPER)
-    return 10*COSMO_PARAMS_SIGMA*np.random.normal(0, 1, size = 6)+ COSMO_PARAMS_MEAN
+    return 100*COSMO_PARAMS_SIGMA*np.random.normal(0, 1, size = 6)+ COSMO_PARAMS_MEAN
 
 def compute_cls(theta):
     params = {'output': OUTPUT_CLASS,
