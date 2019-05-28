@@ -100,11 +100,16 @@ plt.savefig("B3DCMB/test.png")
 m1 = np.array([0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
 observed_alms1 = sample_skymap(m1)
 
-m2 = np.array([10*0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
+m2 = np.array([4*0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
 observed_alms2 = sample_skymap(m2)
 
-plt.hist(observed_alms1, label = "lower", density = True, alpha = 0.5, bins = 100)
-plt.hist(observed_alms2, label="higher", density = True, alpha = 0.5, bins = 100)
+m3 = np.array([10*0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
+observed_alms3 = sample_skymap(m3)
+
+
+plt.hist(observed_alms1, label = "no scaling", density = True, alpha = 0.5, bins = 100)
+plt.hist(observed_alms2, label="scaling about 4", density = True, alpha = 0.5, bins = 100)
+plt.hist(observed_alms3, label="scaling about 10", density = True, alpha = 0.5, bins = 100)
 plt.legend(loc="upper right")
 #plt.figure(figsize = (5, 5))
 plt.savefig("B3DCMB/scaling_alm.png")
