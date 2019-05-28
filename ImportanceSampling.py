@@ -56,22 +56,22 @@ def sample_skymap(theta):
     return sample_alm(cls)
 
 def compute_likelihood(skymap_alms):
-    #skymap_pix = hp.sphtfunc.alm2map(skymap_alms.astype(complex), nside= NSIDE)
-    skymap_pix = skymap_alms
+    skymap_pix = hp.sphtfunc.alm2map(skymap_alms.astype(complex), nside= NSIDE)
+    #skymap_pix = skymap_alms
     var = noise_covariance_in_freq(NSIDE)
     log_likelihood = -(1/2)*np.sum((((observed_skymap - skymap_pix)**2)/var)) - (1/2)*np.log(2*np.pi*var)*len(skymap_pix)
     return log_likelihood
 
 TRUE_COSMO_PARAMS = COSMO_PARAMS_MEAN-20*COSMO_PARAMS_SIGMA
 observed_alms = sample_skymap(TRUE_COSMO_PARAMS)
-#observed_skymap = hp.sphtfunc.alm2map(observed_alms.astype(complex), nside = NSIDE)
-observed_skymap = observed_alms
+observed_skymap = hp.sphtfunc.alm2map(observed_alms.astype(complex), nside = NSIDE)
+#observed_skymap = observed_alms
 sampled_thetas = []
 log_weights = []
 print("Done observed skymap")
 
 for i in range(100):
-    if i%100 == 0:
+    if i%10 == 0:
         print(i)
 
     new_theta = proposal_theta()
