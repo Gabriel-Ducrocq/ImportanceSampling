@@ -62,7 +62,7 @@ def compute_likelihood(skymap_pix):
     log_likelihood = -(1/2)*np.sum((((observed_skymap - skymap_pix)**2)/var)) - (1/2)*np.log(2*np.pi*var)*len(skymap_pix)
     return log_likelihood
 
-TRUE_COSMO_PARAMS = COSMO_PARAMS_MEAN-10*COSMO_PARAMS_SIGMA
+TRUE_COSMO_PARAMS = COSMO_PARAMS_MEAN-5*COSMO_PARAMS_SIGMA
 observed_cls = compute_cls(TRUE_COSMO_PARAMS)
 observed_skymap = hp.synfast(observed_cls,nside=NSIDE, new=True)
 sampled_thetas = []
