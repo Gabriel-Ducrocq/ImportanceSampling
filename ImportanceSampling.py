@@ -35,8 +35,6 @@ def compute_cls(theta):
               'l_max_scalars': L_MAX_SCALARS,
               'lensing': LENSING}
     d = {name:val for name, val in zip(COSMO_PARAMS_NAMES, theta)}
-    print(theta)
-    print(d)
     params.update(d)
     cosmo.set(params)
     cosmo.compute()
@@ -45,7 +43,7 @@ def compute_cls(theta):
     cosmo.struct_cleanup()
     cosmo.empty()
     all_cls = np.array([elt for i,elt in enumerate(cls["tt"][2:]) for _ in range(2*(i+2)+1)])
-    return all_cls, eb_tb
+    return all_cls
 
 def sample_alm(cls):
     return np.sqrt(cls)*np.random.normal(0, 1, size = len(cls))
@@ -63,7 +61,6 @@ def compute_likelihood(skymap_alm):
 observed_skymap = sample_skymap(compute_cls(TRUE_COSMO_PARAMS))
 sampled_thetas = []
 weights = []
-print("Observed done !")
 for i in range(100):
     print(i)
     new_theta = proposal_theta()
