@@ -24,7 +24,7 @@ LiteBIRD_sensitivities = np.array([36.1, 19.6, 20.2, 11.3, 10.3, 8.4, 7.0, 5.8, 
 
 def noise_covariance_in_freq(nside):
     cov = LiteBIRD_sensitivities ** 2 / hp.nside2resol(nside, arcmin=True) ** 2
-    return cov[0]/100000000000
+    return cov[0]/1000000000
 
 noise_covar_one_pix = noise_covariance_in_freq(NSIDE)
 
