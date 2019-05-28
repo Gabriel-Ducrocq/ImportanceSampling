@@ -43,9 +43,8 @@ def compute_cls(theta):
     eb_tb = np.zeros(shape=cls["tt"].shape)
     cosmo.struct_cleanup()
     cosmo.empty()
-    #all_cls = np.array([elt for i,elt in enumerate(cls["tt"][2:]) for _ in range(2*(i+2)+1)])
-    #return all_cls
-    return cls["tt"]
+    all_cls = np.array([elt for i,elt in enumerate(cls["tt"]) for _ in range(2*(i+2)+1)])
+    return all_cls
 
 def sample_alm(cls):
     return np.sqrt(cls)*np.random.normal(0, 1, size = len(cls))
@@ -54,26 +53,22 @@ def sample_skymap(theta):
     cls = compute_cls(theta)
     return sample_alm(cls)
 
-def compute_likelihood(skymap_pix):
+def compute_likelihood(skymap_alms):
+    skymap_pix = hp.sphtfunc.alm2map(skymap_alms, nside= NSIDE, lmax= L_MAX_SCALARS)
     var = noise_covariance_in_freq(NSIDE)
     print(var)
-    print("len")
-    print(len(skymap_pix))
     log_likelihood = -(1/2)*np.sum((((observed_skymap - skymap_pix)**2)/var)) - (1/2)*np.log(2*np.pi*var)*len(skymap_pix)
     return log_likelihood
 
 TRUE_COSMO_PARAMS = COSMO_PARAMS_MEAN-5*COSMO_PARAMS_SIGMA
-observed_cls = compute_cls(TRUE_COSMO_PARAMS)
-observed_skymap = hp.synfast(observed_cls,nside=NSIDE, new=True, lmax = L_MAX_SCALARS)
+observed_skymap = sample_skymap(TRUE_COSMO_PARAMS)
 sampled_thetas = []
 log_weights = []
 print("Done observed skymap")
 for i in range(100):
     print(i)
     new_theta = proposal_theta()
-    new_cls = compute_cls(new_theta)
-    new_skymap = hp.synfast(new_cls,nside=NSIDE, new=True)
-    #new_skymap = sample_skymap(new_theta)
+    new_skymap = sample_skymap(new_theta)
     log_weight = compute_likelihood(new_skymap)
     sampled_thetas.append(new_theta)
     log_weights.append(log_weight)
