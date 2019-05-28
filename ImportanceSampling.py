@@ -8,7 +8,7 @@ BURNING = 3000
 cosmo = Class()
 NSIDE=512
 L_MAX_SCALARS=50
-SCALING = 10
+SCALING = 100
 Npix = 12 * NSIDE ** 2
 cosmo = Class()
 
@@ -69,6 +69,7 @@ observed_skymap = observed_alms
 sampled_thetas = []
 log_weights = []
 print("Done observed skymap")
+"""
 for i in range(1000):
     if i%100 == 0:
         print(i)
@@ -94,3 +95,16 @@ plt.hist(sampled_thetas, weights = normalized_weights, density = True, alpha = 0
 plt.hist(prior, density = True, alpha = 0.5, label = "Prior", bins = 50)
 plt.legend(loc='upper right')
 plt.savefig("B3DCMB/test.png")
+"""
+
+m1 = np.array([0.9665, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
+observed_alms1 = sample_skymap(m1)
+
+m2 = np.array([96.65, 0.02242, 0.11933, 1.04101, 3.047, 0.0561])
+observed_alms2 = sample_skymap(m2)
+
+plt.hist(m1, label = "lower")
+plt.hist(m2, label="higher")
+plt.legend(loc="upper right")
+
+plt.savefig("B3DCMB/scaling_alm.png")
