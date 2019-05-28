@@ -35,6 +35,7 @@ def compute_cls(theta):
               'l_max_scalars': L_MAX_SCALARS,
               'lensing': LENSING}
     d = {name:val for name, val in zip(COSMO_PARAMS_NAMES, theta)}
+    print(d)
     params.update(d)
     cosmo.set(params)
     cosmo.compute()
