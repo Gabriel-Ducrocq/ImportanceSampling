@@ -59,6 +59,7 @@ observed_skymap = sample_skymap(compute_cls(TRUE_COSMO_PARAMS))
 sampled_thetas = []
 weights = []
 for i in range(100):
+    print(i)
     new_theta = proposal_theta()
     new_skymap = sample_skymap(new_theta)
     weight = compute_likelihood(new_skymap)
