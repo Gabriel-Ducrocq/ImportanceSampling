@@ -70,8 +70,10 @@ observed_skymap =observed_alms
 sampled_thetas = []
 log_weights = []
 print("Done observed skymap")
-for i in range(100):
-    print(i)
+for i in range(1000):
+    if i%100 == 0:
+        print(i)
+        
     new_theta = proposal_theta()
     new_skymap = sample_skymap(new_theta)
     log_weight = compute_likelihood(new_skymap)
@@ -90,7 +92,7 @@ print(TRUE_COSMO_PARAMS)
 print(COSMO_PARAMS_MEAN)
 
 prior = np.random.normal(0, 1, 1000)*COSMO_PARAMS_SIGMA[0]*10 + COSMO_PARAMS_MEAN[0]
-plt.hist(sampled_thetas, weights = normalized_weights, density = True, alpha = 0.5, label = "Posterior")
+plt.hist(sampled_thetas, weights = normalized_weights, density = True, alpha = 0.5, label = "Posterior", bins = 100)
 plt.hist(prior, density = True, alpha = 0.5, label = "Prior", bins = 100)
 plt.legend(loc='upper right')
 plt.savefig("B3DCMB/test.png")
