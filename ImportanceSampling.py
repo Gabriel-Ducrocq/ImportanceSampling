@@ -40,7 +40,6 @@ def compute_cls(theta):
     params.update(d)
     cosmo.set(params)
     cosmo.compute()
-    print(cosmo.get_current_derived_parameters(["n_s"]))
     cls = cosmo.lensed_cl(L_MAX_SCALARS)
     eb_tb = np.zeros(shape=cls["tt"].shape)
     cosmo.struct_cleanup()
@@ -59,7 +58,6 @@ def compute_likelihood(skymap_alms):
     #skymap_pix = hp.sphtfunc.alm2map(skymap_alms.astype(complex), nside= NSIDE)
     skymap_pix = skymap_alms
     var = noise_covariance_in_freq(NSIDE)
-    print(var)
     log_likelihood = -(1/2)*np.sum((((observed_skymap - skymap_pix)**2)/var)) - (1/2)*np.log(2*np.pi*var)*len(skymap_pix)
     return log_likelihood
 
@@ -73,7 +71,7 @@ print("Done observed skymap")
 for i in range(1000):
     if i%100 == 0:
         print(i)
-        
+
     new_theta = proposal_theta()
     new_skymap = sample_skymap(new_theta)
     log_weight = compute_likelihood(new_skymap)
