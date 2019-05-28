@@ -35,7 +35,6 @@ def compute_cls(theta):
               'l_max_scalars': L_MAX_SCALARS,
               'lensing': LENSING}
     d = {name:val for name, val in zip(COSMO_PARAMS_NAMES, theta)}
-    print(d)
     params.update(d)
     cosmo.set(params)
     cosmo.compute()
@@ -59,7 +58,7 @@ def compute_likelihood(skymap_alm):
     likelihood = np.exp(-(1/2)*((observed_skymap - skymap)**2)/var)/np.sqrt((2*np.pi*var)**len(skymap_pix))
     return likelihood
 
-observed_skymap = sample_skymap(compute_cls(TRUE_COSMO_PARAMS))
+observed_skymap = sample_skymap(TRUE_COSMO_PARAMS)
 sampled_thetas = []
 weights = []
 print("Done observed skymap")
