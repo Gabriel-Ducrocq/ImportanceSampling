@@ -23,7 +23,7 @@ LiteBIRD_sensitivities = np.array([36.1, 19.6, 20.2, 11.3, 10.3, 8.4, 7.0, 5.8, 
 
 def noise_covariance_in_freq(nside):
     cov = LiteBIRD_sensitivities ** 2 / hp.nside2resol(nside, arcmin=True) ** 2
-    return cov[0]/1000
+    return cov[0]/1000000
 
 noise_covar_one_pix = noise_covariance_in_freq(NSIDE)
 
@@ -64,7 +64,7 @@ def compute_likelihood(skymap_pix):
 
 TRUE_COSMO_PARAMS = COSMO_PARAMS_MEAN-5*COSMO_PARAMS_SIGMA
 observed_cls = compute_cls(TRUE_COSMO_PARAMS)
-observed_skymap = hp.synfast(observed_cls,nside=NSIDE, new=True)
+observed_skymap = hp.synfast(observed_cls,nside=NSIDE, new=True, lmax = L_MAX_SCALARS)
 sampled_thetas = []
 log_weights = []
 print("Done observed skymap")
